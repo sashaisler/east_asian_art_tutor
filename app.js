@@ -59,7 +59,7 @@ const STUDY_ITEMS = [
     date: '1600–1046 BCE',
     period: 'Shang dynasty',
     medium: 'Bronze (cast relief decoration)',
-    maker: 'Shang dynasty',
+    maker: 'identified by Max Loehr, created by Shang dynasty artisans',
     importance: 'Show Max Loehr’s five bronze styles, from thin linear decoration to raised relief motifs.',
   },
   {
@@ -901,7 +901,7 @@ function rateItem(itemId, grade) {
     card.box = Math.min(5, card.box + 1);
     card.correct += 1;
   } else if (grade === "easy") {
-    card.box = Math.min(5, card.box + 2);
+    card.box = 5;
     card.correct += 2;
   }
 
