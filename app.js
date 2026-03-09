@@ -382,6 +382,8 @@ const CHECK_INTERVALS = [1, 3, 6, 10, 16, 22];
 const CHECK_FAIL_MULTIPLIER = 0.5;
 const FULL_CHECK_STREAK_THRESHOLD = 3;
 const FULL_CHECK_MIN_ATTEMPTS = 4;
+const NEW_CARD_STREAK_BEFORE_REVIEW = 4;
+const FULL_CHECK_PASS_INTERVAL_MULTIPLIER = 6;
 const EDITABLE_CARD_FIELDS = ["title", "date", "period", "medium", "maker", "importance"];
 
 const CHECK_FIELDS = [
@@ -433,6 +435,7 @@ const teachTitle = document.getElementById("teachTitle");
 const teachHint = document.getElementById("teachHint");
 const teachFacts = document.getElementById("teachFacts");
 const teachReveal = document.getElementById("teachReveal");
+const teachControls = document.getElementById("teachControls");
 const teachRating = document.getElementById("teachRating");
 
 const flashTitle = document.getElementById("flashTitle");
@@ -706,21 +709,48 @@ function startTeachSession(force = false) {
 }
 
 function selectNextTeachItem() {
+  const unseen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts === 0);
   const checkNow = STUDY_ITEMS.filter(
     (item) => state.cards[item.id].attempts > 0 && state.cards[item.id].checkDue <= state.turn,
   );
   const dueNow = STUDY_ITEMS.filter((item) => state.cards[item.id].nextDue <= state.turn);
-  const candidates = checkNow.length ? checkNow : (dueNow.length ? dueNow : STUDY_ITEMS);
+  const dueSeen = dueNow.filter((item) => state.cards[item.id].attempts > 0);
+
+  let candidates = STUDY_ITEMS;
+  let selectionMode = "due";
+  if (unseen.length) {
+    const reviewTurn = state.turn % (NEW_CARD_STREAK_BEFORE_REVIEW + 1) === 0;
+    if (!reviewTurn || (!checkNow.length && !dueSeen.length)) {
+      candidates = unseen;
+      selectionMode = "unseen";
+    } else if (checkNow.length) {
+      candidates = checkNow;
+      selectionMode = "check";
+    } else {
+      candidates = dueSeen;
+      selectionMode = "due";
+    }
+  } else if (checkNow.length) {
+    candidates = checkNow;
+    selectionMode = "check";
+  } else if (dueNow.length) {
+    candidates = dueNow;
+    selectionMode = "due";
+  }
+
   const sorted = candidates.slice().sort((a, b) => {
     const pa = state.cards[a.id];
     const pb = state.cards[b.id];
-    if (checkNow.length) {
+    if (selectionMode === "check") {
       return pa.checkDue - pb.checkDue || pa.box - pb.box || a.id - b.id;
+    }
+    if (selectionMode === "unseen") {
+      return a.id - b.id;
     }
     return pa.nextDue - pb.nextDue || pa.box - pb.box || a.id - b.id;
   });
 
-  teachState.itemId = sorted[0].id;
+  teachState.itemId = sorted.length ? sorted[0].id : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
   teachState.step = 0;
 }
 
@@ -767,11 +797,11 @@ function renderTeachCard() {
     const nextLabel = revealSequence[teachState.step].label;
     teachReveal.textContent = `Reveal ${nextLabel}`;
     teachReveal.disabled = false;
+    if (teachControls) teachControls.classList.remove("hidden");
     teachCheck.classList.add("hidden");
     teachRating.classList.add("hidden");
   } else {
-    teachReveal.textContent = "Ready to review";
-    teachReveal.disabled = true;
+    if (teachControls) teachControls.classList.add("hidden");
     teachCheck.classList.add("hidden");
     teachRating.classList.remove("hidden");
     teachHint.textContent = "Rate this item to schedule your next review.";
@@ -821,7 +851,7 @@ function renderTeachCheck(item, cardState) {
   teachHint.textContent = `Quick check: type ${useFullCheck ? "all fields" : "one field"} you recall, then confirm if you were correct.`;
   teachFacts.classList.add("hidden");
   teachFacts.innerHTML = "";
-  teachReveal.disabled = true;
+  if (teachControls) teachControls.classList.add("hidden");
   teachRating.classList.add("hidden");
   teachImage.src = getItemImage(item.id);
   teachImage.alt = "Reference image for a recall check";
@@ -940,21 +970,32 @@ function launchQuickConfetti(anchorElement) {
 function submitTeachCheck(passed, triggerElement = null) {
   const itemId = teachState.itemId;
   if (!itemId) return;
+  const isFullFieldCheck = teachState.checkFields.length > 1;
 
   if (passed) {
     launchQuickConfetti(triggerElement);
-    rateItem(itemId, "good");
+    rateItem(itemId, isFullFieldCheck ? "easy" : "good", { deferRender: true });
   } else {
-    rateItem(itemId, "again");
+    rateItem(itemId, "again", { deferRender: true });
   }
 
   const card = state.cards[itemId];
   if (card) {
-    card.checkStreak = passed ? (Number.isFinite(card.checkStreak) ? card.checkStreak + 1 : 1) : 0;
-    card.checkDue = state.turn + checkIntervalForItem(card, passed);
+    if (passed) {
+      const priorStreak = Number.isFinite(card.checkStreak) ? card.checkStreak : 0;
+      card.checkStreak = priorStreak + (isFullFieldCheck ? 2 : 1);
+      const baseInterval = checkIntervalForItem(card, true);
+      const multiplier = isFullFieldCheck ? FULL_CHECK_PASS_INTERVAL_MULTIPLIER : 1;
+      card.checkDue = state.turn + Math.max(4, Math.round(baseInterval * multiplier));
+    } else {
+      card.checkStreak = 0;
+      card.checkDue = state.turn + checkIntervalForItem(card, false);
+    }
   }
 
   saveState();
+  selectNextTeachItem();
+  renderTeachCard();
 }
 
 function revealTeachStep() {
@@ -963,7 +1004,8 @@ function revealTeachStep() {
   renderTeachCard();
 }
 
-function rateItem(itemId, grade) {
+function rateItem(itemId, grade, options = {}) {
+  const deferRender = Boolean(options.deferRender);
   const card = state.cards[itemId];
   if (!card) return;
 
@@ -990,8 +1032,10 @@ function rateItem(itemId, grade) {
 
   saveState();
   refreshProgress();
-  selectNextTeachItem();
-  renderTeachCard();
+  if (!deferRender) {
+    selectNextTeachItem();
+    renderTeachCard();
+  }
 }
 
 function startFlashSession() {
