@@ -883,11 +883,66 @@ function renderTeachCheckInputs(fields) {
   });
 }
 
-function submitTeachCheck(passed) {
+function launchQuickConfetti(anchorElement) {
+  if (!anchorElement || !document.body) return;
+
+  const rect = anchorElement.getBoundingClientRect();
+  const originX = rect.left + rect.width / 2;
+  const originY = rect.top + rect.height / 2;
+  const colors = ["#f7b32b", "#f25f5c", "#70c1b3", "#2f5f8a", "#5f4e8d", "#f2e8cf"];
+  const layer = document.createElement("div");
+  layer.style.position = "fixed";
+  layer.style.inset = "0";
+  layer.style.pointerEvents = "none";
+  layer.style.zIndex = "9999";
+  document.body.appendChild(layer);
+
+  const pieces = 16;
+  for (let i = 0; i < pieces; i += 1) {
+    const piece = document.createElement("span");
+    piece.style.position = "absolute";
+    piece.style.left = `${originX}px`;
+    piece.style.top = `${originY}px`;
+    piece.style.width = `${4 + Math.floor(Math.random() * 5)}px`;
+    piece.style.height = `${7 + Math.floor(Math.random() * 6)}px`;
+    piece.style.borderRadius = "2px";
+    piece.style.background = colors[i % colors.length];
+    piece.style.opacity = "0.95";
+
+    const dx = (Math.random() - 0.5) * 140;
+    const lift = -40 - Math.random() * 100;
+    const fall = 70 + Math.random() * 90;
+    const drift = (Math.random() - 0.5) * 40;
+    const spin = (Math.random() - 0.5) * 500;
+    const duration = 650 + Math.random() * 180;
+
+    piece.animate(
+      [
+        { transform: "translate(-50%, -50%) rotate(0deg)", opacity: 0.95 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${lift}px)) rotate(${spin * 0.45}deg)`, opacity: 0.95, offset: 0.38 },
+        { transform: `translate(calc(-50% + ${dx + drift}px), calc(-50% + ${fall}px)) rotate(${spin}deg)`, opacity: 0 },
+      ],
+      {
+        duration,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        fill: "forwards",
+      },
+    );
+
+    layer.appendChild(piece);
+  }
+
+  window.setTimeout(() => {
+    if (layer.parentNode) layer.parentNode.removeChild(layer);
+  }, 900);
+}
+
+function submitTeachCheck(passed, triggerElement = null) {
   const itemId = teachState.itemId;
   if (!itemId) return;
 
   if (passed) {
+    launchQuickConfetti(triggerElement);
     rateItem(itemId, "good");
   } else {
     rateItem(itemId, "again");
@@ -1464,7 +1519,7 @@ function init() {
   teachCheckReveal.addEventListener("click", revealTeachCheckAnswer);
   document.querySelectorAll("[data-check-grade]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      submitTeachCheck(e.currentTarget.dataset.checkGrade === "pass");
+      submitTeachCheck(e.currentTarget.dataset.checkGrade === "pass", e.currentTarget);
     });
   });
 
