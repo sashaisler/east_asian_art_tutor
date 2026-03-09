@@ -382,7 +382,8 @@ const CHECK_INTERVALS = [1, 3, 6, 10, 16, 22];
 const CHECK_FAIL_MULTIPLIER = 0.5;
 const FULL_CHECK_STREAK_THRESHOLD = 3;
 const FULL_CHECK_MIN_ATTEMPTS = 4;
-const NEW_CARD_STREAK_BEFORE_REVIEW = 4;
+const MASTERY_BOX_THRESHOLD = 4;
+const MAX_ACTIVE_LEARNING_CARDS = 10;
 const FULL_CHECK_PASS_INTERVAL_MULTIPLIER = 6;
 const EDITABLE_CARD_FIELDS = ["title", "date", "period", "medium", "maker", "importance"];
 
@@ -712,32 +713,29 @@ function startTeachSession(force = false) {
 
 function selectNextTeachItem(options = {}) {
   const avoidItemId = Number.isFinite(options.avoidItemId) ? options.avoidItemId : null;
+  const seen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts > 0);
   const unseen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts === 0);
-  const checkNow = STUDY_ITEMS.filter(
-    (item) => state.cards[item.id].attempts > 0 && state.cards[item.id].checkDue <= state.turn,
-  );
-  const dueNow = STUDY_ITEMS.filter((item) => state.cards[item.id].nextDue <= state.turn);
-  const dueSeen = dueNow.filter((item) => state.cards[item.id].attempts > 0);
+  const learningPool = seen.filter((item) => state.cards[item.id].box < MASTERY_BOX_THRESHOLD);
+  const checkNow = learningPool.filter((item) => state.cards[item.id].checkDue <= state.turn);
+  const dueLearning = learningPool.filter((item) => state.cards[item.id].nextDue <= state.turn);
+  const canIntroduceNew = learningPool.length < MAX_ACTIVE_LEARNING_CARDS;
 
   let candidates = STUDY_ITEMS;
   let selectionMode = "due";
-  if (unseen.length) {
-    const reviewTurn = state.turn % (NEW_CARD_STREAK_BEFORE_REVIEW + 1) === 0;
-    if (!reviewTurn || (!checkNow.length && !dueSeen.length)) {
-      candidates = unseen;
-      selectionMode = "unseen";
-    } else if (checkNow.length) {
-      candidates = checkNow;
-      selectionMode = "check";
-    } else {
-      candidates = dueSeen;
-      selectionMode = "due";
-    }
-  } else if (checkNow.length) {
+  if (checkNow.length) {
     candidates = checkNow;
     selectionMode = "check";
-  } else if (dueNow.length) {
-    candidates = dueNow;
+  } else if (!canIntroduceNew) {
+    candidates = dueLearning.length ? dueLearning : learningPool;
+    selectionMode = "due";
+  } else if (dueLearning.length) {
+    candidates = dueLearning;
+    selectionMode = "due";
+  } else if (unseen.length) {
+    candidates = unseen;
+    selectionMode = "unseen";
+  } else if (seen.length) {
+    candidates = seen;
     selectionMode = "due";
   }
 
@@ -1607,7 +1605,10 @@ function shuffle(list) {
 
 function refreshProgress() {
   const total = STUDY_ITEMS.length;
-  const mastered = STUDY_ITEMS.reduce((sum, item) => (state.cards[item.id].box >= 4 ? sum + 1 : sum), 0);
+  const mastered = STUDY_ITEMS.reduce(
+    (sum, item) => (state.cards[item.id].box >= MASTERY_BOX_THRESHOLD ? sum + 1 : sum),
+    0,
+  );
 
   const percent = Math.round((mastered / total) * 100);
   masteryBar.style.width = `${percent}%`;
