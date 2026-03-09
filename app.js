@@ -65,7 +65,7 @@ const STUDY_ITEMS = [
   {
     id: 8,
     title: 'Bronze Hu ritual vessel with Lotus and Crane',
-    date: '770 BC to 256 BC',
+    date: '770 BCE to 256 BCE',
     period: 'Eastern Zhou Period',
     medium: 'Bronze',
     maker: 'Eastern Zhou culture',
@@ -897,29 +897,29 @@ function launchQuickConfetti(anchorElement) {
   layer.style.zIndex = "9999";
   document.body.appendChild(layer);
 
-  const pieces = 16;
+  const pieces = 26;
   for (let i = 0; i < pieces; i += 1) {
     const piece = document.createElement("span");
     piece.style.position = "absolute";
     piece.style.left = `${originX}px`;
     piece.style.top = `${originY}px`;
-    piece.style.width = `${4 + Math.floor(Math.random() * 5)}px`;
-    piece.style.height = `${7 + Math.floor(Math.random() * 6)}px`;
+    piece.style.width = `${6 + Math.floor(Math.random() * 6)}px`;
+    piece.style.height = `${10 + Math.floor(Math.random() * 7)}px`;
     piece.style.borderRadius = "2px";
     piece.style.background = colors[i % colors.length];
     piece.style.opacity = "0.95";
 
-    const dx = (Math.random() - 0.5) * 140;
-    const lift = -40 - Math.random() * 100;
-    const fall = 70 + Math.random() * 90;
-    const drift = (Math.random() - 0.5) * 40;
-    const spin = (Math.random() - 0.5) * 500;
-    const duration = 650 + Math.random() * 180;
+    const dx = (Math.random() - 0.5) * 220;
+    const lift = -70 - Math.random() * 150;
+    const fall = 140 + Math.random() * 170;
+    const drift = (Math.random() - 0.5) * 70;
+    const spin = (Math.random() - 0.5) * 700;
+    const duration = 1300 + Math.random() * 500;
 
     piece.animate(
       [
         { transform: "translate(-50%, -50%) rotate(0deg)", opacity: 0.95 },
-        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${lift}px)) rotate(${spin * 0.45}deg)`, opacity: 0.95, offset: 0.38 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${lift}px)) rotate(${spin * 0.45}deg)`, opacity: 0.95, offset: 0.42 },
         { transform: `translate(calc(-50% + ${dx + drift}px), calc(-50% + ${fall}px)) rotate(${spin}deg)`, opacity: 0 },
       ],
       {
@@ -934,7 +934,7 @@ function launchQuickConfetti(anchorElement) {
 
   window.setTimeout(() => {
     if (layer.parentNode) layer.parentNode.removeChild(layer);
-  }, 900);
+  }, 2100);
 }
 
 function submitTeachCheck(passed, triggerElement = null) {
