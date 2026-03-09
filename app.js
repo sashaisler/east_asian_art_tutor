@@ -782,7 +782,8 @@ function renderTeachCard() {
     renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
     return;
   }
-  if (isCheckDue(cardState)) {
+  const shouldAutoCheck = teachState.step === 0 && isCheckDue(cardState);
+  if (shouldAutoCheck) {
     renderTeachCheck(item, cardState);
     return;
   }
