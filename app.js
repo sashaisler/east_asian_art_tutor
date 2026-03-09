@@ -404,6 +404,8 @@ const teachState = {
   checking: false,
   checkField: null,
   checkFields: [],
+  checkDrafts: {},
+  checkRevealed: false,
 };
 const flashState = { itemId: null, revealed: false };
 const quizState = { running: false, questions: [], index: 0, score: 0 };
@@ -776,6 +778,10 @@ function renderTeachCard() {
   }
 
   const cardState = state.cards[item.id];
+  if (teachState.checking) {
+    renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
+    return;
+  }
   if (isCheckDue(cardState)) {
     renderTeachCheck(item, cardState);
     return;
@@ -824,6 +830,8 @@ function renderTeachCard() {
   teachState.checking = false;
   teachState.checkField = null;
   teachState.checkFields = [];
+  teachState.checkDrafts = {};
+  teachState.checkRevealed = false;
 }
 
 function isCheckDue(cardState) {
@@ -854,12 +862,18 @@ function checkIntervalForItem(cardState, passed) {
   return Math.max(2, Math.floor(base * CHECK_FAIL_MULTIPLIER));
 }
 
-function renderTeachCheck(item, cardState) {
-  const useFullCheck = shouldUseFullCheck(cardState);
-  const fields = useFullCheck ? CHECK_FIELDS : [pickTeachCheckField(item.id)];
+function renderTeachCheck(item, cardState, options = {}) {
+  const forcedFields = Array.isArray(options.forceFields) && options.forceFields.length ? options.forceFields : null;
+  const useFullCheck = forcedFields ? forcedFields.length > 1 : shouldUseFullCheck(cardState);
+  const fields = forcedFields || (useFullCheck ? CHECK_FIELDS : [pickTeachCheckField(item.id)]);
+  const restoring = Boolean(options.restoreDrafts);
   teachState.checking = true;
   teachState.checkField = fields[0];
   teachState.checkFields = fields;
+  if (!restoring) {
+    teachState.checkDrafts = {};
+    teachState.checkRevealed = false;
+  }
   teachTitle.textContent = "Identify this artwork";
   teachHint.textContent = `Quick check: type ${useFullCheck ? "all fields" : "one field"} you recall, then confirm if you were correct.`;
   teachFacts.classList.add("hidden");
@@ -872,12 +886,23 @@ function renderTeachCheck(item, cardState) {
   teachCheck.classList.remove("hidden");
   teachCheckPrompt.textContent = useFullCheck ? "Recall all fields for this artwork." : `Recall: ${fields[0].label}`;
   renderTeachCheckInputs(fields);
+  if (restoring) {
+    const drafts = teachState.checkDrafts && typeof teachState.checkDrafts === "object" ? teachState.checkDrafts : {};
+    teachCheckFields.querySelectorAll("textarea[data-field]").forEach((input) => {
+      const value = drafts[input.dataset.field];
+      input.value = typeof value === "string" ? value : "";
+    });
+  }
   teachCheckAnswer.classList.add("hidden");
   teachCheckAnswer.textContent = "";
   teachCheckReveal.textContent = useFullCheck ? "Reveal all keys" : "Reveal key";
   teachCheckReveal.dataset.revealed = "false";
+  if (restoring && teachState.checkRevealed) {
+    revealTeachCheckAnswer();
+  }
 
   sessionInfo.textContent = `Check mode active (box ${cardState.box} / 5)`;
+  saveState();
 }
 
 function revealTeachCheckAnswer() {
@@ -894,6 +919,8 @@ function revealTeachCheckAnswer() {
     teachCheckAnswer.classList.add("hidden");
     teachCheckReveal.textContent = `Reveal ${revealLabel}`;
     teachCheckReveal.dataset.revealed = "false";
+    teachState.checkRevealed = false;
+    saveState();
     return;
   }
   teachCheckAnswer.innerHTML = fields
@@ -902,6 +929,8 @@ function revealTeachCheckAnswer() {
   teachCheckAnswer.classList.remove("hidden");
   teachCheckReveal.textContent = "Hide key";
   teachCheckReveal.dataset.revealed = "true";
+  teachState.checkRevealed = true;
+  saveState();
 }
 
 function renderTeachCheckInputs(fields) {
@@ -1127,6 +1156,10 @@ function buildDefaultSessionState() {
     mode: "teach",
     teachItemId: null,
     teachStep: 0,
+    teachChecking: false,
+    teachCheckFieldKeys: [],
+    teachCheckDrafts: {},
+    teachCheckRevealed: false,
     flashItemId: null,
     flashRevealed: false,
     dbItemId: null,
@@ -1134,15 +1167,36 @@ function buildDefaultSessionState() {
   };
 }
 
+function collectTeachCheckDrafts() {
+  const drafts = {};
+  if (!teachCheckFields) return drafts;
+  teachCheckFields.querySelectorAll("textarea[data-field]").forEach((input) => {
+    const key = input.dataset.field;
+    if (!key) return;
+    drafts[key] = input.value || "";
+  });
+  return drafts;
+}
+
 function isValidItemId(itemId) {
   return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
 }
 
 function syncSessionToState() {
+  if (teachState.checking) {
+    teachState.checkDrafts = {
+      ...(teachState.checkDrafts || {}),
+      ...collectTeachCheckDrafts(),
+    };
+  }
   state.session = {
     mode: Object.prototype.hasOwnProperty.call(panels, currentMode) ? currentMode : "teach",
     teachItemId: isValidItemId(teachState.itemId) ? teachState.itemId : null,
     teachStep: Math.max(0, Math.min(revealSequence.length, Number.isFinite(teachState.step) ? teachState.step : 0)),
+    teachChecking: Boolean(teachState.checking),
+    teachCheckFieldKeys: teachState.checkFields.map((entry) => entry.key),
+    teachCheckDrafts: teachState.checking ? { ...(teachState.checkDrafts || {}) } : {},
+    teachCheckRevealed: Boolean(teachState.checking && teachState.checkRevealed),
     flashItemId: isValidItemId(flashState.itemId) ? flashState.itemId : null,
     flashRevealed: Boolean(flashState.revealed),
     dbItemId: isValidItemId(dbState.itemId) ? dbState.itemId : null,
@@ -1159,6 +1213,22 @@ function restoreSessionFromState() {
   currentMode = Object.prototype.hasOwnProperty.call(panels, session.mode) ? session.mode : "teach";
   teachState.itemId = isValidItemId(session.teachItemId) ? session.teachItemId : null;
   teachState.step = Math.max(0, Math.min(revealSequence.length, Number.isFinite(session.teachStep) ? session.teachStep : 0));
+  const validCheckKeys = new Set(CHECK_FIELDS.map((entry) => entry.key));
+  const storedCheckKeys = Array.isArray(session.teachCheckFieldKeys) ? session.teachCheckFieldKeys : [];
+  teachState.checking = Boolean(session.teachChecking) && isValidItemId(teachState.itemId);
+  teachState.checkFields = storedCheckKeys
+    .filter((key) => typeof key === "string" && validCheckKeys.has(key))
+    .map((key) => CHECK_FIELDS.find((entry) => entry.key === key))
+    .filter(Boolean);
+  teachState.checkField = teachState.checkFields.length ? teachState.checkFields[0] : null;
+  teachState.checkDrafts = {};
+  if (session.teachCheckDrafts && typeof session.teachCheckDrafts === "object") {
+    Object.entries(session.teachCheckDrafts).forEach(([key, value]) => {
+      if (!validCheckKeys.has(key) || typeof value !== "string") return;
+      teachState.checkDrafts[key] = value;
+    });
+  }
+  teachState.checkRevealed = Boolean(session.teachCheckRevealed) && teachState.checking;
   flashState.itemId = isValidItemId(session.flashItemId) ? session.flashItemId : null;
   flashState.revealed = Boolean(session.flashRevealed);
   dbState.itemId = isValidItemId(session.dbItemId) ? session.dbItemId : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
@@ -1574,6 +1644,16 @@ function init() {
   });
 
   teachCheckReveal.addEventListener("click", revealTeachCheckAnswer);
+  if (teachCheckFields) {
+    teachCheckFields.addEventListener("input", (event) => {
+      const target = event.target;
+      if (!target || target.tagName !== "TEXTAREA") return;
+      const field = target.dataset.field;
+      if (!field) return;
+      teachState.checkDrafts[field] = target.value || "";
+      saveState();
+    });
+  }
   document.querySelectorAll("[data-check-grade]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       submitTeachCheck(e.currentTarget.dataset.checkGrade === "pass", e.currentTarget);
