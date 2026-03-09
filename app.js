@@ -708,7 +708,8 @@ function startTeachSession(force = false) {
   renderTeachCard();
 }
 
-function selectNextTeachItem() {
+function selectNextTeachItem(options = {}) {
+  const avoidItemId = Number.isFinite(options.avoidItemId) ? options.avoidItemId : null;
   const unseen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts === 0);
   const checkNow = STUDY_ITEMS.filter(
     (item) => state.cards[item.id].attempts > 0 && state.cards[item.id].checkDue <= state.turn,
@@ -750,7 +751,19 @@ function selectNextTeachItem() {
     return pa.nextDue - pb.nextDue || pa.box - pb.box || a.id - b.id;
   });
 
-  teachState.itemId = sorted.length ? sorted[0].id : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
+  let nextItem = sorted.length ? sorted[0] : null;
+  if (nextItem && avoidItemId !== null && nextItem.id === avoidItemId && sorted.length > 1) {
+    const alternate = sorted.find((item) => item.id !== avoidItemId);
+    if (alternate) nextItem = alternate;
+  }
+  if (!nextItem && STUDY_ITEMS.length) {
+    const fallback = avoidItemId === null
+      ? STUDY_ITEMS[0]
+      : (STUDY_ITEMS.find((item) => item.id !== avoidItemId) || STUDY_ITEMS[0]);
+    nextItem = fallback;
+  }
+
+  teachState.itemId = nextItem ? nextItem.id : null;
   teachState.step = 0;
 }
 
@@ -944,7 +957,7 @@ function launchQuickConfetti(anchorElement) {
     const fall = 140 + Math.random() * 170;
     const drift = (Math.random() - 0.5) * 70;
     const spin = (Math.random() - 0.5) * 700;
-    const duration = 1300 + Math.random() * 500;
+    const duration = 1500 + Math.random() * 500;
 
     piece.animate(
       [
@@ -964,7 +977,7 @@ function launchQuickConfetti(anchorElement) {
 
   window.setTimeout(() => {
     if (layer.parentNode) layer.parentNode.removeChild(layer);
-  }, 2100);
+  }, 2300);
 }
 
 function submitTeachCheck(passed, triggerElement = null) {
@@ -994,7 +1007,7 @@ function submitTeachCheck(passed, triggerElement = null) {
   }
 
   saveState();
-  selectNextTeachItem();
+  selectNextTeachItem({ avoidItemId: itemId });
   renderTeachCard();
 }
 
@@ -1033,7 +1046,7 @@ function rateItem(itemId, grade, options = {}) {
   saveState();
   refreshProgress();
   if (!deferRender) {
-    selectNextTeachItem();
+    selectNextTeachItem({ avoidItemId: itemId });
     renderTeachCard();
   }
 }
