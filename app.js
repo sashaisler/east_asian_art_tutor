@@ -1,0 +1,1503 @@
+const STUDY_ITEMS = [
+  {
+    id: 1,
+    title: 'painted bowl with human face and fish motif (Banpo bowl)',
+    date: '5000–3000 BCE',
+    period: 'Neolithic period (Yangshao culture)',
+    medium: 'ceramic (clay) with black slip / painted decoration; coil-built bowl',
+    maker: 'Yangshao culture',
+    importance: 'Early northwest painted pottery; coil-built bowl with interior decoration, showing strong visual design over texture.',
+  },
+  {
+    id: 2,
+    title: 'Kui Three-legged pitcher (tripod ewer)',
+    date: '3000–2000 BCE',
+    period: 'Neolithic period (Longshan culture)',
+    medium: 'Ceramic (earthenware)',
+    maker: 'Longshan culture',
+    importance: 'Thin eggshell pottery with tripod legs that “animate” the form; linked in the sheet to hunting society, animal-shaped burial pottery, and eastern coastal tradition.',
+  },
+  {
+    id: 3,
+    title: 'Flame-style vessel (kaen-doki)',
+    date: '2500–1500 BCE',
+    period: 'Middle–Late Jōmon period',
+    medium: 'Clay / ceramic, coil-built',
+    maker: 'Jōmon culture, Niigata region (Japan)',
+    importance: 'Coil-built Jōmon pottery with dramatic flame-like design; shows early Japanese ceramics were highly expressive, not just utilitarian.',
+  },
+  {
+    id: 4,
+    title: 'Ganghwa dolmen',
+    date: '1000 BCE',
+    period: 'Bronze Age (Korean Peninsula)',
+    medium: 'Stone (megalithic construction)',
+    maker: 'Bronze Age culture of the Korean Peninsula',
+    importance: 'Elite funerary monument or burial marker; shows hierarchy in Bronze Age Korea.',
+  },
+  {
+    id: 5,
+    title: 'Standing robed Sanxingdui deity figure on pedestal with missing staff',
+    date: '1200–1000 BCE',
+    period: 'late Shang period',
+    medium: 'Bronze',
+    maker: 'Sanxingdui culture',
+    importance: 'Important because it breaks the “single origin” theory; shows an independent advanced bronze culture in Sichuan with an otherworldly style.',
+  },
+  {
+    id: 6,
+    title: 'You (lidded ritual wine vessel)',
+    date: '1200–1046 BCE',
+    period: 'late Shang dynasty',
+    medium: 'Bronze',
+    maker: 'Shang culture',
+    importance: 'Peak of ritual bronze monumentality; the vessel and animal motif are fully unified, projecting Shang political and religious power.',
+  },
+  {
+    id: 7,
+    title: 'Taotie mask motif (bronze vessel decoration)',
+    date: '1600–1046 BCE',
+    period: 'Shang dynasty',
+    medium: 'Bronze (cast relief decoration)',
+    maker: 'Shang dynasty',
+    importance: 'Show Max Loehr’s five bronze styles, from thin linear decoration to raised relief motifs.',
+  },
+  {
+    id: 8,
+    title: 'Bronze Hu ritual vessel with Lotus and Crane',
+    date: '770 BC to 256 BC',
+    period: 'Eastern Zhou Period',
+    medium: 'Bronze',
+    maker: 'Eastern Zhou culture',
+    importance: 'Marks the shift from rigid Shang bronzes to lively Eastern Zhou design; also tied to lost-wax casting and foreign influence.',
+  },
+  {
+    id: 9,
+    title: 'Bianhu flask, bronze inlaid with silver',
+    date: 'Warring States 400 - 300 BCE',
+    period: '',
+    medium: 'Bronze with silver',
+    maker: 'Eastern Zhou dynasty',
+    importance: 'Shows advanced inlay technique; flattened shape may imitate nomadic leather water skins.',
+  },
+  {
+    id: 10,
+    title: 'Bianzhong (bell set of Marquis Yi of Zeng)',
+    date: '433 BCE',
+    period: 'Warring States period',
+    medium: 'Bronze bells with lacquered wood frame',
+    maker: 'Zeng state',
+    importance: 'Earliest physical evidence of a sophisticated 12-tone system; links music, inscriptions, and elite ritual.',
+  },
+  {
+    id: 11,
+    title: 'Baihuatan Hu with narrative scenes (ritual wine vessel decoration)',
+    date: 'Warring States 480 - 222 BCE',
+    period: '',
+    medium: 'Bronze with inlay (silver and copper)',
+    maker: 'Eastern Zhou dynasty',
+    importance: 'Shows the move from abstract animal motifs to scenes of daily life, ritual, and warfare.',
+  },
+  {
+    id: 12,
+    title: 'Tomb of Marquis Yi of Zeng (tomb complex reconstruction)',
+    date: '433 BCE',
+    period: 'Warring States period',
+    medium: 'Wood, lacquer, bronze grave goods (tomb architecture and burial objects)',
+    maker: 'Western Han Dynasty',
+    importance: 'Shows elaborate tomb engineering and the creation of a sealed burial environment filled with elite objects.',
+  },
+  {
+    id: 13,
+    title: 'Terracotta warrior and horse (from the tomb of the First Emperor, Qin Shihuangdi)',
+    date: '210 BCE',
+    period: 'Qin dynasty',
+    medium: 'Terracotta (fired clay)',
+    maker: 'Qin dynasty',
+    importance: 'Reflects the Qin shift from chariot warfare to mobile cavalry and projects imperial military power into the afterlife.',
+  },
+  {
+    id: 14,
+    title: 'Kneeling Archer (Terracotta Army)',
+    date: '221–206 BCE',
+    period: 'Qin dynasty',
+    medium: 'Terracotta with painted decoration (original pigments mostly lost)',
+    maker: 'Commissioned by Qin Shi Huang, constructed by conscripted laborers and skilled artisans of Qin Dynasty',
+    importance: 'Highlights organized Qin military tactics, especially alternating firing rows for continuous attack.',
+  },
+  {
+    id: 15,
+    title: 'Dogū (female figurine), Gunma',
+    date: '1000–400 BCE',
+    period: 'Late/Final Jōmon period',
+    medium: 'Ceramic (earthenware)',
+    maker: 'Jōmon culture',
+    importance: 'Suggests a complex ritual life in prehistoric Japan, possibly tied to fertility, childbirth, or healing magic.',
+  },
+  {
+    id: 16,
+    title: 'Bronze chariot and horses (from the tomb of Qin Shihuangdi)',
+    date: '210 BCE',
+    period: 'Qin dynasty',
+    medium: 'Bronze with gold and silver inlay',
+    maker: 'Commissioned by Qin Shi Huang, constructed by conscripted laborers and skilled artisans of Qin Dynasty, ancient China',
+    importance: 'Shows complex bronze casting and mechanical engineering; reflects the emperor’s need for luxury transport after death.',
+  },
+  {
+    id: 17,
+    title: 'Han Dynasty Yangling terracotta tomb attendants of Emperor Jing’s tomb',
+    date: '141–87 BCE',
+    period: 'Western Han dynasty',
+    medium: 'Terracotta (painted clay, clothing originally added separately)',
+    maker: 'Han dynasty, China',
+    importance: 'Show a shift away from massive Qin tomb sculpture toward a more human-scale Han funerary world.',
+  },
+  {
+    id: 18,
+    title: 'Haniwa warrior figure',
+    date: '6th century CE',
+    period: 'Kofun period',
+    medium: 'Ceramic (earthenware)',
+    maker: 'Japan',
+    importance: 'Realistically detailed kofun tomb sculpture; shows militarization and elite burial practice in early Japan.',
+  },
+  {
+    id: 19,
+    title: 'Flying Horse of Gansu',
+    date: '2nd century CE',
+    period: 'Eastern Han dynasty',
+    medium: 'Bronze',
+    maker: 'Han dynasty, China',
+    importance: 'Famous for dynamic balance and vivid animal portraiture; tied in the sheet to the “heavenly horse.”',
+  },
+  {
+    id: 20,
+    title: 'TLV mirror',
+    date: 'Eastern Han 100 – 200 CE',
+    period: '',
+    medium: 'Bronze',
+    maker: 'Eastern Han dynasty',
+    importance: 'Expresses Han cosmology through square earth, circular heavens, directional animals, and cosmic order.',
+  },
+  {
+    id: 21,
+    title: 'Lady Dai T shaped funeral silk banner',
+    date: '200 BCE',
+    period: 'Western Han dynasty',
+    medium: 'Painted silk',
+    maker: 'Han dynasty, China (Mawangdui tombs)',
+    importance: 'Rare preserved silk banner mapping the afterlife in heavenly, earthly, and underworld zones.',
+  },
+  {
+    id: 22,
+    title: 'The Nymph of the Luo River',
+    date: '4th century CE',
+    period: 'Eastern Jin dynasty',
+    medium: 'Ink and color on silk',
+    maker: 'Gu Kaizhi',
+    importance: 'Early elite figure painting tied to refined storytelling, emotion, and beauty described through nature.',
+  },
+  {
+    id: 23,
+    title: 'Sarcophagus relief with hunting scene',
+    date: '520 CE',
+    period: 'Northern Wei dynasty',
+    medium: 'Stone relief',
+    maker: 'Northern Wei dynasty, China',
+    importance: 'Uses funerary narrative to teach Confucian filial piety.',
+  },
+  {
+    id: 24,
+    title: 'Shakyamuni Buddha with attendant, Yungang Grottoes',
+    date: '470–480 CE',
+    period: 'Northern Wei dynasty',
+    medium: 'Sandstone (rock-cut sculpture)',
+    maker: 'Northern Wei dynasty, China',
+    importance: 'Early monumental Buddhist cave sculpture in China; shows Central Asian and Gandharan influence coming through the Silk Road.',
+  },
+  {
+    id: 25,
+    title: 'Nine-Colored Deer mural (Mogao Caves, Dunhuang)',
+    date: 'Northern Wei 386–534 CE',
+    period: '',
+    medium: 'Mural / wall painting (pigment on plaster)',
+    maker: 'Northern Wei dynasty(Dunhuang)',
+    importance: 'Buddhist narrative painting from Dunhuang; teaches karma and moral behavior through storytelling.',
+  },
+  {
+    id: 26,
+    title: 'Gilt-bronze incense burner (Baekje incense burner)',
+    date: '600–700 CE',
+    period: 'Three Kingdoms period',
+    medium: 'Bronze',
+    maker: 'Baekje kingdom, Korea',
+    importance: 'Sacred mountain form with dragon base and phoenix lid; mixes Daoist cosmology, Buddhist imagery, and Korean metalworking skill.',
+  },
+  {
+    id: 27,
+    title: 'Silla Gold Crown, from a royal tomb at Gyeongju',
+    date: 'Three Kingdoms period 500 - 600 CE',
+    period: '',
+    medium: 'Gold with jade pendants (gogok)',
+    maker: 'Silla kingdom, Korea',
+    importance: 'Shows royal authority, steppe and shamanistic influence, and wide Eurasian exchange.',
+  },
+  {
+    id: 28,
+    title: 'Seven Sages of the Bamboo Grove (with Rong Qiqi)',
+    date: '5th century CE',
+    period: 'Southern Dynasties period',
+    medium: 'Drawing and rubbing of brick mural relief',
+    maker: 'Southern Dynasties, China',
+    importance: 'Celebrates reclusion, spontaneity, and Daoist-style withdrawal from court life.',
+  },
+  {
+    id: 29,
+    title: 'Horse and groom relief (Northern Wei tomb relief)',
+    date: 'Tang 636 - 649 CE',
+    period: '',
+    medium: 'Stone relief',
+    maker: 'Court sculptors under Emperor Taizong (designed by the court artist Yan Liben)',
+    importance: 'This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty. The sculptures reflect Tang ideals of imperial power, military achievement, and realism in animal depiction, and were originally installed at Taizong’s mausoleum complex. Earliest and most famous funerary sculpture example from Tang The style is plain, powerful, and vigorous. The modeling is relatively flat, suggesting influence from linear painting traditions. These sculptures were placed along the “spirit way” (sacred path) leading to the emperor’s tomb.',
+  },
+  {
+    id: 30,
+    title: 'Fengxiansi, Longmen Grottoes, Luoyang',
+    date: '675 CE',
+    period: 'Tang dynasty',
+    medium: 'Limestone (rock-cut sculpture)',
+    maker: 'Tang dynasty China, imperial Buddhist sculptors under Empress Wu Zetian',
+    importance: 'Mature Tang Buddhist sculpture with stronger modeling; also tied to Wu Zetian’s political legitimacy.',
+  },
+  {
+    id: 31,
+    title: 'Seated Buddha, Seokguram Grotto',
+    date: '751 CE',
+    period: 'Unified Silla period',
+    medium: 'Granite',
+    maker: 'Unified Silla kingdom, Korea',
+    importance: 'Masterpiece of Unified Silla Buddhist art showing strong technical control in granite.',
+  },
+  {
+    id: 32,
+    title: 'Night-Shining White',
+    date: '750 CE',
+    period: 'Tang dynasty',
+    medium: 'Ink and color on paper',
+    maker: 'Han Gan, China',
+    importance: 'Famous Tang horse painting; reflects horses as symbols of power, status, and Central Asian contact.',
+  },
+  {
+    id: 33,
+    title: "Mural of Guest Envoys or Officials Greeting Foreign Envoys (Korean), from the Tomb of Crown Prince Zhanghuai Prince Li Xian's Tomb",
+    date: '706 CE',
+    period: 'Tang dynasty',
+    medium: 'Wall painting / mural with pigments on plaster',
+    maker: 'Tang dynasty, China',
+    importance: 'Shows the cosmopolitan Tang court and diplomatic exchange along the Silk Road.',
+  },
+  {
+    id: 34,
+    title: 'Lady under a tree',
+    date: 'Nara 750 CE',
+    period: '',
+    medium: 'Ink and color on paper',
+    maker: 'unknown japanese artist during the nara period',
+    importance: 'even though the painting depicts a Tang Dynasty women, it is widely known as a japanese painting. this shows the influence China had on the japanese arts at the time.',
+  },
+  {
+    id: 35,
+    title: 'Sogdian Brocade Banner',
+    date: 'Tang early 700 CE',
+    period: '',
+    medium: 'Silk textile (weft-faced compound twill)',
+    maker: 'Sogdian textile workshop in Tang China (often associated with the artisan He Chou)',
+    importance: 'Shows luxury motifs traveling across East Asia through trade, migration, and adaptation.',
+  },
+  {
+    id: 36,
+    title: 'Shaka Triad',
+    date: 'Asuka 623 CE',
+    period: '',
+    medium: 'Bronze',
+    maker: 'Tori Busshi, Asuka-period Japan',
+    importance: 'Shows the early establishment of Buddhism in Japan through Korean and Chinese influence.',
+  },
+  {
+    id: 37,
+    title: 'Shashin Shiko',
+    date: 'Asuka 650 CE',
+    period: '',
+    medium: 'Lacquer and pigment on wood',
+    maker: 'Hōryūji Buddhist temple workshop',
+    importance: 'Shows one of the earliest Buddhist narrative paintings in Japan and broader East Asian artistic exchange.',
+  },
+];
+const IMAGE_MAP = {
+  1: "assets/images/item_01.png",
+  2: "assets/images/item_02.png",
+  3: "assets/images/item_03.png",
+  4: "assets/images/item_04.png",
+  5: "assets/images/item_05.png",
+  6: "assets/images/item_06.png",
+  7: "assets/images/item_07.png",
+  8: "assets/images/item_08.png",
+  9: "assets/images/item_09.png",
+  10: "assets/images/item_10.png",
+  11: "assets/images/item_11.png",
+  12: "assets/images/item_12.png",
+  13: "assets/images/item_13.png",
+  14: "assets/images/item_14.png",
+  15: "assets/images/item_15.png",
+  16: "assets/images/item_16.png",
+  17: "assets/images/item_17.png",
+  18: "assets/images/item_18.png",
+  19: "assets/images/item_19.png",
+  20: "assets/images/item_20.png",
+  21: "assets/images/item_21.png",
+  22: "assets/images/item_22.png",
+  23: "assets/images/item_23.png",
+  24: "assets/images/item_24.png",
+  25: "assets/images/item_25.png",
+  26: "assets/images/item_26.png",
+  27: "assets/images/item_27.png",
+  28: "assets/images/item_28.png",
+  29: "assets/images/item_29.png",
+  30: "assets/images/item_30.png",
+  31: "assets/images/item_31.png",
+  32: "assets/images/item_32.png",
+  33: "assets/images/item_33.png",
+  34: "assets/images/item_34.png",
+  35: "assets/images/item_35.png",
+  36: "assets/images/item_36.png",
+  37: "assets/images/item_37.png",
+};
+
+const BASE_STUDY_ITEMS = STUDY_ITEMS.map((item) => ({ ...item }));
+const STORAGE_KEY = "east-asian-midterm-review-progress-v1";
+const CARD_DATA_KEY = "east-asian-midterm-review-cards-v1";
+const CARD_IMAGE_KEY = "east-asian-midterm-review-images-v1";
+const INTERVALS = [1, 2, 4, 8, 14, 30];
+const CHECK_INTERVALS = [1, 3, 6, 10, 16, 22];
+const CHECK_FAIL_MULTIPLIER = 0.5;
+const FULL_CHECK_STREAK_THRESHOLD = 3;
+const FULL_CHECK_MIN_ATTEMPTS = 4;
+const EDITABLE_CARD_FIELDS = ["title", "date", "period", "medium", "maker", "importance"];
+
+const CHECK_FIELDS = [
+  { key: "title", label: "Name / title" },
+  { key: "periodDate", label: "Date and period" },
+  { key: "medium", label: "Medium" },
+  { key: "maker", label: "Culture / maker" },
+  { key: "importance", label: "Importance" },
+];
+
+applySavedStudyItems();
+const customImageMap = loadCustomImageMap();
+let state = loadState();
+const teachState = {
+  itemId: null,
+  step: 0,
+  checking: false,
+  checkField: null,
+  checkFields: [],
+};
+const flashState = { itemId: null, revealed: false };
+const quizState = { running: false, questions: [], index: 0, score: 0 };
+const dbState = { itemId: STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null, editing: false };
+let currentMode = "teach";
+
+const modeButtons = Array.from(document.querySelectorAll(".mode-tab"));
+const panels = {
+  teach: document.getElementById("teach"),
+  flash: document.getElementById("flash"),
+  quiz: document.getElementById("quiz"),
+  db: document.getElementById("db"),
+};
+
+const masteryBar = document.getElementById("masteryBar");
+const masteryText = document.getElementById("masteryText");
+const ringText = document.getElementById("ringText");
+const ringProgress = document.getElementById("ringProgress");
+const dueText = document.getElementById("dueText");
+const dueSoonText = document.getElementById("dueSoonText");
+const sessionInfo = document.getElementById("sessionInfo");
+const teachCheck = document.getElementById("teachCheck");
+const teachCheckPrompt = document.getElementById("teachCheckPrompt");
+const teachCheckFields = document.getElementById("teachCheckFields");
+const teachCheckReveal = document.getElementById("teachCheckReveal");
+const teachCheckAnswer = document.getElementById("teachCheckAnswer");
+
+const teachTitle = document.getElementById("teachTitle");
+const teachHint = document.getElementById("teachHint");
+const teachFacts = document.getElementById("teachFacts");
+const teachReveal = document.getElementById("teachReveal");
+const teachRating = document.getElementById("teachRating");
+
+const flashTitle = document.getElementById("flashTitle");
+const flashSub = document.getElementById("flashSub");
+const flashFacts = document.getElementById("flashFacts");
+const flashReveal = document.getElementById("flashReveal");
+const flashRating = document.getElementById("flashRating");
+const teachImage = document.getElementById("teachImage");
+const flashImage = document.getElementById("flashImage");
+
+const quizIntro = document.getElementById("quizIntro");
+const startQuiz = document.getElementById("startQuiz");
+const quizContent = document.getElementById("quizContent");
+const quizProgressText = document.getElementById("quizProgressText");
+const quizBar = document.getElementById("quizBar");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizChoices = document.getElementById("quizChoices");
+const quizFeedback = document.getElementById("quizFeedback");
+const quizNext = document.getElementById("quizNext");
+const quizResult = document.getElementById("quizResult");
+const quizImage = document.getElementById("quizImage");
+
+const dbBrowse = document.getElementById("dbBrowse");
+const dbEditor = document.getElementById("dbEditor");
+const dbEditingLabel = document.getElementById("dbEditingLabel");
+const dbImage = document.getElementById("dbImage");
+const dbStatus = document.getElementById("dbStatus");
+const dbTitle = document.getElementById("dbTitle");
+const dbDate = document.getElementById("dbDate");
+const dbPeriod = document.getElementById("dbPeriod");
+const dbMaker = document.getElementById("dbMaker");
+const dbMedium = document.getElementById("dbMedium");
+const dbImportance = document.getElementById("dbImportance");
+const dbSave = document.getElementById("dbSave");
+const dbReset = document.getElementById("dbReset");
+const dbCancelEdit = document.getElementById("dbCancelEdit");
+const dbDropzone = document.getElementById("dbDropzone");
+const dbImageInput = document.getElementById("dbImageInput");
+const dbPickImage = document.getElementById("dbPickImage");
+const dbResetImage = document.getElementById("dbResetImage");
+
+function buildDefaultCardState() {
+  return {
+    box: 1,
+    nextDue: 1,
+    attempts: 0,
+    correct: 0,
+    score: 0,
+    checkDue: Number.MAX_SAFE_INTEGER,
+    checkStreak: 0,
+  };
+}
+
+function getItemImage(itemId) {
+  if (customImageMap[itemId]) return customImageMap[itemId];
+  return IMAGE_MAP[itemId] || "assets/images/item_01.png";
+}
+
+function getPeriodAndDate(item) {
+  const date = item.date ? String(item.date).trim() : "";
+  const period = item.period ? String(item.period).trim() : "";
+
+  if (date && period) return `${date}, ${period}`;
+  return date || period;
+}
+
+function applySavedStudyItems() {
+  try {
+    const raw = localStorage.getItem(CARD_DATA_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (!Array.isArray(parsed) || parsed.length !== BASE_STUDY_ITEMS.length) return;
+
+    const byId = new Map(parsed.map((item) => [item.id, item]));
+    STUDY_ITEMS.forEach((item) => {
+      const saved = byId.get(item.id);
+      if (!saved || typeof saved !== "object") return;
+      EDITABLE_CARD_FIELDS.forEach((field) => {
+        if (typeof saved[field] === "string") {
+          item[field] = saved[field];
+        }
+      });
+    });
+  } catch (err) {
+    console.warn("Could not restore saved card edits.", err);
+  }
+}
+
+function saveStudyItems() {
+  try {
+    localStorage.setItem(CARD_DATA_KEY, JSON.stringify(STUDY_ITEMS));
+  } catch (err) {
+    console.warn("Could not save card edits.", err);
+  }
+}
+
+function loadCustomImageMap() {
+  try {
+    const raw = localStorage.getItem(CARD_IMAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (!parsed || typeof parsed !== "object") return {};
+
+    const cleaned = {};
+    Object.entries(parsed).forEach(([key, value]) => {
+      if (typeof value === "string" && value.startsWith("data:image/")) {
+        cleaned[Number(key)] = value;
+      }
+    });
+    return cleaned;
+  } catch (err) {
+    console.warn("Could not restore saved card images.", err);
+    return {};
+  }
+}
+
+function saveCustomImageMap() {
+  try {
+    localStorage.setItem(CARD_IMAGE_KEY, JSON.stringify(customImageMap));
+    return true;
+  } catch (err) {
+    console.warn("Could not save card image.", err);
+    return false;
+  }
+}
+
+function resetCustomImage(itemId) {
+  if (!customImageMap[itemId]) return true;
+  delete customImageMap[itemId];
+  return saveCustomImageMap();
+}
+
+function resetStudyItemFromBase(itemId) {
+  const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
+  const base = BASE_STUDY_ITEMS.find((entry) => entry.id === itemId);
+  if (!item || !base) return false;
+  EDITABLE_CARD_FIELDS.forEach((field) => {
+    item[field] = base[field];
+  });
+  return true;
+}
+
+const revealSequence = [
+  { key: "title", label: "Name / title" },
+  { key: "periodDate", label: "Date and period" },
+  { key: "medium", label: "Medium" },
+  { key: "maker", label: "Culture / maker" },
+  { key: "importance", label: "Importance" },
+];
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (parsed && parsed.cards) {
+      const cards = {};
+      STUDY_ITEMS.forEach((item) => {
+        const stored = parsed.cards[item.id] || {};
+        cards[item.id] = {
+          ...buildDefaultCardState(),
+          ...stored,
+          checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
+          checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
+        };
+      });
+      return {
+        turn: Number.isFinite(parsed.turn) ? parsed.turn : 1,
+        cards,
+        session: {
+          ...buildDefaultSessionState(),
+          ...(parsed.session || {}),
+        },
+      };
+    }
+  } catch (err) {
+    console.warn("Could not restore local state.", err);
+  }
+
+  const cards = {};
+  STUDY_ITEMS.forEach((item) => {
+    cards[item.id] = buildDefaultCardState();
+  });
+  return {
+    turn: 1,
+    cards,
+    session: buildDefaultSessionState(),
+  };
+}
+
+function saveState() {
+  try {
+    syncSessionToState();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (err) {
+    console.warn("Could not save local state.", err);
+  }
+}
+
+function setMode(mode, options = {}) {
+  const preserveTeachState = Boolean(options.preserveTeachState);
+  modeButtons.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.mode === mode);
+  });
+  Object.entries(panels).forEach(([key, panel]) => {
+    panel.classList.toggle("active", key === mode);
+  });
+  currentMode = mode;
+
+  if (mode === "teach") {
+    startTeachSession(!preserveTeachState);
+  }
+
+  if (mode === "flash") {
+    startFlashSession();
+  }
+
+  if (mode === "quiz") {
+    resetQuizView();
+  }
+
+  if (mode === "db") {
+    renderDbEditor();
+  }
+
+  saveState();
+}
+
+function startTeachSession(force = false) {
+  if (!teachState.itemId || force) {
+    selectNextTeachItem();
+  }
+  renderTeachCard();
+}
+
+function selectNextTeachItem() {
+  const checkNow = STUDY_ITEMS.filter(
+    (item) => state.cards[item.id].attempts > 0 && state.cards[item.id].checkDue <= state.turn,
+  );
+  const dueNow = STUDY_ITEMS.filter((item) => state.cards[item.id].nextDue <= state.turn);
+  const candidates = checkNow.length ? checkNow : (dueNow.length ? dueNow : STUDY_ITEMS);
+  const sorted = candidates.slice().sort((a, b) => {
+    const pa = state.cards[a.id];
+    const pb = state.cards[b.id];
+    if (checkNow.length) {
+      return pa.checkDue - pb.checkDue || pa.box - pb.box || a.id - b.id;
+    }
+    return pa.nextDue - pb.nextDue || pa.box - pb.box || a.id - b.id;
+  });
+
+  teachState.itemId = sorted[0].id;
+  teachState.step = 0;
+}
+
+function renderTeachCard() {
+  const item = STUDY_ITEMS.find((x) => x.id === teachState.itemId);
+  if (!item) {
+    selectNextTeachItem();
+    renderTeachCard();
+    return;
+  }
+
+  const cardState = state.cards[item.id];
+  if (isCheckDue(cardState)) {
+    renderTeachCheck(item, cardState);
+    return;
+  }
+
+  const isComplete = teachState.step >= revealSequence.length;
+  teachTitle.textContent = isComplete ? item.title : "Identify this artwork";
+  teachHint.textContent = `Reveal ${revealSequence[Math.min(teachState.step, revealSequence.length - 1)].label} to continue.`;
+  teachFacts.innerHTML = "";
+  teachFacts.classList.remove("hidden");
+
+  revealSequence.forEach((entry, index) => {
+    const line = document.createElement("p");
+    line.className = "fact-line";
+    const isHidden = teachState.step <= index;
+    if (isHidden) {
+      line.classList.add("hidden-line");
+    }
+    const value = isHidden
+      ? "—"
+      : entry.key === "periodDate"
+        ? getPeriodAndDate(item)
+        : item[entry.key] || "";
+    line.innerHTML = `<strong>${entry.label}:</strong> <span class="line-value">${value}</span>`;
+    teachFacts.appendChild(line);
+  });
+
+  teachImage.src = getItemImage(item.id);
+  teachImage.alt = `Reference image for ${isComplete ? item.title : "artwork identification"}`;
+
+  if (teachState.step < revealSequence.length) {
+    const nextLabel = revealSequence[teachState.step].label;
+    teachReveal.textContent = `Reveal ${nextLabel}`;
+    teachReveal.disabled = false;
+    teachCheck.classList.add("hidden");
+    teachRating.classList.add("hidden");
+  } else {
+    teachReveal.textContent = "Ready to review";
+    teachReveal.disabled = true;
+    teachCheck.classList.add("hidden");
+    teachRating.classList.remove("hidden");
+    teachHint.textContent = "Rate this item to schedule your next review.";
+  }
+
+  sessionInfo.textContent = `Current mastery: box ${cardState.box} / 5`;
+  teachState.checking = false;
+  teachState.checkField = null;
+  teachState.checkFields = [];
+}
+
+function isCheckDue(cardState) {
+  return cardState && cardState.attempts > 0 && cardState.checkDue <= state.turn;
+}
+
+function shouldUseFullCheck(cardState) {
+  return (
+    cardState &&
+    cardState.attempts >= FULL_CHECK_MIN_ATTEMPTS &&
+    cardState.box >= 3 &&
+    Number.isFinite(cardState.checkStreak) &&
+    cardState.checkStreak >= FULL_CHECK_STREAK_THRESHOLD
+  );
+}
+
+function pickTeachCheckField(itemId) {
+  return CHECK_FIELDS[(state.turn + itemId) % CHECK_FIELDS.length];
+}
+
+function checkIntervalForItem(cardState, passed) {
+  const idx = Math.max(1, Math.min(cardState.box, CHECK_INTERVALS.length - 1));
+  const base = CHECK_INTERVALS[idx];
+  if (passed) {
+    const streak = Number.isFinite(cardState.checkStreak) ? cardState.checkStreak : 0;
+    return base + Math.round(streak * CHECK_FAIL_MULTIPLIER);
+  }
+  return Math.max(2, Math.floor(base * CHECK_FAIL_MULTIPLIER));
+}
+
+function renderTeachCheck(item, cardState) {
+  const useFullCheck = shouldUseFullCheck(cardState);
+  const fields = useFullCheck ? CHECK_FIELDS : [pickTeachCheckField(item.id)];
+  teachState.checking = true;
+  teachState.checkField = fields[0];
+  teachState.checkFields = fields;
+  teachTitle.textContent = "Identify this artwork";
+  teachHint.textContent = `Quick check: type ${useFullCheck ? "all fields" : "one field"} you recall, then confirm if you were correct.`;
+  teachFacts.classList.add("hidden");
+  teachFacts.innerHTML = "";
+  teachReveal.disabled = true;
+  teachRating.classList.add("hidden");
+  teachImage.src = getItemImage(item.id);
+  teachImage.alt = "Reference image for a recall check";
+
+  teachCheck.classList.remove("hidden");
+  teachCheckPrompt.textContent = useFullCheck ? "Recall all fields for this artwork." : `Recall: ${fields[0].label}`;
+  renderTeachCheckInputs(fields);
+  teachCheckAnswer.classList.add("hidden");
+  teachCheckAnswer.textContent = "";
+  teachCheckReveal.textContent = useFullCheck ? "Reveal all keys" : "Reveal key";
+  teachCheckReveal.dataset.revealed = "false";
+
+  sessionInfo.textContent = `Check mode active (box ${cardState.box} / 5)`;
+}
+
+function revealTeachCheckAnswer() {
+  if (!teachState.itemId) return;
+  const item = STUDY_ITEMS.find((item) => item.id === teachState.itemId);
+  if (!item) return;
+  const fields = teachState.checkFields.length
+    ? teachState.checkFields
+    : (teachState.checkField ? [teachState.checkField] : []);
+  if (!fields.length) return;
+  const wasRevealed = teachCheckReveal.dataset.revealed === "true";
+  const revealLabel = (teachState.checkFields.length > 1 ? "all keys" : "key");
+  if (wasRevealed) {
+    teachCheckAnswer.classList.add("hidden");
+    teachCheckReveal.textContent = `Reveal ${revealLabel}`;
+    teachCheckReveal.dataset.revealed = "false";
+    return;
+  }
+  teachCheckAnswer.innerHTML = fields
+    .map((entry) => `<strong>${entry.label}:</strong> ${getFieldValue(item, entry.key)}`)
+    .join("<br>");
+  teachCheckAnswer.classList.remove("hidden");
+  teachCheckReveal.textContent = "Hide key";
+  teachCheckReveal.dataset.revealed = "true";
+}
+
+function renderTeachCheckInputs(fields) {
+  teachCheckFields.innerHTML = "";
+  fields.forEach((entry) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "check-field";
+
+    const label = document.createElement("label");
+    label.className = "check-field-label";
+    label.textContent = entry.label;
+
+    const input = document.createElement("textarea");
+    input.className = "text-input";
+    input.rows = 3;
+    input.placeholder = `Type your best memory for ${entry.label}...`;
+    input.dataset.field = entry.key;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+    teachCheckFields.appendChild(wrapper);
+  });
+}
+
+function submitTeachCheck(passed) {
+  const itemId = teachState.itemId;
+  if (!itemId) return;
+
+  if (passed) {
+    rateItem(itemId, "good");
+  } else {
+    rateItem(itemId, "again");
+  }
+
+  const card = state.cards[itemId];
+  if (card) {
+    card.checkStreak = passed ? (Number.isFinite(card.checkStreak) ? card.checkStreak + 1 : 1) : 0;
+    card.checkDue = state.turn + checkIntervalForItem(card, passed);
+  }
+
+  saveState();
+}
+
+function revealTeachStep() {
+  teachState.step = Math.min(revealSequence.length, teachState.step + 1);
+  saveState();
+  renderTeachCard();
+}
+
+function rateItem(itemId, grade) {
+  const card = state.cards[itemId];
+  if (!card) return;
+
+  if (grade === "again") {
+    card.box = Math.max(1, card.box - 1);
+  } else if (grade === "hard") {
+    card.box = Math.max(1, card.box);
+  } else if (grade === "good") {
+    card.box = Math.min(5, card.box + 1);
+    card.correct += 1;
+  } else if (grade === "easy") {
+    card.box = Math.min(5, card.box + 2);
+    card.correct += 2;
+  }
+
+  card.attempts += 1;
+  const interval = INTERVALS[Math.max(0, Math.min(INTERVALS.length - 1, card.box))];
+  card.nextDue = state.turn + interval;
+  card.score = Math.max(card.score, card.box);
+  if (card.attempts === 1 && card.checkDue === Number.MAX_SAFE_INTEGER) {
+    card.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, card.box))];
+  }
+  state.turn += 1;
+
+  saveState();
+  refreshProgress();
+  selectNextTeachItem();
+  renderTeachCard();
+}
+
+function startFlashSession() {
+  if (!flashState.itemId) {
+    pickNewFlashCard();
+  }
+  renderFlashCard();
+}
+
+function pickNewFlashCard() {
+  const byNeed = STUDY_ITEMS.slice().sort((a, b) => {
+    const pa = state.cards[a.id];
+    const pb = state.cards[b.id];
+    return pa.box - pb.box || pa.nextDue - pb.nextDue || a.id - b.id;
+  });
+  const pool = byNeed.slice(0, Math.min(8, byNeed.length));
+  flashState.itemId = pool[Math.floor(Math.random() * pool.length)].id;
+  flashState.revealed = false;
+}
+
+function renderFlashCard() {
+  const item = STUDY_ITEMS.find((x) => x.id === flashState.itemId);
+  if (!item) {
+    pickNewFlashCard();
+    renderFlashCard();
+    return;
+  }
+
+  const cardState = state.cards[item.id];
+  flashSub.textContent = `Current box ${cardState.box}/5. Reveal the answer to rate yourself.`;
+  flashImage.src = getItemImage(item.id);
+  flashImage.alt = "Reference image for identification";
+
+  if (flashState.revealed) {
+    flashTitle.textContent = item.title;
+    flashFacts.classList.remove("hidden");
+    flashFacts.innerHTML = `
+      <p class="fact-line"><strong>Title:</strong> ${item.title}</p>
+      <p class="fact-line"><strong>Date and period:</strong> ${getPeriodAndDate(item)}</p>
+      <p class="fact-line"><strong>Culture / maker:</strong> ${item.maker}</p>
+      <p class="fact-line"><strong>Medium:</strong> ${item.medium}</p>
+      <p class="fact-line"><strong>Importance:</strong> ${item.importance}</p>
+    `;
+    flashReveal.textContent = "Next card";
+    flashRating.classList.remove("hidden");
+  } else {
+    flashTitle.textContent = "Identify this artwork";
+    flashFacts.classList.add("hidden");
+    flashFacts.innerHTML = "";
+    flashReveal.textContent = "Reveal answer";
+    flashRating.classList.add("hidden");
+  }
+}
+
+function toggleFlashReveal() {
+  if (!flashState.revealed) {
+    flashState.revealed = true;
+  } else {
+    flashState.revealed = false;
+    pickNewFlashCard();
+  }
+  saveState();
+  renderFlashCard();
+}
+
+function rateFlash(itemId, grade) {
+  rateItem(itemId, grade);
+  flashState.revealed = false;
+  pickNewFlashCard();
+  saveState();
+  renderFlashCard();
+}
+
+function buildDefaultSessionState() {
+  return {
+    mode: "teach",
+    teachItemId: null,
+    teachStep: 0,
+    flashItemId: null,
+    flashRevealed: false,
+    dbItemId: null,
+    dbEditing: false,
+  };
+}
+
+function isValidItemId(itemId) {
+  return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
+}
+
+function syncSessionToState() {
+  state.session = {
+    mode: Object.prototype.hasOwnProperty.call(panels, currentMode) ? currentMode : "teach",
+    teachItemId: isValidItemId(teachState.itemId) ? teachState.itemId : null,
+    teachStep: Math.max(0, Math.min(revealSequence.length, Number.isFinite(teachState.step) ? teachState.step : 0)),
+    flashItemId: isValidItemId(flashState.itemId) ? flashState.itemId : null,
+    flashRevealed: Boolean(flashState.revealed),
+    dbItemId: isValidItemId(dbState.itemId) ? dbState.itemId : null,
+    dbEditing: Boolean(dbState.editing),
+  };
+}
+
+function restoreSessionFromState() {
+  const session = {
+    ...buildDefaultSessionState(),
+    ...(state.session || {}),
+  };
+
+  currentMode = Object.prototype.hasOwnProperty.call(panels, session.mode) ? session.mode : "teach";
+  teachState.itemId = isValidItemId(session.teachItemId) ? session.teachItemId : null;
+  teachState.step = Math.max(0, Math.min(revealSequence.length, Number.isFinite(session.teachStep) ? session.teachStep : 0));
+  flashState.itemId = isValidItemId(session.flashItemId) ? session.flashItemId : null;
+  flashState.revealed = Boolean(session.flashRevealed);
+  dbState.itemId = isValidItemId(session.dbItemId) ? session.dbItemId : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
+  dbState.editing = Boolean(session.dbEditing) && isValidItemId(dbState.itemId);
+}
+
+function updateLiveViewsForItem(itemId) {
+  if (teachState.itemId === itemId) {
+    renderTeachCard();
+  }
+  if (flashState.itemId === itemId) {
+    renderFlashCard();
+  }
+}
+
+function cardLabel(item) {
+  const shortTitle = item.title.length > 54 ? `${item.title.slice(0, 54)}...` : item.title;
+  return `${item.id}. ${shortTitle}`;
+}
+
+function shortText(value, max = 160) {
+  if (!value) return "";
+  return value.length > max ? `${value.slice(0, max)}...` : value;
+}
+
+function renderDbBrowseList() {
+  if (!dbBrowse) return;
+  dbBrowse.innerHTML = "";
+  STUDY_ITEMS.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "db-browse-card";
+
+    const image = document.createElement("img");
+    image.className = "db-thumb";
+    image.src = getItemImage(item.id);
+    image.alt = `Card image for ${item.title}`;
+
+    const text = document.createElement("div");
+    text.className = "db-browse-text";
+
+    const title = document.createElement("p");
+    title.className = "db-browse-title";
+    title.textContent = cardLabel(item);
+
+    const date = document.createElement("p");
+    date.textContent = `Date and period: ${getPeriodAndDate(item)}`;
+
+    const maker = document.createElement("p");
+    maker.textContent = `Culture / maker: ${shortText(item.maker, 120)}`;
+
+    const medium = document.createElement("p");
+    medium.textContent = `Medium: ${shortText(item.medium, 120)}`;
+
+    const editButton = document.createElement("button");
+    editButton.className = "primary";
+    editButton.textContent = "Edit card";
+    editButton.dataset.dbEdit = String(item.id);
+
+    text.appendChild(title);
+    text.appendChild(date);
+    text.appendChild(maker);
+    text.appendChild(medium);
+    text.appendChild(editButton);
+
+    card.appendChild(image);
+    card.appendChild(text);
+    dbBrowse.appendChild(card);
+  });
+}
+
+function openDbEditor(itemId) {
+  if (!isValidItemId(itemId) || !dbEditor) return;
+  dbState.itemId = itemId;
+  dbState.editing = true;
+  fillDbForm(itemId);
+  if (dbEditingLabel) {
+    dbEditingLabel.textContent = `Editing card ${itemId}`;
+  }
+  dbEditor.classList.remove("hidden");
+  dbStatus.textContent = `Editing card ${itemId}`;
+  saveState();
+}
+
+function closeDbEditor() {
+  if (!dbEditor) return;
+  dbState.editing = false;
+  dbEditor.classList.add("hidden");
+  saveState();
+}
+
+function fillDbForm(itemId) {
+  const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
+  if (!item) return;
+  dbTitle.value = item.title || "";
+  dbDate.value = item.date || "";
+  dbPeriod.value = item.period || "";
+  dbMaker.value = item.maker || "";
+  dbMedium.value = item.medium || "";
+  dbImportance.value = item.importance || "";
+  dbImage.src = getItemImage(item.id);
+  dbImage.alt = `Card image for ${item.title || "artwork"}`;
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Could not read image file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function optimizeImageDataUrl(dataUrl) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      const maxSide = 1200;
+      const ratio = Math.min(1, maxSide / Math.max(image.width, image.height));
+      const width = Math.max(1, Math.round(image.width * ratio));
+      const height = Math.max(1, Math.round(image.height * ratio));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(dataUrl);
+        return;
+      }
+      ctx.drawImage(image, 0, 0, width, height);
+      resolve(canvas.toDataURL("image/jpeg", 0.88));
+    };
+    image.onerror = () => resolve(dataUrl);
+    image.src = dataUrl;
+  });
+}
+
+async function saveDbImageFromFile(file) {
+  if (!isValidItemId(dbState.itemId)) return;
+  if (!file || !file.type.startsWith("image/")) {
+    dbStatus.textContent = "Please choose an image file.";
+    return;
+  }
+
+  try {
+    dbStatus.textContent = "Saving image...";
+    const rawDataUrl = await readFileAsDataUrl(file);
+    const optimizedDataUrl = await optimizeImageDataUrl(rawDataUrl);
+    customImageMap[dbState.itemId] = optimizedDataUrl;
+    if (!saveCustomImageMap()) {
+      dbStatus.textContent = "Could not save image (browser storage is full).";
+      return;
+    }
+
+    fillDbForm(dbState.itemId);
+    renderDbBrowseList();
+    updateLiveViewsForItem(dbState.itemId);
+    dbStatus.textContent = `Saved replacement image for card ${dbState.itemId}`;
+  } catch (err) {
+    dbStatus.textContent = "Could not process this image file.";
+  }
+}
+
+function renderDbEditor() {
+  renderDbBrowseList();
+  if (!dbEditor) return;
+  if (dbState.editing && isValidItemId(dbState.itemId)) {
+    openDbEditor(dbState.itemId);
+  } else {
+    dbEditor.classList.add("hidden");
+  }
+}
+
+function saveDbCardEdits() {
+  if (!isValidItemId(dbState.itemId)) return;
+  const item = STUDY_ITEMS.find((entry) => entry.id === dbState.itemId);
+  if (!item) return;
+
+  item.title = dbTitle.value.trim();
+  item.date = dbDate.value.trim();
+  item.period = dbPeriod.value.trim();
+  item.maker = dbMaker.value.trim();
+  item.medium = dbMedium.value.trim();
+  item.importance = dbImportance.value.trim();
+
+  saveStudyItems();
+  saveState();
+  renderDbBrowseList();
+  fillDbForm(item.id);
+  updateLiveViewsForItem(item.id);
+  refreshProgress();
+  closeDbEditor();
+}
+
+function resetDbCardEdits() {
+  if (!isValidItemId(dbState.itemId)) return;
+  if (!resetStudyItemFromBase(dbState.itemId)) return;
+  saveStudyItems();
+  saveState();
+  renderDbBrowseList();
+  fillDbForm(dbState.itemId);
+  updateLiveViewsForItem(dbState.itemId);
+  closeDbEditor();
+}
+
+function resetDbCardImage() {
+  if (!isValidItemId(dbState.itemId)) return;
+  if (!resetCustomImage(dbState.itemId)) {
+    dbStatus.textContent = "Could not reset image.";
+    return;
+  }
+  fillDbForm(dbState.itemId);
+  renderDbBrowseList();
+  updateLiveViewsForItem(dbState.itemId);
+  dbStatus.textContent = `Reset image for card ${dbState.itemId}`;
+}
+
+function resetQuizView() {
+  quizContent.classList.add("hidden");
+  quizIntro.classList.remove("hidden");
+  quizResult.classList.add("hidden");
+  quizNext.classList.add("hidden");
+  quizBar.style.width = "0%";
+  quizFeedback.textContent = "";
+  quizState.running = false;
+}
+
+function buildQuiz() {
+  const fields = ["title", "periodDate", "maker", "medium"];
+  const sortedByNeed = STUDY_ITEMS.slice().sort((a, b) => {
+    const pa = state.cards[a.id];
+    const pb = state.cards[b.id];
+    return pa.box - pb.box || a.id - b.id;
+  });
+
+  const questions = [];
+  while (questions.length < 10) {
+    const item = sortedByNeed[questions.length % sortedByNeed.length];
+    const field = fields[questions.length % fields.length];
+    const correct = getFieldValue(item, field);
+    const options = pickOptions(field, correct);
+    const image = getItemImage(item.id);
+    const fieldLabel = questionFieldLabel(field);
+    questions.push({
+      itemId: item.id,
+      field,
+      prompt:
+        field === "title"
+          ? "Which name matches this artwork?"
+          : `Which value best matches this item? (${fieldLabel})`,
+      label: fieldLabel,
+      image,
+      title: item.title,
+      correct,
+      options,
+      answered: false,
+    });
+  }
+
+  return questions;
+}
+
+function questionFieldLabel(field) {
+  if (field === "title") return "Name / title";
+  if (field === "periodDate") return "Date and period";
+  if (field === "maker") return "maker / culture";
+  return field;
+}
+
+function getFieldValue(item, field) {
+  if (field === "periodDate") return getPeriodAndDate(item);
+  return item[field] || "";
+}
+
+function pickOptions(field, correct) {
+  const allValues = [...new Set(STUDY_ITEMS.map((item) => getFieldValue(item, field)).filter(Boolean))];
+  const pool = allValues.filter((x) => x !== correct);
+  shuffle(pool);
+  const picks = pool.slice(0, 3);
+  while (picks.length < 3) {
+    picks.push("(no fixed option)");
+  }
+  const options = [correct, ...picks];
+  shuffle(options);
+  return options;
+}
+
+function buildQuestionMarkup(question) {
+  quizQuestion.textContent = `${question.prompt} ${question.label}`;
+  quizImage.src = question.image;
+  quizImage.alt = "Quiz artwork prompt image";
+  quizChoices.innerHTML = "";
+  quizFeedback.textContent = "";
+  quizResult.classList.add("hidden");
+  quizNext.classList.add("hidden");
+  quizQuestion.setAttribute("data-field", question.field);
+  quizQuestion.setAttribute("data-item-id", question.itemId);
+
+  question.options.forEach((choice) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "choice-option";
+    btn.textContent = choice;
+    btn.dataset.choice = choice;
+    btn.addEventListener("click", () => answerQuestion(question, choice));
+    quizChoices.appendChild(btn);
+  });
+
+  const total = quizState.questions.length;
+  quizProgressText.textContent = `Question ${quizState.index + 1} of ${total}`;
+  const pct = Math.round(((quizState.index) / total) * 100);
+  quizBar.style.width = `${pct}%`;
+}
+
+function answerQuestion(question, choice) {
+  if (question.answered) return;
+  question.answered = true;
+
+  const buttons = Array.from(quizChoices.querySelectorAll("button"));
+  buttons.forEach((btn) => (btn.disabled = true));
+
+  const correct = question.correct;
+  if (choice === correct) {
+    quizState.score += 1;
+    quizFeedback.textContent = "Correct. Good recall.";
+    rateItem(question.itemId, "good");
+  } else {
+    quizFeedback.textContent = `Not quite. Correct answer: ${correct}`;
+    rateItem(question.itemId, "again");
+  }
+
+  buttons.forEach((btn) => {
+    if (btn.dataset.choice === correct) btn.classList.add("correct");
+    if (btn.dataset.choice === choice && choice !== correct) btn.classList.add("wrong");
+  });
+
+  quizNext.classList.remove("hidden");
+  updateQuizProgress();
+}
+
+function updateQuizProgress() {
+  const total = quizState.questions.length;
+  const pct = Math.round((Math.min(quizState.index + 1, total) / total) * 100);
+  quizBar.style.width = `${pct}%`;
+}
+
+function nextQuestion() {
+  quizState.index += 1;
+  saveState();
+  refreshProgress();
+
+  if (quizState.index >= quizState.questions.length) {
+    quizContent.classList.add("hidden");
+    quizResult.classList.remove("hidden");
+    quizResult.textContent = `Final score: ${quizState.score} / ${quizState.questions.length}`;
+    quizNext.classList.add("hidden");
+    startQuiz.textContent = "Take another quiz";
+    return;
+  }
+
+  buildQuestionMarkup(quizState.questions[quizState.index]);
+  quizNext.classList.add("hidden");
+  quizIntro.classList.add("hidden");
+}
+
+function shuffle(list) {
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+  return list;
+}
+
+function refreshProgress() {
+  const total = STUDY_ITEMS.length;
+  const mastered = STUDY_ITEMS.reduce((sum, item) => (state.cards[item.id].box >= 4 ? sum + 1 : sum), 0);
+
+  const percent = Math.round((mastered / total) * 100);
+  masteryBar.style.width = `${percent}%`;
+  masteryText.textContent = `${mastered} of ${total} items mostly mastered`;
+
+  const circumference = 2 * Math.PI * 52;
+  ringText.textContent = `${percent}%`;
+  ringProgress.style.strokeDasharray = `${circumference}`;
+  ringProgress.style.strokeDashoffset = `${circumference - (percent / 100) * circumference}`;
+
+  dueText.textContent = "Adaptive study rhythm updates automatically.";
+  dueSoonText.textContent = "No visible due numbers, only pacing for better recall.";
+
+  sessionInfo.textContent = "Mastery rating updates in the background.";
+}
+
+function init() {
+  modeButtons.forEach((button) => {
+    button.addEventListener("click", () => setMode(button.dataset.mode));
+  });
+
+  teachReveal.addEventListener("click", revealTeachStep);
+  document.querySelectorAll("[data-grade]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      rateItem(teachState.itemId, e.currentTarget.dataset.grade);
+    });
+  });
+
+  flashReveal.addEventListener("click", toggleFlashReveal);
+  document.querySelectorAll("[data-flash-grade]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      rateFlash(flashState.itemId, e.currentTarget.dataset.flashGrade);
+    });
+  });
+
+  teachCheckReveal.addEventListener("click", revealTeachCheckAnswer);
+  document.querySelectorAll("[data-check-grade]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      submitTeachCheck(e.currentTarget.dataset.checkGrade === "pass");
+    });
+  });
+
+  startQuiz.addEventListener("click", () => {
+    quizState.running = true;
+    quizState.questions = buildQuiz();
+    quizState.index = 0;
+    quizState.score = 0;
+
+    quizIntro.classList.add("hidden");
+    quizContent.classList.remove("hidden");
+    quizResult.classList.add("hidden");
+    buildQuestionMarkup(quizState.questions[0]);
+  });
+
+  quizNext.addEventListener("click", nextQuestion);
+
+  if (dbBrowse) {
+    dbBrowse.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-db-edit]");
+      if (!target) return;
+      openDbEditor(Number(target.dataset.dbEdit));
+    });
+  }
+
+  if (dbSave) {
+    dbSave.addEventListener("click", saveDbCardEdits);
+  }
+
+  if (dbReset) {
+    dbReset.addEventListener("click", resetDbCardEdits);
+  }
+
+  if (dbCancelEdit) {
+    dbCancelEdit.addEventListener("click", closeDbEditor);
+  }
+
+  if (dbPickImage && dbImageInput) {
+    dbPickImage.addEventListener("click", () => {
+      dbImageInput.click();
+    });
+    dbImageInput.addEventListener("change", async (event) => {
+      const file = event.currentTarget.files && event.currentTarget.files[0];
+      if (file) {
+        await saveDbImageFromFile(file);
+      }
+      dbImageInput.value = "";
+    });
+  }
+
+  if (dbResetImage) {
+    dbResetImage.addEventListener("click", resetDbCardImage);
+  }
+
+  if (dbDropzone) {
+    dbDropzone.addEventListener("click", () => {
+      if (dbImageInput) dbImageInput.click();
+    });
+    dbDropzone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dbDropzone.classList.add("drag-active");
+    });
+    dbDropzone.addEventListener("dragleave", () => {
+      dbDropzone.classList.remove("drag-active");
+    });
+    dbDropzone.addEventListener("drop", async (event) => {
+      event.preventDefault();
+      dbDropzone.classList.remove("drag-active");
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) {
+        await saveDbImageFromFile(file);
+      }
+    });
+  }
+
+  restoreSessionFromState();
+  refreshProgress();
+  setMode(currentMode, { preserveTeachState: true });
+}
+
+init();

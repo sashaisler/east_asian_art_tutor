@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>East Asian Art Test Tutor</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Study tool</p>
+      <h1>East Asian Midterm Tutor</h1>
+      <p class="subtitle">Builds progressively through your full list and tracks how much you have left.</p>
+    </header>
+
+    <nav class="mode-nav" id="modeNav">
+      <button class="mode-tab active" data-mode="teach">Teaching mode</button>
+      <button class="mode-tab" data-mode="flash">Flashcards</button>
+      <button class="mode-tab" data-mode="quiz">Quiz tests</button>
+      <button class="mode-tab" data-mode="db">Database</button>
+    </nav>
+
+    <section class="metrics-wrap" aria-label="Progress metrics">
+      <article class="metric-card">
+        <h2>Mastery</h2>
+        <div class="bar-wrap">
+          <div class="bar-fill" id="masteryBar"></div>
+        </div>
+        <p id="masteryText">Loading progress...</p>
+      </article>
+      <article class="metric-card ring-card">
+        <h2>Completion</h2>
+        <div class="ring-wrap">
+          <svg width="130" height="130" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-base" cx="60" cy="60" r="52"></circle>
+            <circle class="ring-progress" id="ringProgress" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <span id="ringText">0%</span>
+        </div>
+        <p id="dueText">Adaptive study rhythm updates automatically.</p>
+      </article>
+      <article class="metric-card">
+        <h2>Learning status</h2>
+        <p id="sessionInfo">Ready</p>
+        <p id="dueSoonText">No visible due numbers, only pacing for better recall.</p>
+      </article>
+    </section>
+
+    <main class="mode-panels">
+      <section id="teach" class="mode-panel active">
+        <article class="study-card">
+          <header>
+            <h2>Teaching mode</h2>
+            <p>New info is revealed step by step. Periodically, the card switches to a typed recall check before you continue. Some checks will ask for all fields at once, and you decide if your recall is correct.</p>
+          </header>
+
+          <div id="teachCard" class="content-card">
+            <img id="teachImage" class="item-image" alt="Artwork preview" />
+            <h3 id="teachTitle">No item selected</h3>
+            <p id="teachHint"></p>
+            <dl id="teachFacts" class="fact-list"></dl>
+            <div id="teachCheck" class="check-block hidden">
+              <p id="teachCheckPrompt"></p>
+              <div id="teachCheckFields" class="check-fields"></div>
+              <div class="button-row">
+                <button id="teachCheckReveal" class="grade easy">Reveal key</button>
+              </div>
+              <p id="teachCheckAnswer" class="feedback hidden"></p>
+              <div id="teachCheckActions" class="button-row">
+                <button data-check-grade="fail" class="grade bad">Need more practice</button>
+                <button data-check-grade="pass" class="grade good">I got it right</button>
+              </div>
+            </div>
+            <div class="button-row" id="teachControls">
+              <button id="teachReveal" class="primary">Reveal next detail</button>
+            </div>
+            <div id="teachRating" class="button-row hidden">
+              <p>How well do you know this one?</p>
+              <button data-grade="again" class="grade bad">Need more practice</button>
+              <button data-grade="good" class="grade good">I know this</button>
+              <button data-grade="easy" class="grade easy">I can teach this</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="flash" class="mode-panel">
+        <article class="study-card">
+          <header>
+            <h2>Independent study</h2>
+            <p>Use flashcards for quick recall. Hard cards are scheduled more often.</p>
+          </article>
+          <div id="flashCard" class="content-card">
+            <img id="flashImage" class="item-image" alt="Artwork preview" />
+            <h3 id="flashTitle">No card</h3>
+            <p id="flashSub">Press <strong>Reveal answer</strong> to check details.</p>
+
+            <div id="flashFacts" class="fact-list hidden"></div>
+            <div class="button-row">
+              <button id="flashReveal" class="primary">Reveal answer</button>
+            </div>
+            <div id="flashRating" class="button-row hidden">
+              <button data-flash-grade="again" class="grade bad">Again</button>
+              <button data-flash-grade="good" class="grade good">Good</button>
+              <button data-flash-grade="easy" class="grade easy">Easy</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="quiz" class="mode-panel">
+        <article class="study-card">
+          <header>
+            <h2>Quiz options</h2>
+            <p>Adaptive quiz uses weaker items more often, while keeping it mixed across periods and mediums.</p>
+          </header>
+
+          <div id="quizIntro" class="button-row">
+            <button id="startQuiz" class="primary">Start 10-question quiz</button>
+          </div>
+
+          <div id="quizContent" class="hidden">
+            <div class="quiz-meta">
+              <p id="quizProgressText"></p>
+              <div class="bar-wrap">
+                <div id="quizBar" class="bar-fill"></div>
+              </div>
+            </div>
+            <img id="quizImage" class="item-image" alt="Artwork prompt" />
+            <h3 id="quizQuestion"></h3>
+            <div id="quizChoices" class="choice-list"></div>
+            <p id="quizFeedback" class="feedback" aria-live="polite"></p>
+            <div class="button-row">
+              <button id="quizNext" class="primary hidden">Next question</button>
+            </div>
+            <p id="quizResult" class="hidden"></p>
+          </div>
+        </article>
+      </section>
+
+      <section id="db" class="mode-panel">
+        <article class="study-card">
+          <header>
+            <h2>Card database</h2>
+            <p>Scroll all cards below. Click Edit card to modify one card, then save.</p>
+          </header>
+
+          <div class="content-card">
+            <div id="dbBrowse" class="db-browse-list"></div>
+
+            <div id="dbEditor" class="db-editor hidden">
+              <div class="button-row">
+                <p id="dbEditingLabel" class="fact-line">Editing card</p>
+                <button id="dbCancelEdit" class="grade easy">Close editor</button>
+              </div>
+              <div class="db-layout">
+                <div class="db-meta">
+                  <img id="dbImage" class="item-image" alt="Card image preview" />
+                  <div id="dbDropzone" class="db-dropzone">
+                    Drag and drop replacement image here
+                  </div>
+                  <input id="dbImageInput" type="file" accept="image/*" class="hidden" />
+                  <div class="button-row">
+                    <button id="dbPickImage" class="primary">Choose image</button>
+                    <button id="dbResetImage" class="grade bad">Reset image</button>
+                  </div>
+                  <p id="dbStatus" class="feedback"></p>
+                </div>
+
+                <div class="check-fields">
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbTitle">Name / title</label>
+                    <textarea id="dbTitle" class="text-input" rows="2"></textarea>
+                  </div>
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbDate">Date</label>
+                    <input id="dbDate" class="text-input" />
+                  </div>
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbPeriod">Period</label>
+                    <input id="dbPeriod" class="text-input" />
+                  </div>
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbMaker">Culture / maker</label>
+                    <textarea id="dbMaker" class="text-input" rows="2"></textarea>
+                  </div>
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbMedium">Medium</label>
+                    <textarea id="dbMedium" class="text-input" rows="2"></textarea>
+                  </div>
+                  <div class="check-field">
+                    <label class="check-field-label" for="dbImportance">Importance</label>
+                    <textarea id="dbImportance" class="text-input" rows="4"></textarea>
+                  </div>
+                  <div class="button-row">
+                    <button id="dbSave" class="primary">Save card changes</button>
+                    <button id="dbReset" class="grade bad">Reset this card</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
