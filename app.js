@@ -488,6 +488,7 @@ function buildDefaultCardState() {
     score: 0,
     checkDue: Number.MAX_SAFE_INTEGER,
     checkStreak: 0,
+    taught: false,
   };
 }
 
@@ -640,6 +641,7 @@ function loadState() {
           ...stored,
           checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
           checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
+          taught: Boolean(stored.taught),
         };
       });
       return {
@@ -716,7 +718,7 @@ function selectNextTeachItem(options = {}) {
   const seen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts > 0);
   const unseen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts === 0);
   const learningPool = seen.filter((item) => state.cards[item.id].box < MASTERY_BOX_THRESHOLD);
-  const checkNow = learningPool.filter((item) => state.cards[item.id].checkDue <= state.turn);
+  const checkNow = learningPool.filter((item) => state.cards[item.id].taught && state.cards[item.id].checkDue <= state.turn);
   const dueLearning = learningPool.filter((item) => state.cards[item.id].nextDue <= state.turn);
   const canIntroduceNew = learningPool.length < MAX_ACTIVE_LEARNING_CARDS;
 
@@ -786,6 +788,13 @@ function renderTeachCard() {
   }
 
   const isComplete = teachState.step >= revealSequence.length;
+  if (isComplete && !cardState.taught) {
+    cardState.taught = true;
+    if (cardState.attempts > 0 && cardState.checkDue === Number.MAX_SAFE_INTEGER) {
+      cardState.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, cardState.box))];
+    }
+    saveState();
+  }
   teachTitle.textContent = isComplete ? item.title : "Identify this artwork";
   teachHint.textContent = `Reveal ${revealSequence[Math.min(teachState.step, revealSequence.length - 1)].label} to continue.`;
   teachFacts.innerHTML = "";
@@ -833,7 +842,7 @@ function renderTeachCard() {
 }
 
 function isCheckDue(cardState) {
-  return cardState && cardState.attempts > 0 && cardState.checkDue <= state.turn;
+  return cardState && cardState.taught && cardState.attempts > 0 && cardState.checkDue <= state.turn;
 }
 
 function shouldUseFullCheck(cardState) {
@@ -1033,13 +1042,37 @@ function submitTeachCheck(passed, triggerElement = null) {
     }
   }
 
+  teachState.checking = false;
+  teachState.checkField = null;
+  teachState.checkFields = [];
+  teachState.checkDrafts = {};
+  teachState.checkRevealed = false;
+  if (teachCheckFields) {
+    teachCheckFields.querySelectorAll("textarea[data-field]").forEach((input) => {
+      input.value = "";
+    });
+  }
+  teachCheckAnswer.classList.add("hidden");
+  teachCheckAnswer.textContent = "";
+  teachCheckReveal.dataset.revealed = "false";
+
   saveState();
   selectNextTeachItem({ avoidItemId: itemId });
   renderTeachCard();
 }
 
 function revealTeachStep() {
+  const previousStep = teachState.step;
   teachState.step = Math.min(revealSequence.length, teachState.step + 1);
+  if (teachState.itemId && previousStep < revealSequence.length && teachState.step >= revealSequence.length) {
+    const card = state.cards[teachState.itemId];
+    if (card && !card.taught) {
+      card.taught = true;
+      if (card.attempts > 0 && card.checkDue === Number.MAX_SAFE_INTEGER) {
+        card.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, card.box))];
+      }
+    }
+  }
   saveState();
   renderTeachCard();
 }
@@ -1065,7 +1098,7 @@ function rateItem(itemId, grade, options = {}) {
   const interval = INTERVALS[Math.max(0, Math.min(INTERVALS.length - 1, card.box))];
   card.nextDue = state.turn + interval;
   card.score = Math.max(card.score, card.box);
-  if (card.attempts === 1 && card.checkDue === Number.MAX_SAFE_INTEGER) {
+  if (card.taught && card.checkDue === Number.MAX_SAFE_INTEGER) {
     card.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, card.box))];
   }
   state.turn += 1;
