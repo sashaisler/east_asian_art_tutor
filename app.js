@@ -46,7 +46,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 6,
-    title: 'You (lidded ritual wine vessel)',
+    title: 'Yu (lidded ritual wine vessel)',
     date: '1200–1046 BCE',
     period: 'late Shang dynasty',
     medium: 'Bronze',
@@ -94,7 +94,7 @@ const STUDY_ITEMS = [
     title: 'Baihuatan Hu with narrative scenes (ritual wine vessel decoration)',
     date: 'Warring States 480 - 222 BCE',
     period: '',
-    medium: 'Bronze with inlay (silver and copper)',
+    medium: 'Bronze (represented as an ink rubbing pattern)',
     maker: 'Eastern Zhou dynasty',
     importance: 'Shows the move from abstract animal motifs to scenes of daily life, ritual, and warfare.',
   },
@@ -393,6 +393,7 @@ const CHECK_FIELDS = [
 ];
 
 applySavedStudyItems();
+applyContentCorrections();
 const customImageMap = loadCustomImageMap();
 let state = loadState();
 const teachState = {
@@ -460,8 +461,7 @@ const dbEditingLabel = document.getElementById("dbEditingLabel");
 const dbImage = document.getElementById("dbImage");
 const dbStatus = document.getElementById("dbStatus");
 const dbTitle = document.getElementById("dbTitle");
-const dbDate = document.getElementById("dbDate");
-const dbPeriod = document.getElementById("dbPeriod");
+const dbPeriodDate = document.getElementById("dbPeriodDate");
 const dbMaker = document.getElementById("dbMaker");
 const dbMedium = document.getElementById("dbMedium");
 const dbImportance = document.getElementById("dbImportance");
@@ -498,6 +498,21 @@ function getPeriodAndDate(item) {
   return date || period;
 }
 
+function splitPeriodAndDate(value) {
+  const text = value ? String(value).trim() : "";
+  if (!text) return { date: "", period: "" };
+
+  const parts = text.split(",").map((part) => part.trim()).filter(Boolean);
+  if (parts.length > 1) {
+    return {
+      date: parts[0],
+      period: parts.slice(1).join(", "),
+    };
+  }
+
+  return { date: text, period: "" };
+}
+
 function applySavedStudyItems() {
   try {
     const raw = localStorage.getItem(CARD_DATA_KEY);
@@ -516,6 +531,13 @@ function applySavedStudyItems() {
     });
   } catch (err) {
     console.warn("Could not restore saved card edits.", err);
+  }
+}
+
+function applyContentCorrections() {
+  const baihuatan = STUDY_ITEMS.find((item) => item.id === 11);
+  if (baihuatan && baihuatan.medium === "Bronze with inlay (silver and copper)") {
+    baihuatan.medium = "Bronze (represented as an ink rubbing pattern)";
   }
 }
 
@@ -1059,6 +1081,9 @@ function renderDbBrowseList() {
     const medium = document.createElement("p");
     medium.textContent = `Medium: ${shortText(item.medium, 120)}`;
 
+    const importance = document.createElement("p");
+    importance.textContent = `Importance: ${shortText(item.importance, 180)}`;
+
     const editButton = document.createElement("button");
     editButton.className = "primary";
     editButton.textContent = "Edit card";
@@ -1068,6 +1093,7 @@ function renderDbBrowseList() {
     text.appendChild(date);
     text.appendChild(maker);
     text.appendChild(medium);
+    text.appendChild(importance);
     text.appendChild(editButton);
 
     card.appendChild(image);
@@ -1100,8 +1126,7 @@ function fillDbForm(itemId) {
   const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
   if (!item) return;
   dbTitle.value = item.title || "";
-  dbDate.value = item.date || "";
-  dbPeriod.value = item.period || "";
+  dbPeriodDate.value = getPeriodAndDate(item);
   dbMaker.value = item.maker || "";
   dbMedium.value = item.medium || "";
   dbImportance.value = item.importance || "";
@@ -1183,9 +1208,10 @@ function saveDbCardEdits() {
   const item = STUDY_ITEMS.find((entry) => entry.id === dbState.itemId);
   if (!item) return;
 
+  const periodDate = splitPeriodAndDate(dbPeriodDate.value);
   item.title = dbTitle.value.trim();
-  item.date = dbDate.value.trim();
-  item.period = dbPeriod.value.trim();
+  item.date = periodDate.date;
+  item.period = periodDate.period;
   item.maker = dbMaker.value.trim();
   item.medium = dbMedium.value.trim();
   item.importance = dbImportance.value.trim();
