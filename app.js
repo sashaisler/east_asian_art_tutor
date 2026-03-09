@@ -100,12 +100,12 @@ const STUDY_ITEMS = [
   },
   {
     id: 12,
-    title: 'Tomb of Marquis Yi of Zeng (tomb complex reconstruction)',
-    date: '433 BCE',
-    period: 'Warring States period',
-    medium: 'Wood, lacquer, bronze grave goods (tomb architecture and burial objects)',
-    maker: 'Western Han Dynasty',
-    importance: 'Shows elaborate tomb engineering and the creation of a sealed burial environment filled with elite objects.',
+    title: 'Sketch of Reconstructed Tomb showing lining of pit, tomb chamber and tripple coffin',
+    date: 'Western Han 168 BCE',
+    period: '',
+    medium: 'educational drawing of tomb made from cypress wood planks surrounded by thick layers of charcoal and white kaolin clay',
+    maker: 'Western Han Dynasty Mawangdui Tomb, ancient China',
+    importance: 'advanced Han dynasty tomb engineering that created sealed environment for near perfect preservation',
   },
   {
     id: 13,
@@ -538,6 +538,25 @@ function applyContentCorrections() {
   const baihuatan = STUDY_ITEMS.find((item) => item.id === 11);
   if (baihuatan && baihuatan.medium === "Bronze with inlay (silver and copper)") {
     baihuatan.medium = "Bronze (represented as an ink rubbing pattern)";
+  }
+  const marquisTomb = STUDY_ITEMS.find((item) => item.id === 12);
+  if (marquisTomb && marquisTomb.title === "Tomb of Marquis Yi of Zeng (tomb complex reconstruction)") {
+    marquisTomb.title = "Sketch of Reconstructed Tomb showing lining of pit, tomb chamber and tripple coffin";
+  }
+  if (marquisTomb && marquisTomb.date === "433 BCE") {
+    marquisTomb.date = "Western Han 168 BCE";
+  }
+  if (marquisTomb && marquisTomb.period === "Warring States period") {
+    marquisTomb.period = "";
+  }
+  if (marquisTomb && marquisTomb.maker === "Western Han Dynasty") {
+    marquisTomb.maker = "Western Han Dynasty Mawangdui Tomb, ancient China";
+  }
+  if (marquisTomb && marquisTomb.medium === "Wood, lacquer, bronze grave goods (tomb architecture and burial objects)") {
+    marquisTomb.medium = "educational drawing of tomb made from cypress wood planks surrounded by thick layers of charcoal and white kaolin clay";
+  }
+  if (marquisTomb && marquisTomb.importance === "Shows elaborate tomb engineering and the creation of a sealed burial environment filled with elite objects.") {
+    marquisTomb.importance = "advanced Han dynasty tomb engineering that created sealed environment for near perfect preservation";
   }
 }
 
