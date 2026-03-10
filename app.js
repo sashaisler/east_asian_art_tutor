@@ -648,7 +648,9 @@ function loadState() {
           ...stored,
           checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
           checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
-          taught: Boolean(stored.taught),
+          taught: typeof stored.taught === "boolean"
+            ? stored.taught
+            : Boolean(Number.isFinite(stored.attempts) && stored.attempts > 0),
         };
       });
       return {
@@ -682,6 +684,17 @@ function saveState() {
   } catch (err) {
     console.warn("Could not save local state.", err);
   }
+}
+
+function applyStateCorrections() {
+  if (!state || !state.cards) return;
+  STUDY_ITEMS.forEach((item) => {
+    const card = state.cards[item.id];
+    if (!card) return;
+    if (!card.taught && card.attempts > 0) {
+      card.taught = true;
+    }
+  });
 }
 
 function setMode(mode, options = {}) {
@@ -1674,6 +1687,8 @@ function refreshProgress() {
 }
 
 function init() {
+  applyStateCorrections();
+
   modeButtons.forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
   });
