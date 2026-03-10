@@ -454,6 +454,14 @@ const teachRating = document.getElementById("teachRating");
 
 const flashSub = document.getElementById("flashSub");
 const flashBrowse = document.getElementById("flashBrowse");
+const flashPrev = document.getElementById("flashPrev");
+const flashNext = document.getElementById("flashNext");
+const flashIndex = document.getElementById("flashIndex");
+const flashViewerFlip = document.getElementById("flashViewerFlip");
+const flashViewerInner = document.getElementById("flashViewerInner");
+const flashViewerImage = document.getElementById("flashViewerImage");
+const flashViewerTitle = document.getElementById("flashViewerTitle");
+const flashViewerFacts = document.getElementById("flashViewerFacts");
 const teachImage = document.getElementById("teachImage");
 
 const testFieldOptions = document.getElementById("testFieldOptions");
@@ -1315,19 +1323,27 @@ function rateItem(itemId, grade, options = {}) {
 }
 
 function startFlashSession() {
+  if (!isValidItemId(flashState.itemId) && STUDY_ITEMS.length) {
+    flashState.itemId = STUDY_ITEMS[0].id;
+  }
   renderFlashGallery();
+  renderFlashViewer();
 }
 
 function renderFlashGallery() {
   if (!flashBrowse) return;
   flashBrowse.innerHTML = "";
   if (flashSub) {
-    flashSub.textContent = `Scroll through all ${STUDY_ITEMS.length} images below.`;
+    flashSub.textContent = `Browse all ${STUDY_ITEMS.length} cards below, or use ←/→ in the viewer.`;
   }
 
   STUDY_ITEMS.forEach((item) => {
-    const card = document.createElement("article");
+    const card = document.createElement("button");
+    card.type = "button";
     card.className = "flash-browse-card";
+    card.dataset.flashItem = String(item.id);
+    card.setAttribute("aria-label", `Select ${item.title}`);
+    card.classList.toggle("active", item.id === flashState.itemId);
 
     const image = document.createElement("img");
     image.className = "flash-browse-image";
@@ -1342,6 +1358,62 @@ function renderFlashGallery() {
     card.appendChild(title);
     flashBrowse.appendChild(card);
   });
+}
+
+function renderFlashViewer() {
+  if (!flashViewerImage || !flashViewerInner || !flashViewerTitle || !flashViewerFacts || !flashIndex) return;
+  if (!isValidItemId(flashState.itemId)) {
+    flashViewerImage.src = "";
+    flashViewerTitle.textContent = "No card selected";
+    flashViewerFacts.innerHTML = "";
+    flashIndex.textContent = `0 / ${STUDY_ITEMS.length}`;
+    return;
+  }
+
+  const item = STUDY_ITEMS.find((entry) => entry.id === flashState.itemId);
+  if (!item) return;
+
+  const currentIndex = STUDY_ITEMS.findIndex((entry) => entry.id === item.id);
+  flashIndex.textContent = `${currentIndex + 1} / ${STUDY_ITEMS.length}`;
+  flashViewerImage.src = getItemImage(item.id);
+  flashViewerImage.alt = `Selected artwork image for ${item.title}`;
+  flashViewerTitle.textContent = item.title;
+  flashViewerFacts.innerHTML = `
+    <p class="fact-line"><strong>Name / title:</strong> ${item.title}</p>
+    <p class="fact-line"><strong>Date and period:</strong> ${getPeriodAndDate(item)}</p>
+    <p class="fact-line"><strong>Culture / maker:</strong> ${item.maker}</p>
+    <p class="fact-line"><strong>Medium:</strong> ${item.medium}</p>
+    <p class="fact-line"><strong>Importance:</strong> ${item.importance}</p>
+  `;
+  flashViewerInner.classList.toggle("is-flipped", Boolean(flashState.revealed));
+
+  if (flashPrev) flashPrev.disabled = currentIndex <= 0;
+  if (flashNext) flashNext.disabled = currentIndex >= STUDY_ITEMS.length - 1;
+}
+
+function selectFlashItem(itemId) {
+  if (!isValidItemId(itemId)) return;
+  flashState.itemId = itemId;
+  flashState.revealed = false;
+  saveState();
+  renderFlashGallery();
+  renderFlashViewer();
+}
+
+function stepFlashItem(direction) {
+  if (!isValidItemId(flashState.itemId)) return;
+  const currentIndex = STUDY_ITEMS.findIndex((entry) => entry.id === flashState.itemId);
+  if (currentIndex < 0) return;
+  const nextIndex = currentIndex + direction;
+  if (nextIndex < 0 || nextIndex >= STUDY_ITEMS.length) return;
+  selectFlashItem(STUDY_ITEMS[nextIndex].id);
+}
+
+function toggleFlashReveal() {
+  if (!isValidItemId(flashState.itemId)) return;
+  flashState.revealed = !flashState.revealed;
+  saveState();
+  renderFlashViewer();
 }
 
 function defaultTestFieldKeys() {
@@ -1723,6 +1795,7 @@ function updateLiveViewsForItem(itemId) {
   }
   if (currentMode === "flash") {
     renderFlashGallery();
+    renderFlashViewer();
   }
   if (testState.running && testState.itemIds[testState.index] === itemId) {
     renderCustomTestMode();
@@ -2117,6 +2190,35 @@ function init() {
 
   modeButtons.forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
+  });
+
+  if (flashBrowse) {
+    flashBrowse.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-flash-item]");
+      if (!target) return;
+      selectFlashItem(Number(target.dataset.flashItem));
+    });
+  }
+  if (flashViewerFlip) {
+    flashViewerFlip.addEventListener("click", toggleFlashReveal);
+  }
+  if (flashPrev) {
+    flashPrev.addEventListener("click", () => stepFlashItem(-1));
+  }
+  if (flashNext) {
+    flashNext.addEventListener("click", () => stepFlashItem(1));
+  }
+  window.addEventListener("keydown", (event) => {
+    if (currentMode !== "flash") return;
+    const tagName = event.target && event.target.tagName ? event.target.tagName.toUpperCase() : "";
+    if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT" || (event.target && event.target.isContentEditable)) return;
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      stepFlashItem(-1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      stepFlashItem(1);
+    }
   });
 
   teachReveal.addEventListener("click", revealTeachStep);

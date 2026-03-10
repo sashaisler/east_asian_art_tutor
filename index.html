@@ -90,11 +90,33 @@
         <article class="study-card">
           <header>
             <h2>Independent study</h2>
-            <p>Scroll through all cards and review images independently.</p>
+            <p>Browse small thumbnails, select one to enlarge, then flip and navigate with arrows.</p>
           </header>
           <div id="flashCard" class="content-card">
-            <p id="flashSub">Scroll through all images below.</p>
-            <div id="flashBrowse" class="flash-browse-list"></div>
+            <p id="flashSub">Select a thumbnail to study it.</p>
+            <div class="flash-doc-layout">
+              <div id="flashBrowse" class="flash-browse-list"></div>
+              <div class="flash-viewer-wrap">
+                <div class="flash-nav-row">
+                  <button id="flashPrev" class="grade easy" type="button" aria-label="Previous card">←</button>
+                  <p id="flashIndex" class="fact-line">1 / 1</p>
+                  <button id="flashNext" class="grade easy" type="button" aria-label="Next card">→</button>
+                </div>
+                <button id="flashViewerFlip" class="flash-card-btn" type="button" aria-label="Flip selected flashcard">
+                  <div id="flashViewerInner" class="flash-card-inner">
+                    <div class="flash-face flash-front">
+                      <img id="flashViewerImage" class="item-image" alt="Selected artwork preview" />
+                      <p class="flash-face-hint">Tap to flip</p>
+                    </div>
+                    <div class="flash-face flash-back">
+                      <h3 id="flashViewerTitle">No card selected</h3>
+                      <div id="flashViewerFacts" class="fact-list"></div>
+                      <p class="flash-face-hint">Tap to flip back</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </article>
       </section>
