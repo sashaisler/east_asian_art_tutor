@@ -385,6 +385,7 @@ const FULL_CHECK_MIN_ATTEMPTS = 4;
 const MASTERY_BOX_THRESHOLD = 4;
 const MAX_ACTIVE_LEARNING_CARDS = 10;
 const FULL_CHECK_PASS_INTERVAL_MULTIPLIER = 6;
+const TEACH_REPEAT_COOLDOWN_TURNS = 2;
 const EDITABLE_CARD_FIELDS = ["title", "date", "period", "medium", "maker", "importance"];
 
 const CHECK_FIELDS = [
@@ -409,6 +410,15 @@ const teachState = {
   checkRevealed: false,
 };
 const flashState = { itemId: null, revealed: false };
+const testState = {
+  running: false,
+  index: 0,
+  itemIds: [],
+  fieldKeys: [],
+  drafts: {},
+  revealed: false,
+  correctCount: 0,
+};
 const quizState = { running: false, questions: [], index: 0, score: 0 };
 const dbState = { itemId: STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null, editing: false };
 let currentMode = "teach";
@@ -417,6 +427,7 @@ const modeButtons = Array.from(document.querySelectorAll(".mode-tab"));
 const panels = {
   teach: document.getElementById("teach"),
   flash: document.getElementById("flash"),
+  test: document.getElementById("test"),
   quiz: document.getElementById("quiz"),
   db: document.getElementById("db"),
 };
@@ -441,13 +452,29 @@ const teachReveal = document.getElementById("teachReveal");
 const teachControls = document.getElementById("teachControls");
 const teachRating = document.getElementById("teachRating");
 
-const flashTitle = document.getElementById("flashTitle");
 const flashSub = document.getElementById("flashSub");
-const flashFacts = document.getElementById("flashFacts");
-const flashReveal = document.getElementById("flashReveal");
+const flashCardFlip = document.getElementById("flashCardFlip");
+const flashCardInner = document.getElementById("flashCardInner");
+const flashFrontImage = document.getElementById("flashFrontImage");
+const flashBackTitle = document.getElementById("flashBackTitle");
+const flashBackFacts = document.getElementById("flashBackFacts");
 const flashRating = document.getElementById("flashRating");
 const teachImage = document.getElementById("teachImage");
-const flashImage = document.getElementById("flashImage");
+
+const testFieldOptions = document.getElementById("testFieldOptions");
+const testStart = document.getElementById("testStart");
+const testReset = document.getElementById("testReset");
+const testSetupStatus = document.getElementById("testSetupStatus");
+const testRun = document.getElementById("testRun");
+const testProgress = document.getElementById("testProgress");
+const testImage = document.getElementById("testImage");
+const testPrompt = document.getElementById("testPrompt");
+const testInputs = document.getElementById("testInputs");
+const testReveal = document.getElementById("testReveal");
+const testAnswer = document.getElementById("testAnswer");
+const testFail = document.getElementById("testFail");
+const testPass = document.getElementById("testPass");
+const testStatus = document.getElementById("testStatus");
 
 const quizIntro = document.getElementById("quizIntro");
 const startQuiz = document.getElementById("startQuiz");
@@ -486,6 +513,7 @@ function buildDefaultCardState() {
     attempts: 0,
     correct: 0,
     score: 0,
+    lastSeenTurn: -1,
     checkDue: Number.MAX_SAFE_INTEGER,
     checkStreak: 0,
     taught: false,
@@ -760,6 +788,7 @@ function loadState() {
           ...stored,
           checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
           checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
+          lastSeenTurn: Number.isFinite(stored.lastSeenTurn) ? stored.lastSeenTurn : -1,
           taught: typeof stored.taught === "boolean"
             ? stored.taught
             : Boolean(Number.isFinite(stored.attempts) && stored.attempts > 0),
@@ -803,6 +832,9 @@ function applyStateCorrections() {
   STUDY_ITEMS.forEach((item) => {
     const card = state.cards[item.id];
     if (!card) return;
+    if (!Number.isFinite(card.lastSeenTurn)) {
+      card.lastSeenTurn = -1;
+    }
     if (!card.taught && card.attempts > 0) {
       card.taught = true;
     }
@@ -825,6 +857,10 @@ function setMode(mode, options = {}) {
 
   if (mode === "flash") {
     startFlashSession();
+  }
+
+  if (mode === "test") {
+    startCustomTestMode();
   }
 
   if (mode === "quiz") {
@@ -856,14 +892,17 @@ function selectNextTeachItem(options = {}) {
 
   let candidates = STUDY_ITEMS;
   let selectionMode = "due";
-  if (checkNow.length) {
+  if (canIntroduceNew && unseen.length) {
+    candidates = unseen;
+    selectionMode = "unseen";
+  } else if (checkNow.length) {
     candidates = checkNow;
     selectionMode = "check";
-  } else if (!canIntroduceNew) {
-    candidates = dueLearning.length ? dueLearning : learningPool;
-    selectionMode = "due";
   } else if (dueLearning.length) {
     candidates = dueLearning;
+    selectionMode = "due";
+  } else if (learningPool.length) {
+    candidates = learningPool;
     selectionMode = "due";
   } else if (unseen.length) {
     candidates = unseen;
@@ -877,18 +916,40 @@ function selectNextTeachItem(options = {}) {
     const pa = state.cards[a.id];
     const pb = state.cards[b.id];
     if (selectionMode === "check") {
-      return pa.checkDue - pb.checkDue || pa.box - pb.box || a.id - b.id;
+      return pa.checkDue - pb.checkDue || pa.lastSeenTurn - pb.lastSeenTurn || pa.box - pb.box || a.id - b.id;
     }
     if (selectionMode === "unseen") {
       return a.id - b.id;
     }
-    return pa.nextDue - pb.nextDue || pa.box - pb.box || a.id - b.id;
+    return pa.nextDue - pb.nextDue || pa.lastSeenTurn - pb.lastSeenTurn || pa.box - pb.box || a.id - b.id;
   });
 
-  let nextItem = sorted.length ? sorted[0] : null;
-  if (nextItem && avoidItemId !== null && nextItem.id === avoidItemId && sorted.length > 1) {
-    const alternate = sorted.find((item) => item.id !== avoidItemId);
-    if (alternate) nextItem = alternate;
+  const pickCandidate = (pool) => {
+    if (!pool.length) return { item: null, usedCooldown: false };
+    const cooldownMatch = pool.find((item) => {
+      if (avoidItemId !== null && item.id === avoidItemId) return false;
+      const lastSeen = Number.isFinite(state.cards[item.id].lastSeenTurn) ? state.cards[item.id].lastSeenTurn : -1;
+      return state.turn - lastSeen > TEACH_REPEAT_COOLDOWN_TURNS;
+    });
+    if (cooldownMatch) return { item: cooldownMatch, usedCooldown: true };
+    const avoidMatch = pool.find((item) => avoidItemId === null || item.id !== avoidItemId);
+    return { item: (avoidMatch || pool[0]), usedCooldown: false };
+  };
+
+  let picked = pickCandidate(sorted);
+  let nextItem = picked.item;
+  const shouldFallbackToPool = selectionMode !== "unseen" && learningPool.length > 1 && (!picked.usedCooldown);
+  if (shouldFallbackToPool) {
+    const poolSorted = learningPool.slice().sort((a, b) => {
+      const pa = state.cards[a.id];
+      const pb = state.cards[b.id];
+      return pa.lastSeenTurn - pb.lastSeenTurn || pa.nextDue - pb.nextDue || pa.box - pb.box || a.id - b.id;
+    });
+    const poolPick = pickCandidate(poolSorted);
+    if (poolPick.item) {
+      nextItem = poolPick.item;
+      picked = poolPick;
+    }
   }
   if (!nextItem && STUDY_ITEMS.length) {
     const fallback = avoidItemId === null
@@ -1241,6 +1302,7 @@ function rateItem(itemId, grade, options = {}) {
   }
 
   card.attempts += 1;
+  card.lastSeenTurn = state.turn;
   const interval = INTERVALS[Math.max(0, Math.min(INTERVALS.length - 1, card.box))];
   card.nextDue = state.turn + interval;
   card.score = Math.max(card.score, card.box);
@@ -1284,38 +1346,31 @@ function renderFlashCard() {
   }
 
   const cardState = state.cards[item.id];
-  flashSub.textContent = `Current box ${cardState.box}/5. Reveal the answer to rate yourself.`;
-  flashImage.src = getItemImage(item.id);
-  flashImage.alt = "Reference image for identification";
-
-  if (flashState.revealed) {
-    flashTitle.textContent = item.title;
-    flashFacts.classList.remove("hidden");
-    flashFacts.innerHTML = `
-      <p class="fact-line"><strong>Title:</strong> ${item.title}</p>
+  flashSub.textContent = `Current box ${cardState.box}/5. Tap the card to flip.`;
+  if (flashFrontImage) {
+    flashFrontImage.src = getItemImage(item.id);
+    flashFrontImage.alt = "Reference image for identification";
+  }
+  if (flashBackTitle) {
+    flashBackTitle.textContent = item.title;
+  }
+  if (flashBackFacts) {
+    flashBackFacts.innerHTML = `
+      <p class="fact-line"><strong>Name / title:</strong> ${item.title}</p>
       <p class="fact-line"><strong>Date and period:</strong> ${getPeriodAndDate(item)}</p>
       <p class="fact-line"><strong>Culture / maker:</strong> ${item.maker}</p>
       <p class="fact-line"><strong>Medium:</strong> ${item.medium}</p>
       <p class="fact-line"><strong>Importance:</strong> ${item.importance}</p>
     `;
-    flashReveal.textContent = "Next card";
-    flashRating.classList.remove("hidden");
-  } else {
-    flashTitle.textContent = "Identify this artwork";
-    flashFacts.classList.add("hidden");
-    flashFacts.innerHTML = "";
-    flashReveal.textContent = "Reveal answer";
-    flashRating.classList.add("hidden");
   }
+  if (flashCardInner) {
+    flashCardInner.classList.toggle("is-flipped", flashState.revealed);
+  }
+  flashRating.classList.toggle("hidden", !flashState.revealed);
 }
 
 function toggleFlashReveal() {
-  if (!flashState.revealed) {
-    flashState.revealed = true;
-  } else {
-    flashState.revealed = false;
-    pickNewFlashCard();
-  }
+  flashState.revealed = !flashState.revealed;
   saveState();
   renderFlashCard();
 }
@@ -1326,6 +1381,257 @@ function rateFlash(itemId, grade) {
   pickNewFlashCard();
   saveState();
   renderFlashCard();
+}
+
+function defaultTestFieldKeys() {
+  return CHECK_FIELDS.map((entry) => entry.key);
+}
+
+function sanitizeTestFieldKeys(keys) {
+  const validKeys = new Set(CHECK_FIELDS.map((entry) => entry.key));
+  const source = Array.isArray(keys) ? keys : [];
+  const unique = [];
+  source.forEach((key) => {
+    if (typeof key !== "string" || !validKeys.has(key) || unique.includes(key)) return;
+    unique.push(key);
+  });
+  return unique;
+}
+
+function isValidTestItemId(itemId) {
+  return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
+}
+
+function selectedTestFieldKeysFromUi() {
+  if (!testFieldOptions) return [];
+  return Array.from(testFieldOptions.querySelectorAll('input[type="checkbox"][data-test-field]'))
+    .filter((input) => input.checked)
+    .map((input) => input.dataset.testField);
+}
+
+function renderTestFieldOptions() {
+  if (!testFieldOptions) return;
+  const chosen = new Set(testState.fieldKeys.length ? testState.fieldKeys : defaultTestFieldKeys());
+  testFieldOptions.innerHTML = "";
+  CHECK_FIELDS.forEach((entry) => {
+    const label = document.createElement("label");
+    label.className = "test-field-option";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.dataset.testField = entry.key;
+    input.checked = chosen.has(entry.key);
+    input.disabled = testState.running;
+    const text = document.createElement("span");
+    text.textContent = entry.label;
+    label.appendChild(input);
+    label.appendChild(text);
+    testFieldOptions.appendChild(label);
+  });
+}
+
+function startCustomTestMode() {
+  if (!testState.fieldKeys.length) {
+    testState.fieldKeys = defaultTestFieldKeys();
+  }
+  if (!Array.isArray(testState.itemIds) || !testState.itemIds.length) {
+    testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  }
+  renderCustomTestMode();
+}
+
+function beginCustomTest() {
+  const selectedFields = sanitizeTestFieldKeys(selectedTestFieldKeysFromUi());
+  if (!selectedFields.length) {
+    if (testSetupStatus) testSetupStatus.textContent = "Select at least one field to test.";
+    return;
+  }
+
+  testState.running = true;
+  testState.index = 0;
+  testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  testState.fieldKeys = selectedFields;
+  testState.drafts = {};
+  testState.revealed = false;
+  testState.correctCount = 0;
+
+  if (testSetupStatus) testSetupStatus.textContent = "";
+  saveState();
+  renderCustomTestMode();
+}
+
+function resetCustomTest() {
+  testState.running = false;
+  testState.index = 0;
+  testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  testState.drafts = {};
+  testState.revealed = false;
+  testState.correctCount = 0;
+  if (testSetupStatus) testSetupStatus.textContent = "Test reset. Choose fields and start again.";
+  saveState();
+  renderCustomTestMode();
+}
+
+function renderCustomTestInputs(item) {
+  if (!testInputs) return;
+  testInputs.innerHTML = "";
+  testState.fieldKeys.forEach((fieldKey) => {
+    const meta = CHECK_FIELDS.find((entry) => entry.key === fieldKey);
+    if (!meta) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "check-field";
+
+    const label = document.createElement("label");
+    label.className = "check-field-label";
+    label.textContent = meta.label;
+
+    const input = document.createElement("textarea");
+    input.className = "text-input";
+    input.rows = fieldKey === "importance" ? 4 : 3;
+    input.placeholder = `Type your answer for ${meta.label}...`;
+    input.dataset.testField = fieldKey;
+    input.value = typeof testState.drafts[fieldKey] === "string" ? testState.drafts[fieldKey] : "";
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+    testInputs.appendChild(wrapper);
+  });
+
+  if (testImage) {
+    testImage.src = getItemImage(item.id);
+    testImage.alt = `Test prompt image for ${item.title}`;
+  }
+}
+
+function revealCustomTestAnswer() {
+  if (!testState.running) return;
+  const itemId = testState.itemIds[testState.index];
+  const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
+  if (!item || !testAnswer) return;
+
+  if (testState.revealed) {
+    testState.revealed = false;
+    testAnswer.classList.add("hidden");
+    testReveal.textContent = "Reveal key";
+    saveState();
+    return;
+  }
+
+  const answerLines = testState.fieldKeys.map((fieldKey) => {
+    const meta = CHECK_FIELDS.find((entry) => entry.key === fieldKey);
+    const label = meta ? meta.label : fieldKey;
+    return `<strong>${label}:</strong> ${getFieldValue(item, fieldKey)}`;
+  });
+  testAnswer.innerHTML = answerLines.join("<br>");
+  testAnswer.classList.remove("hidden");
+  testReveal.textContent = "Hide key";
+  testState.revealed = true;
+  saveState();
+}
+
+function submitCustomTestResult(passed, triggerElement = null) {
+  if (!testState.running) return;
+  const itemId = testState.itemIds[testState.index];
+  if (!isValidTestItemId(itemId)) return;
+
+  if (passed) {
+    launchQuickConfetti(triggerElement);
+    rateItem(itemId, "good", { deferRender: true });
+    testState.correctCount += 1;
+  } else {
+    rateItem(itemId, "again", { deferRender: true });
+  }
+
+  testState.index += 1;
+  testState.drafts = {};
+  testState.revealed = false;
+  if (testState.index >= testState.itemIds.length) {
+    testState.running = false;
+  }
+
+  saveState();
+  renderCustomTestMode();
+}
+
+function renderCustomTestMode() {
+  renderTestFieldOptions();
+  if (!testRun || !testProgress || !testPrompt || !testStatus || !testAnswer || !testReveal) return;
+  if (testStart) {
+    testStart.textContent = testState.running ? "Restart test on all images" : "Start test on all images";
+  }
+
+  const total = testState.itemIds.length || STUDY_ITEMS.length;
+  if (!testState.running) {
+    testRun.classList.remove("hidden");
+    const completed = total > 0 && testState.index >= total;
+    if (completed) {
+      testProgress.textContent = `Completed ${total} of ${total} cards`;
+      testPrompt.textContent = "Custom test complete";
+      testStatus.textContent = `Score: ${testState.correctCount} / ${total}`;
+      testInputs.innerHTML = "";
+      testAnswer.classList.add("hidden");
+      testAnswer.textContent = "";
+      if (testImage) {
+        testImage.src = "";
+        testImage.alt = "Custom test complete";
+      }
+      testReveal.textContent = "Reveal key";
+      testReveal.disabled = true;
+      if (testFail) testFail.disabled = true;
+      if (testPass) testPass.disabled = true;
+      return;
+    }
+
+    testProgress.textContent = "Ready to start";
+    testPrompt.textContent = "Choose fields and start your test across all images.";
+    testStatus.textContent = "";
+    testInputs.innerHTML = "";
+    testAnswer.classList.add("hidden");
+    testAnswer.textContent = "";
+    if (testImage) {
+      testImage.src = "";
+      testImage.alt = "Custom test prompt";
+    }
+    testReveal.textContent = "Reveal key";
+    testReveal.disabled = true;
+    if (testFail) testFail.disabled = true;
+    if (testPass) testPass.disabled = true;
+    return;
+  }
+
+  const itemId = testState.itemIds[testState.index];
+  const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
+  if (!item) {
+    testState.index += 1;
+    if (testState.index >= testState.itemIds.length) {
+      testState.running = false;
+    }
+    saveState();
+    renderCustomTestMode();
+    return;
+  }
+
+  testRun.classList.remove("hidden");
+  testProgress.textContent = `Card ${testState.index + 1} of ${testState.itemIds.length}`;
+  testPrompt.textContent = "Identify this artwork";
+  testStatus.textContent = "";
+  testReveal.disabled = false;
+  if (testFail) testFail.disabled = false;
+  if (testPass) testPass.disabled = false;
+  testReveal.textContent = testState.revealed ? "Hide key" : "Reveal key";
+  renderCustomTestInputs(item);
+
+  if (testState.revealed) {
+    const answerLines = testState.fieldKeys.map((fieldKey) => {
+      const meta = CHECK_FIELDS.find((entry) => entry.key === fieldKey);
+      const label = meta ? meta.label : fieldKey;
+      return `<strong>${label}:</strong> ${getFieldValue(item, fieldKey)}`;
+    });
+    testAnswer.innerHTML = answerLines.join("<br>");
+    testAnswer.classList.remove("hidden");
+  } else {
+    testAnswer.classList.add("hidden");
+    testAnswer.textContent = "";
+  }
 }
 
 function buildDefaultSessionState() {
@@ -1339,6 +1645,13 @@ function buildDefaultSessionState() {
     teachCheckRevealed: false,
     flashItemId: null,
     flashRevealed: false,
+    testRunning: false,
+    testIndex: 0,
+    testItemIds: [],
+    testFieldKeys: [],
+    testDrafts: {},
+    testRevealed: false,
+    testCorrectCount: 0,
     dbItemId: null,
     dbEditing: false,
   };
@@ -1376,6 +1689,15 @@ function syncSessionToState() {
     teachCheckRevealed: Boolean(teachState.checking && teachState.checkRevealed),
     flashItemId: isValidItemId(flashState.itemId) ? flashState.itemId : null,
     flashRevealed: Boolean(flashState.revealed),
+    testRunning: Boolean(testState.running),
+    testIndex: Math.max(0, Number.isFinite(testState.index) ? testState.index : 0),
+    testItemIds: Array.isArray(testState.itemIds)
+      ? testState.itemIds.filter((itemId) => isValidTestItemId(itemId))
+      : [],
+    testFieldKeys: sanitizeTestFieldKeys(testState.fieldKeys),
+    testDrafts: { ...(testState.drafts || {}) },
+    testRevealed: Boolean(testState.revealed),
+    testCorrectCount: Math.max(0, Number.isFinite(testState.correctCount) ? testState.correctCount : 0),
     dbItemId: isValidItemId(dbState.itemId) ? dbState.itemId : null,
     dbEditing: Boolean(dbState.editing),
   };
@@ -1408,6 +1730,28 @@ function restoreSessionFromState() {
   teachState.checkRevealed = Boolean(session.teachCheckRevealed) && teachState.checking;
   flashState.itemId = isValidItemId(session.flashItemId) ? session.flashItemId : null;
   flashState.revealed = Boolean(session.flashRevealed);
+  testState.itemIds = Array.isArray(session.testItemIds)
+    ? session.testItemIds.filter((itemId) => isValidTestItemId(itemId))
+    : [];
+  if (!testState.itemIds.length) {
+    testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  }
+  testState.fieldKeys = sanitizeTestFieldKeys(session.testFieldKeys);
+  if (!testState.fieldKeys.length) {
+    testState.fieldKeys = defaultTestFieldKeys();
+  }
+  const safeIndex = Number.isFinite(session.testIndex) ? session.testIndex : 0;
+  testState.index = Math.max(0, Math.min(safeIndex, testState.itemIds.length));
+  testState.running = Boolean(session.testRunning) && testState.index < testState.itemIds.length;
+  testState.drafts = {};
+  if (session.testDrafts && typeof session.testDrafts === "object") {
+    Object.entries(session.testDrafts).forEach(([key, value]) => {
+      if (!testState.fieldKeys.includes(key) || typeof value !== "string") return;
+      testState.drafts[key] = value;
+    });
+  }
+  testState.revealed = Boolean(session.testRevealed) && testState.running;
+  testState.correctCount = Math.max(0, Math.min(Number.isFinite(session.testCorrectCount) ? session.testCorrectCount : 0, testState.index));
   dbState.itemId = isValidItemId(session.dbItemId) ? session.dbItemId : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
   dbState.editing = Boolean(session.dbEditing) && isValidItemId(dbState.itemId);
 }
@@ -1418,6 +1762,9 @@ function updateLiveViewsForItem(itemId) {
   }
   if (flashState.itemId === itemId) {
     renderFlashCard();
+  }
+  if (testState.running && testState.itemIds[testState.index] === itemId) {
+    renderCustomTestMode();
   }
 }
 
@@ -1818,12 +2165,52 @@ function init() {
     });
   });
 
-  flashReveal.addEventListener("click", toggleFlashReveal);
+  if (flashCardFlip) {
+    flashCardFlip.addEventListener("click", toggleFlashReveal);
+  }
   document.querySelectorAll("[data-flash-grade]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       rateFlash(flashState.itemId, e.currentTarget.dataset.flashGrade);
     });
   });
+
+  if (testStart) {
+    testStart.addEventListener("click", beginCustomTest);
+  }
+  if (testReset) {
+    testReset.addEventListener("click", resetCustomTest);
+  }
+  if (testFieldOptions) {
+    testFieldOptions.addEventListener("change", () => {
+      const selected = sanitizeTestFieldKeys(selectedTestFieldKeysFromUi());
+      testState.fieldKeys = selected.length ? selected : [];
+      if (testSetupStatus) testSetupStatus.textContent = "";
+      saveState();
+    });
+  }
+  if (testInputs) {
+    testInputs.addEventListener("input", (event) => {
+      const target = event.target;
+      if (!target || target.tagName !== "TEXTAREA") return;
+      const field = target.dataset.testField;
+      if (!field) return;
+      testState.drafts[field] = target.value || "";
+      saveState();
+    });
+  }
+  if (testReveal) {
+    testReveal.addEventListener("click", revealCustomTestAnswer);
+  }
+  if (testFail) {
+    testFail.addEventListener("click", (e) => {
+      submitCustomTestResult(false, e.currentTarget);
+    });
+  }
+  if (testPass) {
+    testPass.addEventListener("click", (e) => {
+      submitCustomTestResult(true, e.currentTarget);
+    });
+  }
 
   teachCheckReveal.addEventListener("click", revealTeachCheckAnswer);
   if (teachCheckFields) {

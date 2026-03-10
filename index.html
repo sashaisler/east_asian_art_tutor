@@ -17,6 +17,7 @@
     <nav class="mode-nav" id="modeNav">
       <button class="mode-tab active" data-mode="teach">Teaching mode</button>
       <button class="mode-tab" data-mode="flash">Flashcards</button>
+      <button class="mode-tab" data-mode="test">Custom test</button>
       <button class="mode-tab" data-mode="quiz">Quiz tests</button>
       <button class="mode-tab" data-mode="db">Database</button>
     </nav>
@@ -92,18 +93,60 @@
             <p>Use flashcards for quick recall. Hard cards are scheduled more often.</p>
           </header>
           <div id="flashCard" class="content-card">
-            <img id="flashImage" class="item-image" alt="Artwork preview" />
-            <h3 id="flashTitle">No card</h3>
-            <p id="flashSub">Press <strong>Reveal answer</strong> to check details.</p>
-
-            <div id="flashFacts" class="fact-list hidden"></div>
-            <div class="button-row">
-              <button id="flashReveal" class="primary">Reveal answer</button>
-            </div>
+            <p id="flashSub">Tap the card to flip it.</p>
+            <button id="flashCardFlip" class="flash-card-btn" type="button" aria-label="Flip flashcard">
+              <div id="flashCardInner" class="flash-card-inner">
+                <div class="flash-face flash-front">
+                  <img id="flashFrontImage" class="item-image" alt="Artwork preview" />
+                  <p class="flash-face-hint">Tap to flip</p>
+                </div>
+                <div class="flash-face flash-back">
+                  <h3 id="flashBackTitle">No card</h3>
+                  <div id="flashBackFacts" class="fact-list"></div>
+                  <p class="flash-face-hint">Tap to flip back</p>
+                </div>
+              </div>
+            </button>
             <div id="flashRating" class="button-row hidden">
               <button data-flash-grade="again" class="grade bad">Again</button>
               <button data-flash-grade="good" class="grade good">Good</button>
               <button data-flash-grade="easy" class="grade easy">Easy</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="test" class="mode-panel">
+        <article class="study-card">
+          <header>
+            <h2>Custom test</h2>
+            <p>Choose exactly which fields you want to be tested on, then type answers for every image in the deck.</p>
+          </header>
+          <div class="content-card">
+            <div id="testSetup" class="test-setup">
+              <p class="fact-line">Pick the fields to test:</p>
+              <div id="testFieldOptions" class="test-field-grid"></div>
+              <div class="button-row">
+                <button id="testStart" class="primary">Start test on all images</button>
+                <button id="testReset" class="grade bad">Reset test</button>
+              </div>
+              <p id="testSetupStatus" class="feedback"></p>
+            </div>
+
+            <div id="testRun" class="hidden">
+              <p id="testProgress" class="fact-line"></p>
+              <img id="testImage" class="item-image" alt="Test image prompt" />
+              <h3 id="testPrompt">Identify this artwork</h3>
+              <div id="testInputs" class="check-fields"></div>
+              <div class="button-row">
+                <button id="testReveal" class="grade easy">Reveal key</button>
+              </div>
+              <p id="testAnswer" class="feedback hidden"></p>
+              <div class="button-row">
+                <button id="testFail" class="grade bad">Need more practice</button>
+                <button id="testPass" class="grade good">I got it right</button>
+              </div>
+              <p id="testStatus" class="feedback"></p>
             </div>
           </div>
         </article>

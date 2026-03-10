@@ -202,6 +202,72 @@ h1 {
   display: block;
 }
 
+.flash-card-btn {
+  width: min(100%, 440px);
+  margin: 8px auto 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+.flash-card-btn:focus-visible {
+  outline: 3px solid #2f5f8a;
+  outline-offset: 4px;
+}
+
+.flash-card-inner {
+  position: relative;
+  min-height: 510px;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flash-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flash-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #e1cfb1;
+  border-radius: 16px;
+  background: #fff9ef;
+  box-shadow: 0 12px 22px rgba(72, 42, 16, 0.12);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: 14px;
+  display: grid;
+  align-content: start;
+}
+
+.flash-front {
+  justify-items: center;
+}
+
+.flash-front .item-image {
+  margin: 4px 0 0;
+}
+
+.flash-back {
+  transform: rotateY(180deg);
+  overflow: auto;
+}
+
+.flash-back .fact-list {
+  margin: 10px 0 0;
+}
+
+.flash-face-hint {
+  margin: 10px 0 0;
+  color: #6b5e4d;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .fact-line {
   margin: 0;
   padding: 10px 12px;
@@ -231,6 +297,33 @@ h1 {
 .check-fields {
   display: grid;
   gap: 10px;
+}
+
+.test-setup {
+  display: grid;
+  gap: 10px;
+}
+
+.test-field-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.test-field-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e1cfb1;
+  border-radius: 10px;
+  background: #fff7e9;
+  font-weight: 700;
+  color: #3f3324;
+}
+
+.test-field-option input {
+  accent-color: #2f5f8a;
 }
 
 .check-field {
@@ -415,6 +508,10 @@ button:hover {
 
   .db-layout {
     grid-template-columns: 1fr;
+  }
+
+  .flash-card-inner {
+    min-height: 470px;
   }
 
   .app-shell {
