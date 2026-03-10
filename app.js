@@ -509,6 +509,12 @@ const dbImageInput = document.getElementById("dbImageInput");
 const dbPickImage = document.getElementById("dbPickImage");
 const dbResetImage = document.getElementById("dbResetImage");
 
+const FLASH_THUMB_PLACEHOLDER = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+const FLASH_THUMB_MAX_SIDE = 240;
+const flashThumbCache = {};
+const flashThumbPromiseCache = {};
+let flashThumbObserver = null;
+
 function buildDefaultCardState() {
   return {
     box: 1,
@@ -1327,11 +1333,111 @@ function startFlashSession() {
     flashState.itemId = STUDY_ITEMS[0].id;
   }
   renderFlashGallery();
+  setFlashActiveThumbnail(flashState.itemId, { scroll: true });
   renderFlashViewer();
+}
+
+function createFlashThumbnailDataUrl(source, maxSide = FLASH_THUMB_MAX_SIDE) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      const ratio = Math.min(1, maxSide / Math.max(image.width || 1, image.height || 1));
+      const width = Math.max(1, Math.round((image.width || 1) * ratio));
+      const height = Math.max(1, Math.round((image.height || 1) * ratio));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(source);
+        return;
+      }
+      ctx.fillStyle = "#fdf6e9";
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(image, 0, 0, width, height);
+      resolve(canvas.toDataURL("image/jpeg", 0.76));
+    };
+    image.onerror = () => resolve(source);
+    image.src = source;
+  });
+}
+
+function ensureFlashThumbObserver() {
+  if (flashThumbObserver || !flashBrowse || typeof IntersectionObserver === "undefined") return;
+  flashThumbObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const image = entry.target;
+        loadFlashThumbForImage(image);
+        observer.unobserve(image);
+      });
+    },
+    {
+      root: flashBrowse,
+      rootMargin: "220px 0px",
+      threshold: 0.01,
+    },
+  );
+}
+
+function loadFlashThumbForImage(image) {
+  if (!image || image.dataset.loaded === "true") return;
+  const itemId = Number(image.dataset.itemId);
+  if (!isValidItemId(itemId)) return;
+  image.dataset.loaded = "true";
+
+  if (!customImageMap[itemId]) {
+    image.src = getItemImage(itemId);
+    return;
+  }
+
+  if (flashThumbCache[itemId]) {
+    image.src = flashThumbCache[itemId];
+    return;
+  }
+
+  if (!flashThumbPromiseCache[itemId]) {
+    flashThumbPromiseCache[itemId] = createFlashThumbnailDataUrl(customImageMap[itemId]).then((thumb) => {
+      flashThumbCache[itemId] = thumb || customImageMap[itemId];
+      return flashThumbCache[itemId];
+    });
+  }
+  flashThumbPromiseCache[itemId].then((thumb) => {
+    image.src = thumb || customImageMap[itemId];
+  });
+}
+
+function queueFlashThumbLoad(image) {
+  if (!image) return;
+  if (flashThumbObserver) {
+    flashThumbObserver.observe(image);
+    return;
+  }
+  loadFlashThumbForImage(image);
+}
+
+function setFlashActiveThumbnail(itemId, options = {}) {
+  if (!flashBrowse) return;
+  const shouldScroll = Boolean(options.scroll);
+  const activeButton = flashBrowse.querySelector(`[data-flash-item="${itemId}"]`);
+  flashBrowse.querySelectorAll("[data-flash-item]").forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.flashItem) === itemId);
+  });
+  if (!activeButton) return;
+  const activeImage = activeButton.querySelector("img[data-item-id]");
+  if (activeImage) loadFlashThumbForImage(activeImage);
+  if (shouldScroll) {
+    activeButton.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }
 }
 
 function renderFlashGallery() {
   if (!flashBrowse) return;
+  ensureFlashThumbObserver();
+  if (flashThumbObserver) {
+    flashThumbObserver.disconnect();
+  }
   flashBrowse.innerHTML = "";
   if (flashSub) {
     flashSub.textContent = `Browse all ${STUDY_ITEMS.length} cards below, or use ←/→ in the viewer.`;
@@ -1347,11 +1453,17 @@ function renderFlashGallery() {
 
     const image = document.createElement("img");
     image.className = "flash-browse-image";
-    image.src = getItemImage(item.id);
+    image.src = FLASH_THUMB_PLACEHOLDER;
+    image.loading = "lazy";
+    image.decoding = "async";
+    image.fetchPriority = "low";
+    image.dataset.itemId = String(item.id);
+    image.dataset.loaded = "false";
     image.alt = `Artwork image for ${item.title}`;
 
     card.appendChild(image);
     flashBrowse.appendChild(card);
+    queueFlashThumbLoad(image);
   });
 }
 
@@ -1391,7 +1503,7 @@ function selectFlashItem(itemId) {
   flashState.itemId = itemId;
   flashState.revealed = false;
   saveState();
-  renderFlashGallery();
+  setFlashActiveThumbnail(itemId, { scroll: true });
   renderFlashViewer();
 }
 
@@ -1785,6 +1897,8 @@ function restoreSessionFromState() {
 }
 
 function updateLiveViewsForItem(itemId) {
+  delete flashThumbCache[itemId];
+  delete flashThumbPromiseCache[itemId];
   if (teachState.itemId === itemId) {
     renderTeachCard();
   }
