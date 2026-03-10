@@ -73,16 +73,16 @@ const STUDY_ITEMS = [
   },
   {
     id: 9,
-    title: 'Bianhu flask, bronze inlaid with silver',
+    title: 'Bianhu vessel, bronze inlaid with silver',
     date: 'Warring States 400 - 300 BCE',
     period: '',
     medium: 'Bronze with silver',
     maker: 'Eastern Zhou dynasty',
-    importance: 'Shows advanced inlay technique; flattened shape may imitate nomadic leather water skins.',
+    importance: 'Shows advanced inlay technique; flattened shape, not raised texture, but still geometric designs and animals.',
   },
   {
     id: 10,
-    title: 'Bianzhong (bell set of Marquis Yi of Zeng)',
+    title: 'Bell set of Marquis Yi of Zeng',
     date: '433 BCE',
     period: 'Warring States period',
     medium: 'Bronze bells with lacquered wood frame',
@@ -145,30 +145,30 @@ const STUDY_ITEMS = [
   },
   {
     id: 17,
-    title: 'Han Dynasty Yangling terracotta tomb attendants of Emperor Jing’s tomb',
-    date: '141–87 BCE',
+    title: 'Han dynasty funerary figurines, Xian',
+    date: '200-100 BCE',
     period: 'Western Han dynasty',
-    medium: 'Terracotta (painted clay, clothing originally added separately)',
+    medium: 'Terracotta',
     maker: 'Han dynasty, China',
-    importance: 'Show a shift away from massive Qin tomb sculpture toward a more human-scale Han funerary world.',
+    importance: 'Show a shift away from massive Qin tomb sculpture toward a more human-scale Han funerary world. Idea of terracotta tomb army spreading to other tombs. Individualistic unique faces.',
   },
   {
     id: 18,
     title: 'Haniwa warrior figure',
-    date: '6th century CE',
+    date: '400-600 CE',
     period: 'Kofun period',
-    medium: 'Ceramic (earthenware)',
-    maker: 'Japan',
-    importance: 'Realistically detailed kofun tomb sculpture; shows militarization and elite burial practice in early Japan.',
+    medium: 'Ceramic',
+    maker: 'Kofun, Japan',
+    importance: 'Piecemeal construction, all using a coil method. Significant that it isn\'t a vessel.',
   },
   {
     id: 19,
-    title: 'Flying Horse of Gansu',
+    title: 'Flying Horse on a bird',
     date: '2nd century CE',
     period: 'Eastern Han dynasty',
     medium: 'Bronze',
-    maker: 'Han dynasty, China',
-    importance: 'Famous for dynamic balance and vivid animal portraiture; tied in the sheet to the “heavenly horse.”',
+    maker: 'eastern Han culture, China, tomb in Gansu',
+    importance: 'Ability to capture movement, very dynamic',
   },
   {
     id: 20,
@@ -208,10 +208,10 @@ const STUDY_ITEMS = [
   },
   {
     id: 24,
-    title: 'Colossal Buddha with attendant, Yungang Grottoes',
+    title: 'Buddha with attendant, Yungang Grottoes, cave 20',
     date: '470–480 CE',
     period: 'Northern Wei dynasty',
-    medium: 'Sandstone (rock-cut sculpture)',
+    medium: 'Sandstone',
     maker: 'Northern Wei dynasty, China',
     importance: 'Early monumental Buddhist cave sculpture in China; shows Central Asian and Gandharan influence coming through the Silk Road.',
   },
@@ -244,25 +244,25 @@ const STUDY_ITEMS = [
   },
   {
     id: 28,
-    title: 'Seven Sages of the Bamboo Grove (with Rong Qiqi)',
-    date: '5th century CE',
+    title: 'Seven Sages of the Bamboo Grove, Nanjing China',
+    date: '400 CE',
     period: 'Southern Dynasties period',
-    medium: 'Drawing and rubbing of brick mural relief',
+    medium: 'Molded brick',
     maker: 'Southern Dynasties, China',
     importance: 'Celebrates reclusion, spontaneity, and Daoist-style withdrawal from court life.',
   },
   {
     id: 29,
-    title: 'Stone relief of a horse from the Six Steeds of Zhao Mausoleum (Zhaoling), tomb of Emperor Taizong.',
+    title: 'Horse and groom relief, Tomb of Emperor Taizong',
     date: 'Tang 636 - 649 CE',
     period: '',
-    medium: 'stone relief (carved limestone)',
-    maker: 'Court sculptors under Emperor Taizong (designed by the court artist Yan Liben)',
-    importance: 'This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty. The sculptures reflect Tang ideals of imperial power, military achievement, and realism in animal depiction, and were originally installed at Taizong’s mausoleum complex. Earliest and most famous funerary sculpture example from Tang The style is plain, powerful, and vigorous. The modeling is relatively flat, suggesting influence from linear painting traditions. These sculptures were placed along the “spirit way” (sacred path) leading to the emperor’s tomb.',
+    medium: 'Stone relief',
+    maker: 'Court sculptors under Emperor Taizong',
+    importance: 'This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty.',
   },
   {
     id: 30,
-    title: 'Fengxiansi, Longmen Grottoes, Luoyang',
+    title: 'Buddha Statue, Longmen Grottoes, Empress Wu',
     date: '675 CE',
     period: 'Tang dynasty',
     medium: 'Limestone (rock-cut sculpture)',
@@ -271,7 +271,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 31,
-    title: 'Seated Buddha, Seokguram Grotto',
+    title: 'Seated Buddha, Seokguram Grotto, Gyeongju',
     date: '751 CE',
     period: 'Unified Silla period',
     medium: 'Granite',
@@ -298,25 +298,25 @@ const STUDY_ITEMS = [
   },
   {
     id: 34,
-    title: 'Lady under a tree',
+    title: 'Lady under a tree, Shosoin',
     date: 'Nara 750 CE',
     period: '',
     medium: 'Ink and color on paper',
-    maker: 'unknown japanese artist during the nara period',
-    importance: 'even though the painting depicts a Tang Dynasty women, it is widely known as a japanese painting. this shows the influence China had on the japanese arts at the time.',
+    maker: 'Japanese artist during the nara period',
+    importance: 'Japanese made, imitating Chinese paintings, Tang woman, Tang beauty.',
   },
   {
     id: 35,
-    title: 'Sogdian Brocade Banner',
-    date: 'Tang early 700 CE',
+    title: 'Sogdian Brocaded Silk Banner Lion Hunting',
+    date: 'Tang Dynasty 700 CE',
     period: '',
-    medium: 'Silk textile (weft-faced compound twill)',
-    maker: 'Sogdian textile workshop in Tang China (often associated with the artisan He Chou)',
-    importance: 'Shows luxury motifs traveling across East Asia through trade, migration, and adaptation.',
+    medium: 'Sogdian Brocaded Silk',
+    maker: 'Made in china, Sogdian',
+    importance: 'Gift from China to Japan. Shows luxury motifs traveling across East Asia through trade, migration, and adaptation.',
   },
   {
     id: 36,
-    title: 'Shaka Triad',
+    title: 'Shaka Triad, Horyuji',
     date: 'Asuka 623 CE',
     period: '',
     medium: 'Bronze',
@@ -325,7 +325,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 37,
-    title: 'Shashin Shiko',
+    title: 'Hungry Tigris Jataka',
     date: 'Asuka 650 CE',
     period: '',
     medium: 'Lacquer and pigment on wood',
@@ -565,12 +565,124 @@ function applyContentCorrections() {
   if (marquisTomb && marquisTomb.importance === "Shows elaborate tomb engineering and the creation of a sealed burial environment filled with elite objects.") {
     marquisTomb.importance = "advanced Han dynasty tomb engineering that created sealed environment for near perfect preservation";
   }
-  const horseRelief = STUDY_ITEMS.find((item) => item.id === 29);
-  if (horseRelief && horseRelief.title === "Horse and groom relief (Northern Wei tomb relief)") {
-    horseRelief.title = "Stone relief of a horse from the Six Steeds of Zhao Mausoleum (Zhaoling), tomb of Emperor Taizong.";
+  const bianhu = STUDY_ITEMS.find((item) => item.id === 9);
+  if (bianhu && bianhu.title === "Bianhu flask, bronze inlaid with silver") {
+    bianhu.title = "Bianhu vessel, bronze inlaid with silver";
   }
-  if (horseRelief && horseRelief.medium === "Stone relief") {
-    horseRelief.medium = "stone relief (carved limestone)";
+  if (bianhu && bianhu.importance === "Shows advanced inlay technique; flattened shape may imitate nomadic leather water skins.") {
+    bianhu.importance = "Shows advanced inlay technique; flattened shape, not raised texture, but still geometric designs and animals.";
+  }
+  const bellSet = STUDY_ITEMS.find((item) => item.id === 10);
+  if (bellSet && bellSet.title === "Bianzhong (bell set of Marquis Yi of Zeng)") {
+    bellSet.title = "Bell set of Marquis Yi of Zeng";
+  }
+  const hanFigurines = STUDY_ITEMS.find((item) => item.id === 17);
+  if (hanFigurines && hanFigurines.title === "Han Dynasty Yangling terracotta tomb attendants of Emperor Jing’s tomb") {
+    hanFigurines.title = "Han dynasty funerary figurines, Xian";
+  }
+  if (hanFigurines && hanFigurines.date === "141–87 BCE") {
+    hanFigurines.date = "200-100 BCE";
+  }
+  if (hanFigurines && hanFigurines.medium === "Terracotta (painted clay, clothing originally added separately)") {
+    hanFigurines.medium = "Terracotta";
+  }
+  if (hanFigurines && hanFigurines.importance === "Show a shift away from massive Qin tomb sculpture toward a more human-scale Han funerary world.") {
+    hanFigurines.importance = "Show a shift away from massive Qin tomb sculpture toward a more human-scale Han funerary world. Idea of terracotta tomb army spreading to other tombs. Individualistic unique faces.";
+  }
+  const haniwa = STUDY_ITEMS.find((item) => item.id === 18);
+  if (haniwa && haniwa.date === "6th century CE") {
+    haniwa.date = "400-600 CE";
+  }
+  if (haniwa && haniwa.medium === "Ceramic (earthenware)") {
+    haniwa.medium = "Ceramic";
+  }
+  if (haniwa && haniwa.maker === "Japan") {
+    haniwa.maker = "Kofun, Japan";
+  }
+  if (haniwa && haniwa.importance === "Realistically detailed kofun tomb sculpture; shows militarization and elite burial practice in early Japan.") {
+    haniwa.importance = "Piecemeal construction, all using a coil method. Significant that it isn't a vessel.";
+  }
+  const flyingHorse = STUDY_ITEMS.find((item) => item.id === 19);
+  if (flyingHorse && flyingHorse.title === "Flying Horse of Gansu") {
+    flyingHorse.title = "Flying Horse on a bird";
+  }
+  if (flyingHorse && flyingHorse.maker === "Han dynasty, China") {
+    flyingHorse.maker = "eastern Han culture, China, tomb in Gansu";
+  }
+  if (flyingHorse && flyingHorse.importance === "Famous for dynamic balance and vivid animal portraiture; tied in the sheet to the “heavenly horse.”") {
+    flyingHorse.importance = "Ability to capture movement, very dynamic";
+  }
+  const yungang = STUDY_ITEMS.find((item) => item.id === 24);
+  if (yungang && (yungang.title === "Colossal Buddha with attendant, Yungang Grottoes" || yungang.title === "Shakyamuni Buddha with attendant, Yungang Grottoes")) {
+    yungang.title = "Buddha with attendant, Yungang Grottoes, cave 20";
+  }
+  if (yungang && yungang.medium === "Sandstone (rock-cut sculpture)") {
+    yungang.medium = "Sandstone";
+  }
+  const sevenSages = STUDY_ITEMS.find((item) => item.id === 28);
+  if (sevenSages && sevenSages.title === "Seven Sages of the Bamboo Grove (with Rong Qiqi)") {
+    sevenSages.title = "Seven Sages of the Bamboo Grove, Nanjing China";
+  }
+  if (sevenSages && sevenSages.date === "5th century CE") {
+    sevenSages.date = "400 CE";
+  }
+  if (sevenSages && sevenSages.medium === "Drawing and rubbing of brick mural relief") {
+    sevenSages.medium = "Molded brick";
+  }
+  const horseRelief = STUDY_ITEMS.find((item) => item.id === 29);
+  if (horseRelief && (horseRelief.title === "Horse and groom relief (Northern Wei tomb relief)" || horseRelief.title === "Stone relief of a horse from the Six Steeds of Zhao Mausoleum (Zhaoling), tomb of Emperor Taizong.")) {
+    horseRelief.title = "Horse and groom relief, Tomb of Emperor Taizong";
+  }
+  if (horseRelief && horseRelief.medium === "stone relief (carved limestone)") {
+    horseRelief.medium = "Stone relief";
+  }
+  if (horseRelief && horseRelief.maker === "Court sculptors under Emperor Taizong (designed by the court artist Yan Liben)") {
+    horseRelief.maker = "Court sculptors under Emperor Taizong";
+  }
+  if (horseRelief && horseRelief.importance === "This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty. The sculptures reflect Tang ideals of imperial power, military achievement, and realism in animal depiction, and were originally installed at Taizong’s mausoleum complex. Earliest and most famous funerary sculpture example from Tang The style is plain, powerful, and vigorous. The modeling is relatively flat, suggesting influence from linear painting traditions. These sculptures were placed along the “spirit way” (sacred path) leading to the emperor’s tomb.") {
+    horseRelief.importance = "This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty.";
+  }
+  const longmen = STUDY_ITEMS.find((item) => item.id === 30);
+  if (longmen && longmen.title === "Fengxiansi, Longmen Grottoes, Luoyang") {
+    longmen.title = "Buddha Statue, Longmen Grottoes, Empress Wu";
+  }
+  const seokguram = STUDY_ITEMS.find((item) => item.id === 31);
+  if (seokguram && seokguram.title === "Seated Buddha, Seokguram Grotto") {
+    seokguram.title = "Seated Buddha, Seokguram Grotto, Gyeongju";
+  }
+  const ladyShosoin = STUDY_ITEMS.find((item) => item.id === 34);
+  if (ladyShosoin && ladyShosoin.title === "Lady under a tree") {
+    ladyShosoin.title = "Lady under a tree, Shosoin";
+  }
+  if (ladyShosoin && ladyShosoin.maker === "unknown japanese artist during the nara period") {
+    ladyShosoin.maker = "Japanese artist during the nara period";
+  }
+  if (ladyShosoin && ladyShosoin.importance === "even though the painting depicts a Tang Dynasty women, it is widely known as a japanese painting. this shows the influence China had on the japanese arts at the time.") {
+    ladyShosoin.importance = "Japanese made, imitating Chinese paintings, Tang woman, Tang beauty.";
+  }
+  const sogdianBanner = STUDY_ITEMS.find((item) => item.id === 35);
+  if (sogdianBanner && sogdianBanner.title === "Sogdian Brocade Banner") {
+    sogdianBanner.title = "Sogdian Brocaded Silk Banner Lion Hunting";
+  }
+  if (sogdianBanner && sogdianBanner.date === "Tang early 700 CE") {
+    sogdianBanner.date = "Tang Dynasty 700 CE";
+  }
+  if (sogdianBanner && sogdianBanner.medium === "Silk textile (weft-faced compound twill)") {
+    sogdianBanner.medium = "Sogdian Brocaded Silk";
+  }
+  if (sogdianBanner && sogdianBanner.maker === "Sogdian textile workshop in Tang China (often associated with the artisan He Chou)") {
+    sogdianBanner.maker = "Made in china, Sogdian";
+  }
+  if (sogdianBanner && sogdianBanner.importance === "Shows luxury motifs traveling across East Asia through trade, migration, and adaptation.") {
+    sogdianBanner.importance = "Gift from China to Japan. Shows luxury motifs traveling across East Asia through trade, migration, and adaptation.";
+  }
+  const shakaTriad = STUDY_ITEMS.find((item) => item.id === 36);
+  if (shakaTriad && shakaTriad.title === "Shaka Triad") {
+    shakaTriad.title = "Shaka Triad, Horyuji";
+  }
+  const hungryTigris = STUDY_ITEMS.find((item) => item.id === 37);
+  if (hungryTigris && hungryTigris.title === "Shashin Shiko") {
+    hungryTigris.title = "Hungry Tigris Jataka";
   }
 }
 
@@ -786,7 +898,9 @@ function selectNextTeachItem(options = {}) {
   }
 
   teachState.itemId = nextItem ? nextItem.id : null;
-  if (teachState.itemId && state.cards[teachState.itemId] && state.cards[teachState.itemId].taught) {
+  const nextCardState = teachState.itemId ? state.cards[teachState.itemId] : null;
+  const isAlreadyTaught = Boolean(nextCardState && (nextCardState.taught || nextCardState.attempts > 0));
+  if (isAlreadyTaught) {
     teachState.step = revealSequence.length;
   } else {
     teachState.step = 0;
@@ -802,6 +916,10 @@ function renderTeachCard() {
   }
 
   const cardState = state.cards[item.id];
+  if (cardState && cardState.attempts > 0 && !cardState.taught) {
+    cardState.taught = true;
+    saveState();
+  }
   if (cardState && cardState.taught && teachState.step < revealSequence.length) {
     teachState.step = revealSequence.length;
   }
