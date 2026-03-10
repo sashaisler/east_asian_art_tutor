@@ -208,7 +208,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 24,
-    title: 'Shakyamuni Buddha with attendant, Yungang Grottoes',
+    title: 'Colossal Buddha with attendant, Yungang Grottoes',
     date: '470–480 CE',
     period: 'Northern Wei dynasty',
     medium: 'Sandstone (rock-cut sculpture)',
