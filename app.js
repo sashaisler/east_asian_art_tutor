@@ -226,7 +226,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 26,
-    title: 'Gilt-bronze incense burner (Baekje incense burner)',
+    title: 'Gilt-bronze Incense Burner of Baekje',
     date: '600–700 CE',
     period: 'Three Kingdoms period',
     medium: 'Bronze',
@@ -253,10 +253,10 @@ const STUDY_ITEMS = [
   },
   {
     id: 29,
-    title: 'Horse and groom relief (Northern Wei tomb relief)',
+    title: 'Stone relief of a horse from the Six Steeds of Zhao Mausoleum (Zhaoling), tomb of Emperor Taizong.',
     date: 'Tang 636 - 649 CE',
     period: '',
-    medium: 'Stone relief',
+    medium: 'stone relief (carved limestone)',
     maker: 'Court sculptors under Emperor Taizong (designed by the court artist Yan Liben)',
     importance: 'This relief is one of the famous Six Steeds of Emperor Taizong, commemorating the horses that helped him secure victory in battles leading to the founding of the Tang dynasty. The sculptures reflect Tang ideals of imperial power, military achievement, and realism in animal depiction, and were originally installed at Taizong’s mausoleum complex. Earliest and most famous funerary sculpture example from Tang The style is plain, powerful, and vigorous. The modeling is relatively flat, suggesting influence from linear painting traditions. These sculptures were placed along the “spirit way” (sacred path) leading to the emperor’s tomb.',
   },
@@ -565,6 +565,13 @@ function applyContentCorrections() {
   if (marquisTomb && marquisTomb.importance === "Shows elaborate tomb engineering and the creation of a sealed burial environment filled with elite objects.") {
     marquisTomb.importance = "advanced Han dynasty tomb engineering that created sealed environment for near perfect preservation";
   }
+  const horseRelief = STUDY_ITEMS.find((item) => item.id === 29);
+  if (horseRelief && horseRelief.title === "Horse and groom relief (Northern Wei tomb relief)") {
+    horseRelief.title = "Stone relief of a horse from the Six Steeds of Zhao Mausoleum (Zhaoling), tomb of Emperor Taizong.";
+  }
+  if (horseRelief && horseRelief.medium === "Stone relief") {
+    horseRelief.medium = "stone relief (carved limestone)";
+  }
 }
 
 function saveStudyItems() {
@@ -766,7 +773,11 @@ function selectNextTeachItem(options = {}) {
   }
 
   teachState.itemId = nextItem ? nextItem.id : null;
-  teachState.step = 0;
+  if (teachState.itemId && state.cards[teachState.itemId] && state.cards[teachState.itemId].taught) {
+    teachState.step = revealSequence.length;
+  } else {
+    teachState.step = 0;
+  }
 }
 
 function renderTeachCard() {
@@ -778,6 +789,9 @@ function renderTeachCard() {
   }
 
   const cardState = state.cards[item.id];
+  if (cardState && cardState.taught && teachState.step < revealSequence.length) {
+    teachState.step = revealSequence.length;
+  }
   if (teachState.checking) {
     renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
     return;
