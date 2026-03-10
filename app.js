@@ -136,7 +136,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 16,
-    title: 'Bronze chariot and horses (from the tomb of Qin Shihuangdi)',
+    title: 'Bronze chariot and horses (from the tomb of Qin Shi Huang)',
     date: '210 BCE',
     period: 'Qin dynasty',
     medium: 'Bronze with gold and silver inlay',
