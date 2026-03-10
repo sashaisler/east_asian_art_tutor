@@ -453,12 +453,7 @@ const teachControls = document.getElementById("teachControls");
 const teachRating = document.getElementById("teachRating");
 
 const flashSub = document.getElementById("flashSub");
-const flashCardFlip = document.getElementById("flashCardFlip");
-const flashCardInner = document.getElementById("flashCardInner");
-const flashFrontImage = document.getElementById("flashFrontImage");
-const flashBackTitle = document.getElementById("flashBackTitle");
-const flashBackFacts = document.getElementById("flashBackFacts");
-const flashRating = document.getElementById("flashRating");
+const flashBrowse = document.getElementById("flashBrowse");
 const teachImage = document.getElementById("teachImage");
 
 const testFieldOptions = document.getElementById("testFieldOptions");
@@ -1320,67 +1315,33 @@ function rateItem(itemId, grade, options = {}) {
 }
 
 function startFlashSession() {
-  if (!flashState.itemId) {
-    pickNewFlashCard();
-  }
-  renderFlashCard();
+  renderFlashGallery();
 }
 
-function pickNewFlashCard() {
-  const byNeed = STUDY_ITEMS.slice().sort((a, b) => {
-    const pa = state.cards[a.id];
-    const pb = state.cards[b.id];
-    return pa.box - pb.box || pa.nextDue - pb.nextDue || a.id - b.id;
+function renderFlashGallery() {
+  if (!flashBrowse) return;
+  flashBrowse.innerHTML = "";
+  if (flashSub) {
+    flashSub.textContent = `Scroll through all ${STUDY_ITEMS.length} images below.`;
+  }
+
+  STUDY_ITEMS.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "flash-browse-card";
+
+    const image = document.createElement("img");
+    image.className = "flash-browse-image";
+    image.src = getItemImage(item.id);
+    image.alt = `Artwork image for ${item.title}`;
+
+    const title = document.createElement("p");
+    title.className = "flash-browse-title";
+    title.textContent = `${item.id}. ${item.title}`;
+
+    card.appendChild(image);
+    card.appendChild(title);
+    flashBrowse.appendChild(card);
   });
-  const pool = byNeed.slice(0, Math.min(8, byNeed.length));
-  flashState.itemId = pool[Math.floor(Math.random() * pool.length)].id;
-  flashState.revealed = false;
-}
-
-function renderFlashCard() {
-  const item = STUDY_ITEMS.find((x) => x.id === flashState.itemId);
-  if (!item) {
-    pickNewFlashCard();
-    renderFlashCard();
-    return;
-  }
-
-  const cardState = state.cards[item.id];
-  flashSub.textContent = `Current box ${cardState.box}/5. Tap the card to flip.`;
-  if (flashFrontImage) {
-    flashFrontImage.src = getItemImage(item.id);
-    flashFrontImage.alt = "Reference image for identification";
-  }
-  if (flashBackTitle) {
-    flashBackTitle.textContent = item.title;
-  }
-  if (flashBackFacts) {
-    flashBackFacts.innerHTML = `
-      <p class="fact-line"><strong>Name / title:</strong> ${item.title}</p>
-      <p class="fact-line"><strong>Date and period:</strong> ${getPeriodAndDate(item)}</p>
-      <p class="fact-line"><strong>Culture / maker:</strong> ${item.maker}</p>
-      <p class="fact-line"><strong>Medium:</strong> ${item.medium}</p>
-      <p class="fact-line"><strong>Importance:</strong> ${item.importance}</p>
-    `;
-  }
-  if (flashCardInner) {
-    flashCardInner.classList.toggle("is-flipped", flashState.revealed);
-  }
-  flashRating.classList.toggle("hidden", !flashState.revealed);
-}
-
-function toggleFlashReveal() {
-  flashState.revealed = !flashState.revealed;
-  saveState();
-  renderFlashCard();
-}
-
-function rateFlash(itemId, grade) {
-  rateItem(itemId, grade);
-  flashState.revealed = false;
-  pickNewFlashCard();
-  saveState();
-  renderFlashCard();
 }
 
 function defaultTestFieldKeys() {
@@ -1760,8 +1721,8 @@ function updateLiveViewsForItem(itemId) {
   if (teachState.itemId === itemId) {
     renderTeachCard();
   }
-  if (flashState.itemId === itemId) {
-    renderFlashCard();
+  if (currentMode === "flash") {
+    renderFlashGallery();
   }
   if (testState.running && testState.itemIds[testState.index] === itemId) {
     renderCustomTestMode();
@@ -2162,15 +2123,6 @@ function init() {
   document.querySelectorAll("[data-grade]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       rateItem(teachState.itemId, e.currentTarget.dataset.grade);
-    });
-  });
-
-  if (flashCardFlip) {
-    flashCardFlip.addEventListener("click", toggleFlashReveal);
-  }
-  document.querySelectorAll("[data-flash-grade]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      rateFlash(flashState.itemId, e.currentTarget.dataset.flashGrade);
     });
   });
 
