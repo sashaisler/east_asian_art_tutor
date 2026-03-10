@@ -1350,12 +1350,7 @@ function renderFlashGallery() {
     image.src = getItemImage(item.id);
     image.alt = `Artwork image for ${item.title}`;
 
-    const title = document.createElement("p");
-    title.className = "flash-browse-title";
-    title.textContent = `${item.id}. ${item.title}`;
-
     card.appendChild(image);
-    card.appendChild(title);
     flashBrowse.appendChild(card);
   });
 }
