@@ -415,9 +415,11 @@ const testState = {
   index: 0,
   itemIds: [],
   fieldKeys: [],
+  imageSelection: "",
   drafts: {},
   revealed: false,
   correctCount: 0,
+  wrongItemIds: [],
 };
 const quizState = { running: false, questions: [], index: 0, score: 0 };
 const dbState = { itemId: STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null, editing: false };
@@ -478,6 +480,10 @@ const testAnswer = document.getElementById("testAnswer");
 const testFail = document.getElementById("testFail");
 const testPass = document.getElementById("testPass");
 const testStatus = document.getElementById("testStatus");
+const testImageNumbers = document.getElementById("testImageNumbers");
+const testWrongReview = document.getElementById("testWrongReview");
+const testWrongSummary = document.getElementById("testWrongSummary");
+const testRetryWrong = document.getElementById("testRetryWrong");
 
 const quizIntro = document.getElementById("quizIntro");
 const startQuiz = document.getElementById("startQuiz");
@@ -1542,6 +1548,55 @@ function isValidTestItemId(itemId) {
   return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
 }
 
+function sanitizeTestItemIds(itemIds) {
+  const source = Array.isArray(itemIds) ? itemIds : [];
+  const unique = [];
+  source.forEach((itemId) => {
+    if (!isValidTestItemId(itemId) || unique.includes(itemId)) return;
+    unique.push(itemId);
+  });
+  return unique;
+}
+
+function defaultTestItemIds() {
+  return STUDY_ITEMS.map((item) => item.id);
+}
+
+function parseTestImageSelection(rawSelection) {
+  const raw = typeof rawSelection === "string" ? rawSelection.trim() : "";
+  if (!raw) {
+    return { itemIds: defaultTestItemIds(), invalidTokens: [] };
+  }
+
+  const valid = [];
+  const invalidTokens = [];
+  raw.split(",")
+    .map((token) => token.trim())
+    .filter(Boolean)
+    .forEach((token) => {
+      const rangeMatch = token.match(/^(\d+)\s*-\s*(\d+)$/);
+      if (rangeMatch) {
+        const start = Number(rangeMatch[1]);
+        const end = Number(rangeMatch[2]);
+        const step = start <= end ? 1 : -1;
+        for (let value = start; step > 0 ? value <= end : value >= end; value += step) {
+          valid.push(value);
+        }
+        return;
+      }
+      if (/^\d+$/.test(token)) {
+        valid.push(Number(token));
+        return;
+      }
+      invalidTokens.push(token);
+    });
+
+  return {
+    itemIds: sanitizeTestItemIds(valid),
+    invalidTokens,
+  };
+}
+
 function selectedTestFieldKeysFromUi() {
   if (!testFieldOptions) return [];
   return Array.from(testFieldOptions.querySelectorAll('input[type="checkbox"][data-test-field]'))
@@ -1574,7 +1629,13 @@ function startCustomTestMode() {
     testState.fieldKeys = defaultTestFieldKeys();
   }
   if (!Array.isArray(testState.itemIds) || !testState.itemIds.length) {
-    testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+    testState.itemIds = defaultTestItemIds();
+  }
+  if (typeof testState.imageSelection !== "string") {
+    testState.imageSelection = "";
+  }
+  if (!Array.isArray(testState.wrongItemIds)) {
+    testState.wrongItemIds = [];
   }
   renderCustomTestMode();
 }
@@ -1586,15 +1647,46 @@ function beginCustomTest() {
     return;
   }
 
+  const rawSelection = testImageNumbers ? testImageNumbers.value : testState.imageSelection;
+  const parsedSelection = parseTestImageSelection(rawSelection);
+  if (parsedSelection.invalidTokens.length) {
+    if (testSetupStatus) {
+      testSetupStatus.textContent = `Invalid image numbers: ${parsedSelection.invalidTokens.join(", ")}`;
+    }
+    return;
+  }
+  if (!parsedSelection.itemIds.length) {
+    if (testSetupStatus) {
+      testSetupStatus.textContent = "No valid image numbers selected. Use numbers like 1, 3, 8-12.";
+    }
+    return;
+  }
+
   testState.running = true;
   testState.index = 0;
-  testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  testState.itemIds = parsedSelection.itemIds;
   testState.fieldKeys = selectedFields;
+  testState.imageSelection = typeof rawSelection === "string" ? rawSelection.trim() : "";
   testState.drafts = {};
   testState.revealed = false;
   testState.correctCount = 0;
+  testState.wrongItemIds = [];
 
   if (testSetupStatus) testSetupStatus.textContent = "";
+  saveState();
+  renderCustomTestMode();
+}
+
+function retryCustomTestWrongOnly() {
+  if (testState.running || !testState.wrongItemIds.length) return;
+  testState.running = true;
+  testState.index = 0;
+  testState.itemIds = sanitizeTestItemIds(testState.wrongItemIds);
+  testState.drafts = {};
+  testState.revealed = false;
+  testState.correctCount = 0;
+  testState.wrongItemIds = [];
+  if (testSetupStatus) testSetupStatus.textContent = "Retrying with only the images you missed.";
   saveState();
   renderCustomTestMode();
 }
@@ -1602,10 +1694,11 @@ function beginCustomTest() {
 function resetCustomTest() {
   testState.running = false;
   testState.index = 0;
-  testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+  testState.itemIds = defaultTestItemIds();
   testState.drafts = {};
   testState.revealed = false;
   testState.correctCount = 0;
+  testState.wrongItemIds = [];
   if (testSetupStatus) testSetupStatus.textContent = "Test reset. Choose fields and start again.";
   saveState();
   renderCustomTestMode();
@@ -1679,6 +1772,9 @@ function submitCustomTestResult(passed, triggerElement = null) {
     testState.correctCount += 1;
   } else {
     rateItem(itemId, "again", { deferRender: true });
+    if (!testState.wrongItemIds.includes(itemId)) {
+      testState.wrongItemIds.push(itemId);
+    }
   }
 
   testState.index += 1;
@@ -1696,17 +1792,38 @@ function renderCustomTestMode() {
   renderTestFieldOptions();
   if (!testRun || !testProgress || !testPrompt || !testStatus || !testAnswer || !testReveal) return;
   if (testStart) {
-    testStart.textContent = testState.running ? "Restart test on all images" : "Start test on all images";
+    testStart.textContent = testState.running ? "Restart selected test" : "Start selected test";
+  }
+  if (testImageNumbers) {
+    if (!testState.running) {
+      testImageNumbers.value = testState.imageSelection || "";
+    }
+    testImageNumbers.disabled = testState.running;
   }
 
   const total = testState.itemIds.length || STUDY_ITEMS.length;
   if (!testState.running) {
     testRun.classList.remove("hidden");
+    if (testWrongReview) testWrongReview.classList.add("hidden");
     const completed = total > 0 && testState.index >= total;
     if (completed) {
+      const wrongIds = sanitizeTestItemIds(testState.wrongItemIds);
+      const wrongLabels = wrongIds
+        .map((itemId) => {
+          const item = STUDY_ITEMS.find((entry) => entry.id === itemId);
+          return item ? `#${item.id} - ${item.title}` : "";
+        })
+        .filter(Boolean);
       testProgress.textContent = `Completed ${total} of ${total} cards`;
       testPrompt.textContent = "Custom test complete";
       testStatus.textContent = `Score: ${testState.correctCount} / ${total}`;
+      if (wrongLabels.length && testWrongReview && testWrongSummary) {
+        testWrongReview.classList.remove("hidden");
+        testWrongSummary.textContent = `Wrong images (${wrongLabels.length}): ${wrongLabels.join("; ")}`;
+      }
+      if (testRetryWrong) {
+        testRetryWrong.disabled = !wrongLabels.length;
+      }
       testInputs.innerHTML = "";
       testAnswer.classList.add("hidden");
       testAnswer.textContent = "";
@@ -1722,7 +1839,7 @@ function renderCustomTestMode() {
     }
 
     testProgress.textContent = "Ready to start";
-    testPrompt.textContent = "Choose fields and start your test across all images.";
+    testPrompt.textContent = "Choose fields, choose image numbers, and start your custom test.";
     testStatus.textContent = "";
     testInputs.innerHTML = "";
     testAnswer.classList.add("hidden");
@@ -1751,6 +1868,7 @@ function renderCustomTestMode() {
   }
 
   testRun.classList.remove("hidden");
+  if (testWrongReview) testWrongReview.classList.add("hidden");
   testProgress.textContent = `Card ${testState.index + 1} of ${testState.itemIds.length}`;
   testPrompt.textContent = "Identify this artwork";
   testStatus.textContent = "";
@@ -1789,9 +1907,11 @@ function buildDefaultSessionState() {
     testIndex: 0,
     testItemIds: [],
     testFieldKeys: [],
+    testImageSelection: "",
     testDrafts: {},
     testRevealed: false,
     testCorrectCount: 0,
+    testWrongItemIds: [],
     dbItemId: null,
     dbEditing: false,
   };
@@ -1835,9 +1955,11 @@ function syncSessionToState() {
       ? testState.itemIds.filter((itemId) => isValidTestItemId(itemId))
       : [],
     testFieldKeys: sanitizeTestFieldKeys(testState.fieldKeys),
+    testImageSelection: typeof testState.imageSelection === "string" ? testState.imageSelection : "",
     testDrafts: { ...(testState.drafts || {}) },
     testRevealed: Boolean(testState.revealed),
     testCorrectCount: Math.max(0, Number.isFinite(testState.correctCount) ? testState.correctCount : 0),
+    testWrongItemIds: sanitizeTestItemIds(testState.wrongItemIds),
     dbItemId: isValidItemId(dbState.itemId) ? dbState.itemId : null,
     dbEditing: Boolean(dbState.editing),
   };
@@ -1849,7 +1971,8 @@ function restoreSessionFromState() {
     ...(state.session || {}),
   };
 
-  currentMode = Object.prototype.hasOwnProperty.call(panels, session.mode) ? session.mode : "teach";
+  const restoredMode = session.mode === "quiz" ? "test" : session.mode;
+  currentMode = Object.prototype.hasOwnProperty.call(panels, restoredMode) ? restoredMode : "teach";
   teachState.itemId = isValidItemId(session.teachItemId) ? session.teachItemId : null;
   teachState.step = Math.max(0, Math.min(revealSequence.length, Number.isFinite(session.teachStep) ? session.teachStep : 0));
   const validCheckKeys = new Set(CHECK_FIELDS.map((entry) => entry.key));
@@ -1874,12 +1997,13 @@ function restoreSessionFromState() {
     ? session.testItemIds.filter((itemId) => isValidTestItemId(itemId))
     : [];
   if (!testState.itemIds.length) {
-    testState.itemIds = STUDY_ITEMS.map((item) => item.id);
+    testState.itemIds = defaultTestItemIds();
   }
   testState.fieldKeys = sanitizeTestFieldKeys(session.testFieldKeys);
   if (!testState.fieldKeys.length) {
     testState.fieldKeys = defaultTestFieldKeys();
   }
+  testState.imageSelection = typeof session.testImageSelection === "string" ? session.testImageSelection : "";
   const safeIndex = Number.isFinite(session.testIndex) ? session.testIndex : 0;
   testState.index = Math.max(0, Math.min(safeIndex, testState.itemIds.length));
   testState.running = Boolean(session.testRunning) && testState.index < testState.itemIds.length;
@@ -1892,6 +2016,7 @@ function restoreSessionFromState() {
   }
   testState.revealed = Boolean(session.testRevealed) && testState.running;
   testState.correctCount = Math.max(0, Math.min(Number.isFinite(session.testCorrectCount) ? session.testCorrectCount : 0, testState.index));
+  testState.wrongItemIds = sanitizeTestItemIds(session.testWrongItemIds);
   dbState.itemId = isValidItemId(session.dbItemId) ? session.dbItemId : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
   dbState.editing = Boolean(session.dbEditing) && isValidItemId(dbState.itemId);
 }
@@ -2351,6 +2476,13 @@ function init() {
       saveState();
     });
   }
+  if (testImageNumbers) {
+    testImageNumbers.addEventListener("input", () => {
+      testState.imageSelection = testImageNumbers.value || "";
+      if (testSetupStatus) testSetupStatus.textContent = "";
+      saveState();
+    });
+  }
   if (testInputs) {
     testInputs.addEventListener("input", (event) => {
       const target = event.target;
@@ -2373,6 +2505,9 @@ function init() {
     testPass.addEventListener("click", (e) => {
       submitCustomTestResult(true, e.currentTarget);
     });
+  }
+  if (testRetryWrong) {
+    testRetryWrong.addEventListener("click", retryCustomTestWrongOnly);
   }
 
   teachCheckReveal.addEventListener("click", revealTeachCheckAnswer);

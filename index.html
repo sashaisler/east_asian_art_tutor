@@ -18,7 +18,6 @@
       <button class="mode-tab active" data-mode="teach">Teaching mode</button>
       <button class="mode-tab" data-mode="flash">Flashcards</button>
       <button class="mode-tab" data-mode="test">Custom test</button>
-      <button class="mode-tab" data-mode="quiz">Quiz tests</button>
       <button class="mode-tab" data-mode="db">Database</button>
     </nav>
 
@@ -131,8 +130,17 @@
             <div id="testSetup" class="test-setup">
               <p class="fact-line">Pick the fields to test:</p>
               <div id="testFieldOptions" class="test-field-grid"></div>
+              <div class="check-field">
+                <label class="check-field-label" for="testImageNumbers">Image numbers to include (optional)</label>
+                <input
+                  id="testImageNumbers"
+                  class="text-input"
+                  placeholder="All images, or e.g. 1, 3, 8-12"
+                />
+                <p class="fact-line test-setup-help">Leave blank to include every image in the custom test.</p>
+              </div>
               <div class="button-row">
-                <button id="testStart" class="primary">Start test on all images</button>
+                <button id="testStart" class="primary">Start selected test</button>
                 <button id="testReset" class="grade bad">Reset test</button>
               </div>
               <p id="testSetupStatus" class="feedback"></p>
@@ -152,6 +160,12 @@
                 <button id="testPass" class="grade good">Correct</button>
               </div>
               <p id="testStatus" class="feedback"></p>
+              <div id="testWrongReview" class="test-wrong-review hidden">
+                <p id="testWrongSummary" class="feedback"></p>
+                <div class="button-row">
+                  <button id="testRetryWrong" class="primary">Retry only the wrong images</button>
+                </div>
+              </div>
             </div>
           </div>
         </article>
