@@ -289,7 +289,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 33,
-    title: "Mural of Guest Envoys or Officials Greeting Foreign Envoys (Korean), from the Tomb of Crown Prince Zhanghuai Prince Li Xian's Tomb",
+    title: "Mural of Officials Greeting Foreign Envoys (Korean), Tomb of Prince Li Xian",
     date: '706 CE',
     period: 'Tang dynasty',
     medium: 'Wall painting / mural with pigments on plaster',
