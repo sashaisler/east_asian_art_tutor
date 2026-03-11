@@ -325,7 +325,7 @@ const STUDY_ITEMS = [
   },
   {
     id: 37,
-    title: 'Hungry Tigris Jataka',
+    title: 'Hungry Tigress Jataka',
     date: 'Asuka 650 CE',
     period: '',
     medium: 'Lacquer and pigment on wood',
@@ -725,7 +725,7 @@ function applyContentCorrections() {
   }
   const hungryTigris = STUDY_ITEMS.find((item) => item.id === 37);
   if (hungryTigris && hungryTigris.title === "Shashin Shiko") {
-    hungryTigris.title = "Hungry Tigris Jataka";
+    hungryTigris.title = "Hungry Tigress Jataka";
   }
 }
 
