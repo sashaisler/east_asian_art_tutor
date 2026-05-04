@@ -332,6 +332,339 @@ const STUDY_ITEMS = [
     maker: 'Hōryūji Buddhist temple workshop',
     importance: 'Shows one of the earliest Buddhist narrative paintings in Japan and broader East Asian artistic exchange.',
   },
+  {
+    id: 38,
+    title: 'Xiao Xiang Rivers',
+    date: '962',
+    period: '',
+    medium: 'hand scroll, ink and light color on silk',
+    maker: 'Dong Yuan',
+    importance: 'mountains are more in the background, better depth affect because the piece is longer, more room for open space in the river',
+  },
+  {
+    id: 39,
+    title: 'Final study slide 2',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 40,
+    title: 'Final study slide 3',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 41,
+    title: 'Final study slide 4',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 42,
+    title: 'Night Attack on the Sanjo Palace',
+    date: 'late 13th century',
+    period: 'Kamakura period',
+    medium: 'Handscroll, ink and color on paper',
+    maker: 'Japan (Heiji monogatari emaki)',
+    importance: 'Narrative handscroll famous for speed, violence, and dramatic storytelling in Japanese painting.',
+  },
+  {
+    id: 43,
+    title: 'Final study slide 6',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 44,
+    title: 'Final study slide 7',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 45,
+    title: 'Final study slide 8',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 46,
+    title: 'Final study slide 9',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 47,
+    title: 'Irises',
+    date: 'early 18th century',
+    period: 'Edo period',
+    medium: 'Ink and color on gold-leaf paper screen',
+    maker: 'Ogata Korin',
+    importance: 'Classic Rinpa design built from repeated iris forms, bold cropping, and decorative abstraction.',
+  },
+  {
+    id: 48,
+    title: 'Final study slide 11',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 49,
+    title: 'Li Bai Chanting a Poem',
+    date: '13th century',
+    period: 'Southern Song dynasty',
+    medium: 'Ink on paper',
+    maker: 'Liang Kai',
+    importance: 'A Chan-inflected figure painting reduced to swift brushwork and concentrated expressive force.',
+  },
+  {
+    id: 50,
+    title: 'Six Persimmons',
+    date: '13th century',
+    period: 'Song dynasty',
+    medium: 'Ink on paper',
+    maker: 'Muqi Fachang',
+    importance: 'Zen-associated painting valued for restraint, tonal control, and meditative simplicity.',
+  },
+  {
+    id: 51,
+    title: 'Final study slide 14',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 52,
+    title: 'Portrait of Minamoto no Yoritomo',
+    date: 'late 12th to early 13th century',
+    period: 'Kamakura period',
+    medium: 'Hanging scroll, color on silk',
+    maker: 'Japan',
+    importance: 'Iconic warrior portrait tied to the rise of samurai authority and a more direct style of likeness.',
+  },
+  {
+    id: 53,
+    title: 'Water-Moon Avalokiteshvara',
+    date: '14th century',
+    period: 'Goryeo dynasty',
+    medium: 'Hanging scroll, ink and color on silk',
+    maker: 'Korean Buddhist painting workshop',
+    importance: 'Luxurious Buddhist painting centered on Avalokiteshvara in a moonlit rocky setting.',
+  },
+  {
+    id: 54,
+    title: 'Elegant Rocks and Sparse Trees',
+    date: '1254-1322',
+    period: '',
+    medium: 'Ink on Paper',
+    maker: 'Zhao Mengfu',
+    importance: 'redefine what painting looks like in relation to caligraphy. saw themselves as scholars first, not painters',
+  },
+  {
+    id: 55,
+    title: 'Bakohan tea bowl',
+    date: '13th century, Southern Song dynasty, China',
+    period: '',
+    medium: 'stoneware with a celadon glaze',
+    maker: 'Longquan kiln, china',
+    importance: 'Became one of the most famous imported Chinese tea bowls in Japan, admired for its celadon beauty and for the metal-clamp repair story that gave it the name “Bakōhan.”',
+  },
+  {
+    id: 56,
+    title: 'Final study slide 19',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 57,
+    title: 'Final study slide 20',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 58,
+    title: 'Gilt-bronze Incense Burner of Baekje',
+    date: 'Baekje Kingdom, Three Kingdoms period 600 - 700 CE)',
+    period: '',
+    medium: 'Gilt bronze (cast bronze with gilding)',
+    maker: 'Baekje kingdom, Korea',
+    importance: 'Dragon base, phoenix lid. The burner takes the form of a sacred mountain, reflecting the Chinese boshanlu tradition associated with Daoist immortals and the afterlife. Its combination of mountain imagery, dragons, heavenly beings, and a phoenix demonstrates the fusion of Daoist cosmology and Buddhist symbolism in Baekje art and shows the high level of Korean metalworking during the Three Kingdoms period.',
+  },
+  {
+    id: 59,
+    title: 'Landscape of the Four Seasons',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 60,
+    title: 'Jongmyo Shrine',
+    date: '15th century',
+    period: 'Joseon dynasty',
+    medium: 'Wood architecture',
+    maker: 'Joseon court, Korea',
+    importance: 'Major Confucian ancestral shrine organized for royal rites, hierarchy, and state ritual.',
+  },
+  {
+    id: 61,
+    title: 'Final study slide 24',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 62,
+    title: 'A Thousand Miles of Rivers and Mountains',
+    date: 'early 12th century',
+    period: 'Song dynasty',
+    medium: 'Handscroll, ink and color on silk',
+    maker: 'Wang Ximeng',
+    importance: 'shows the grand, idealized vision of nature valued in Song dynasty court painting',
+  },
+  {
+    id: 63,
+    title: 'Goryeo celadon incense burner',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 64,
+    title: 'Tea Bowl named Fuji (Not Two)',
+    date: 'early 16th century',
+    period: '',
+    medium: 'Glazed ceramic',
+    maker: "Hon'ami Koetsu",
+    importance: 'connecting with the mountain as you drink the tea',
+  },
+  {
+    id: 65,
+    title: 'Final study slide 28',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 66,
+    title: 'White-Robed Guanyin',
+    date: '13th century',
+    period: '',
+    medium: 'Ink on paper',
+    maker: 'China',
+    importance: 'Devotional image of Guanyin in a pared-down ink style associated with Chan/Zen taste.',
+  },
+  {
+    id: 67,
+    title: 'Final study slide 30',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 68,
+    title: 'Early Spring',
+    date: '1020-1090',
+    period: 'Song Dynasty',
+    medium: 'Hanging scroll, ink and color on silk',
+    maker: 'Guo Xi',
+    importance: 'lots of curvs, shows movement in the mountains, landscape should have three distances (perspective), value of ink getting lighter in the distance also contributes to the depth. brushwork resembles ghost faces',
+  },
+  {
+    id: 69,
+    title: 'Final study slide 32',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 70,
+    title: 'Poet on a Mountain Top',
+    date: '1427-1509',
+    period: 'Ming Dynasty',
+    medium: 'Ink on pape',
+    maker: 'Shen Zhou',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 71,
+    title: 'Splashed Ink Landscape',
+    date: '1420-1506',
+    period: '',
+    medium: 'Ink on paper',
+    maker: 'Sesshu Toyo',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 72,
+    title: 'General View of Mt. Geumgang',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 73,
+    title: 'Final study slide 36',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
+  {
+    id: 74,
+    title: 'Final study slide 37',
+    date: '',
+    period: '',
+    medium: '',
+    maker: '',
+    importance: 'Imported from the provided final-study slide PDF. The companion sheet did not include notes for this card yet.',
+  },
 ];
 const IMAGE_MAP = {
   1: "assets/images/item_01.png",
@@ -371,12 +704,56 @@ const IMAGE_MAP = {
   35: "assets/images/item_35.png",
   36: "assets/images/item_36.png",
   37: "assets/images/item_37.png",
+  38: "assets/images/item_38.png",
+  39: "assets/images/item_39.png",
+  40: "assets/images/item_40.png",
+  41: "assets/images/item_41.png",
+  42: "assets/images/item_42.png",
+  43: "assets/images/item_43.png",
+  44: "assets/images/item_44.png",
+  45: "assets/images/item_45.png",
+  46: "assets/images/item_46.png",
+  47: "assets/images/item_47.png",
+  48: "assets/images/item_48.png",
+  49: "assets/images/item_49.png",
+  50: "assets/images/item_50.png",
+  51: "assets/images/item_51.png",
+  52: "assets/images/item_52.png",
+  53: "assets/images/item_53.png",
+  54: "assets/images/item_54.png",
+  55: "assets/images/item_55.png",
+  56: "assets/images/item_56.png",
+  57: "assets/images/item_57.png",
+  58: "assets/images/item_58.png",
+  59: "assets/images/item_59.png",
+  60: "assets/images/item_60.png",
+  61: "assets/images/item_61.png",
+  62: "assets/images/item_62.png",
+  63: "assets/images/item_63.png",
+  64: "assets/images/item_64.png",
+  65: "assets/images/item_65.png",
+  66: "assets/images/item_66.png",
+  67: "assets/images/item_67.png",
+  68: "assets/images/item_68.png",
+  69: "assets/images/item_69.png",
+  70: "assets/images/item_70.png",
+  71: "assets/images/item_71.png",
+  72: "assets/images/item_72.png",
+  73: "assets/images/item_73.png",
+  74: "assets/images/item_74.png",
 };
 
 const BASE_STUDY_ITEMS = STUDY_ITEMS.map((item) => ({ ...item }));
 const STORAGE_KEY = "east-asian-midterm-review-progress-v1";
 const CARD_DATA_KEY = "east-asian-midterm-review-cards-v1";
 const CARD_IMAGE_KEY = "east-asian-midterm-review-images-v1";
+const DECKS_KEY = "east-asian-midterm-review-decks-v1";
+const DEFAULT_DECK_ID = "all-items";
+const MIDTERM_DECK_ID = "midterm-set";
+const FINAL_DECK_ID = "final-slides-set";
+const DB_FILTER_ALL_ID = "db-filter-all";
+const MIDTERM_ITEM_IDS = Array.from({ length: 37 }, (_, index) => index + 1);
+const FINAL_ITEM_IDS = Array.from({ length: 37 }, (_, index) => index + 38);
 const INTERVALS = [1, 2, 4, 8, 14, 30];
 const CHECK_INTERVALS = [1, 3, 6, 10, 16, 22];
 const CHECK_FAIL_MULTIPLIER = 0.5;
@@ -399,6 +776,7 @@ const CHECK_FIELDS = [
 applySavedStudyItems();
 applyContentCorrections();
 const customImageMap = loadCustomImageMap();
+let deckState = loadDeckState();
 let state = loadState();
 const teachState = {
   itemId: null,
@@ -422,7 +800,11 @@ const testState = {
   wrongItemIds: [],
 };
 const quizState = { running: false, questions: [], index: 0, score: 0 };
-const dbState = { itemId: STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null, editing: false };
+const dbState = {
+  itemId: STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null,
+  editing: false,
+  filterDeckId: DB_FILTER_ALL_ID,
+};
 let currentMode = "teach";
 
 const modeButtons = Array.from(document.querySelectorAll(".mode-tab"));
@@ -433,6 +815,9 @@ const panels = {
   quiz: document.getElementById("quiz"),
   db: document.getElementById("db"),
 };
+
+const deckSelect = document.getElementById("deckSelect");
+const deckSummary = document.getElementById("deckSummary");
 
 const masteryBar = document.getElementById("masteryBar");
 const masteryText = document.getElementById("masteryText");
@@ -514,6 +899,12 @@ const dbDropzone = document.getElementById("dbDropzone");
 const dbImageInput = document.getElementById("dbImageInput");
 const dbPickImage = document.getElementById("dbPickImage");
 const dbResetImage = document.getElementById("dbResetImage");
+const dbDeckName = document.getElementById("dbDeckName");
+const dbFilterDeck = document.getElementById("dbFilterDeck");
+const dbCreateDeck = document.getElementById("dbCreateDeck");
+const dbRenameDeck = document.getElementById("dbRenameDeck");
+const dbDeleteDeck = document.getElementById("dbDeleteDeck");
+const dbDeckStatus = document.getElementById("dbDeckStatus");
 
 const FLASH_THUMB_PLACEHOLDER = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 const FLASH_THUMB_MAX_SIDE = 240;
@@ -533,6 +924,173 @@ function buildDefaultCardState() {
     checkStreak: 0,
     taught: false,
   };
+}
+
+function sanitizeDeckItemIds(itemIds) {
+  const source = Array.isArray(itemIds) ? itemIds : [];
+  const validIds = new Set(STUDY_ITEMS.map((item) => item.id));
+  const unique = [];
+  source.forEach((itemId) => {
+    if (!Number.isFinite(itemId) || !validIds.has(itemId) || unique.includes(itemId)) return;
+    unique.push(itemId);
+  });
+  return unique;
+}
+
+function buildDefaultDeckState() {
+  return {
+    currentDeckId: DEFAULT_DECK_ID,
+    decks: [],
+  };
+}
+
+function loadDeckState() {
+  try {
+    const raw = localStorage.getItem(DECKS_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    const base = buildDefaultDeckState();
+    if (!parsed || typeof parsed !== "object") return base;
+
+    const decks = Array.isArray(parsed.decks) ? parsed.decks : [];
+    const cleaned = [];
+    const lockedDeckIds = new Set([DEFAULT_DECK_ID, MIDTERM_DECK_ID, FINAL_DECK_ID]);
+    decks.forEach((deck, index) => {
+      if (!deck || typeof deck !== "object") return;
+      const id = typeof deck.id === "string" && deck.id.trim() ? deck.id.trim() : `deck-${index + 1}`;
+      if (lockedDeckIds.has(id) || cleaned.some((entry) => entry.id === id)) return;
+      const name = typeof deck.name === "string" && deck.name.trim() ? deck.name.trim() : `Deck ${cleaned.length + 1}`;
+      cleaned.push({
+        id,
+        name,
+        itemIds: sanitizeDeckItemIds(deck.itemIds),
+      });
+    });
+
+    return {
+      currentDeckId: typeof parsed.currentDeckId === "string" ? parsed.currentDeckId : DEFAULT_DECK_ID,
+      decks: cleaned,
+    };
+  } catch (err) {
+    console.warn("Could not restore saved decks.", err);
+    return buildDefaultDeckState();
+  }
+}
+
+function saveDeckState() {
+  try {
+    localStorage.setItem(DECKS_KEY, JSON.stringify(deckState));
+    return true;
+  } catch (err) {
+    console.warn("Could not save decks.", err);
+    return false;
+  }
+}
+
+function getAllItemIds() {
+  return STUDY_ITEMS.map((item) => item.id);
+}
+
+function getAllStudyItems() {
+  return STUDY_ITEMS.slice();
+}
+
+function getDecks() {
+  return [
+    {
+      id: DEFAULT_DECK_ID,
+      name: "All cards",
+      itemIds: getAllItemIds(),
+      locked: true,
+    },
+    {
+      id: MIDTERM_DECK_ID,
+      name: "Midterm set",
+      itemIds: MIDTERM_ITEM_IDS,
+      locked: true,
+    },
+    {
+      id: FINAL_DECK_ID,
+      name: "Final slides",
+      itemIds: FINAL_ITEM_IDS,
+      locked: true,
+    },
+    ...deckState.decks.map((deck) => ({
+      ...deck,
+      itemIds: sanitizeDeckItemIds(deck.itemIds),
+      locked: false,
+    })),
+  ];
+}
+
+function getDeckById(deckId) {
+  return getDecks().find((deck) => deck.id === deckId) || null;
+}
+
+function getActiveDeck() {
+  return getDeckById(deckState.currentDeckId) || getDeckById(DEFAULT_DECK_ID);
+}
+
+function isValidDbFilterDeckId(deckId) {
+  return deckId === DB_FILTER_ALL_ID || Boolean(getDeckById(deckId));
+}
+
+function ensureDbFilterStateValidity() {
+  if (!isValidDbFilterDeckId(dbState.filterDeckId)) {
+    dbState.filterDeckId = DB_FILTER_ALL_ID;
+  }
+}
+
+function getDbFilterDeck() {
+  ensureDbFilterStateValidity();
+  return dbState.filterDeckId === DB_FILTER_ALL_ID ? null : getDeckById(dbState.filterDeckId);
+}
+
+function getDbBrowseItems() {
+  const filterDeck = getDbFilterDeck();
+  if (!filterDeck) return getAllStudyItems();
+  const idSet = new Set(filterDeck.itemIds);
+  return STUDY_ITEMS.filter((item) => idSet.has(item.id));
+}
+
+function getActiveDeckItemIds() {
+  const activeDeck = getActiveDeck();
+  return activeDeck ? activeDeck.itemIds.slice() : [];
+}
+
+function getActiveDeckItems() {
+  const idSet = new Set(getActiveDeckItemIds());
+  return STUDY_ITEMS.filter((item) => idSet.has(item.id));
+}
+
+function isValidAnyItemId(itemId) {
+  return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
+}
+
+function isItemInActiveDeck(itemId) {
+  return getActiveDeckItemIds().includes(itemId);
+}
+
+function ensureDeckStateValidity() {
+  const validDeckIds = new Set(getDecks().map((deck) => deck.id));
+  if (!validDeckIds.has(deckState.currentDeckId)) {
+    deckState.currentDeckId = DEFAULT_DECK_ID;
+  }
+}
+
+function makeDeckId(name) {
+  const slug = String(name || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 32) || "deck";
+  let candidate = `deck-${slug}`;
+  let counter = 2;
+  const used = new Set(getDecks().map((deck) => deck.id));
+  while (used.has(candidate)) {
+    candidate = `deck-${slug}-${counter}`;
+    counter += 1;
+  }
+  return candidate;
 }
 
 function getItemImage(itemId) {
@@ -563,11 +1121,208 @@ function splitPeriodAndDate(value) {
   return { date: text, period: "" };
 }
 
+function renderDeckPicker() {
+  ensureDeckStateValidity();
+  ensureDbFilterStateValidity();
+  const decks = getDecks();
+  const activeDeck = getActiveDeck();
+  if (deckSelect) {
+    deckSelect.innerHTML = "";
+    decks.forEach((deck) => {
+      const option = document.createElement("option");
+      option.value = deck.id;
+      option.textContent = `${deck.name} (${deck.itemIds.length})`;
+      option.selected = deck.id === activeDeck.id;
+      deckSelect.appendChild(option);
+    });
+  }
+  if (dbFilterDeck) {
+    dbFilterDeck.innerHTML = "";
+    const allOption = document.createElement("option");
+    allOption.value = DB_FILTER_ALL_ID;
+    allOption.textContent = `All cards (${STUDY_ITEMS.length})`;
+    dbFilterDeck.appendChild(allOption);
+    decks.forEach((deck) => {
+      const option = document.createElement("option");
+      option.value = deck.id;
+      option.textContent = `${deck.name} (${deck.itemIds.length})`;
+      dbFilterDeck.appendChild(option);
+    });
+    dbFilterDeck.value = dbState.filterDeckId;
+  }
+  if (deckSummary) {
+    const count = activeDeck.itemIds.length;
+    deckSummary.textContent = count
+      ? `${activeDeck.name} is active across teaching mode, flashcards, custom tests, and progress tracking. ${count} cards included.`
+      : `${activeDeck.name} is active, but it does not contain any cards yet. Add cards to this deck in the database tab.`;
+  }
+  if (dbDeckName) {
+    dbDeckName.value = activeDeck.locked ? "" : activeDeck.name;
+  }
+  if (dbRenameDeck) {
+    dbRenameDeck.disabled = Boolean(activeDeck.locked);
+  }
+  if (dbDeleteDeck) {
+    dbDeleteDeck.disabled = Boolean(activeDeck.locked);
+  }
+  if (dbDeckStatus && !dbDeckStatus.textContent) {
+    dbDeckStatus.textContent = activeDeck.locked
+      ? 'All cards is active. Create a new deck to manage deck membership.'
+      : `Selected deck: ${activeDeck.name} (${activeDeck.itemIds.length} cards).`;
+  }
+}
+
+function clearTeachSession() {
+  teachState.itemId = null;
+  teachState.step = 0;
+  teachState.checking = false;
+  teachState.checkField = null;
+  teachState.checkFields = [];
+  teachState.checkDrafts = {};
+  teachState.checkRevealed = false;
+}
+
+function clearTestSession(message = "") {
+  testState.running = false;
+  testState.index = 0;
+  testState.itemIds = getActiveDeckItemIds();
+  testState.drafts = {};
+  testState.revealed = false;
+  testState.correctCount = 0;
+  testState.wrongItemIds = [];
+  if (testSetupStatus) testSetupStatus.textContent = message;
+}
+
+function syncStateToActiveDeck() {
+  const activeIds = new Set(getActiveDeckItemIds());
+
+  if (!activeIds.size) {
+    clearTeachSession();
+    flashState.itemId = null;
+    flashState.revealed = false;
+    clearTestSession("");
+    if (dbState.editing && !isValidAnyItemId(dbState.itemId)) {
+      dbState.editing = false;
+    }
+    return;
+  }
+
+  if (!activeIds.has(teachState.itemId)) {
+    clearTeachSession();
+  }
+
+  if (!activeIds.has(flashState.itemId)) {
+    flashState.itemId = getActiveDeckItemIds()[0] || null;
+    flashState.revealed = false;
+  }
+
+  testState.itemIds = sanitizeTestItemIds(testState.itemIds).filter((itemId) => activeIds.has(itemId));
+  if (!testState.itemIds.length) {
+    testState.itemIds = getActiveDeckItemIds();
+  }
+  if (testState.running && (!testState.itemIds.length || testState.index >= testState.itemIds.length)) {
+    clearTestSession("");
+  }
+}
+
+function switchDeck(deckId) {
+  const nextDeck = getDeckById(deckId);
+  if (!nextDeck) return;
+  deckState.currentDeckId = nextDeck.id;
+  if (dbDeckStatus) dbDeckStatus.textContent = "";
+  testState.imageSelection = "";
+  clearTestSession("Switched decks. Start a new test for this deck.");
+  syncStateToActiveDeck();
+  renderDbEditor();
+  refreshProgress();
+
+  if (currentMode === "teach") {
+    startTeachSession(true);
+  } else if (currentMode === "flash") {
+    startFlashSession();
+  } else if (currentMode === "test") {
+    startCustomTestMode();
+  }
+
+  saveDeckState();
+  saveState();
+}
+
+function createDeckFromInput() {
+  const name = dbDeckName ? dbDeckName.value.trim() : "";
+  if (!name) {
+    if (dbDeckStatus) dbDeckStatus.textContent = "Enter a name for the new deck.";
+    return;
+  }
+  const deck = {
+    id: makeDeckId(name),
+    name,
+    itemIds: [],
+  };
+  deckState.decks.push(deck);
+  deckState.currentDeckId = deck.id;
+  switchDeck(deck.id);
+  if (dbDeckStatus) dbDeckStatus.textContent = `Created deck "${name}".`;
+}
+
+function renameActiveDeck() {
+  const activeDeck = getActiveDeck();
+  if (!activeDeck || activeDeck.locked) return;
+  const name = dbDeckName ? dbDeckName.value.trim() : "";
+  if (!name) {
+    if (dbDeckStatus) dbDeckStatus.textContent = "Enter a new name before renaming this deck.";
+    return;
+  }
+  const target = deckState.decks.find((deck) => deck.id === activeDeck.id);
+  if (!target) return;
+  target.name = name;
+  if (dbDeckStatus) dbDeckStatus.textContent = `Renamed deck to "${name}".`;
+  renderDeckPicker();
+  renderDbBrowseList();
+  saveDeckState();
+}
+
+function deleteActiveDeck() {
+  const activeDeck = getActiveDeck();
+  if (!activeDeck || activeDeck.locked) return;
+  const deletedName = activeDeck.name;
+  deckState.decks = deckState.decks.filter((deck) => deck.id !== activeDeck.id);
+  deckState.currentDeckId = DEFAULT_DECK_ID;
+  if (dbState.filterDeckId === activeDeck.id) {
+    dbState.filterDeckId = DB_FILTER_ALL_ID;
+  }
+  switchDeck(DEFAULT_DECK_ID);
+  if (dbDeckStatus) dbDeckStatus.textContent = `Deleted deck "${deletedName}".`;
+}
+
+function toggleItemInActiveDeck(itemId) {
+  const activeDeck = getActiveDeck();
+  if (!activeDeck || activeDeck.locked || !isValidAnyItemId(itemId)) return;
+  const target = deckState.decks.find((deck) => deck.id === activeDeck.id);
+  if (!target) return;
+  if (target.itemIds.includes(itemId)) {
+    target.itemIds = target.itemIds.filter((entry) => entry !== itemId);
+    if (dbDeckStatus) dbDeckStatus.textContent = `Removed card ${itemId} from "${activeDeck.name}".`;
+  } else {
+    target.itemIds = sanitizeDeckItemIds([...target.itemIds, itemId]);
+    if (dbDeckStatus) dbDeckStatus.textContent = `Added card ${itemId} to "${activeDeck.name}".`;
+  }
+  syncStateToActiveDeck();
+  renderDeckPicker();
+  renderDbBrowseList();
+  if (currentMode === "teach") renderTeachCard();
+  if (currentMode === "flash") renderFlashViewer();
+  if (currentMode === "test") renderCustomTestMode();
+  refreshProgress();
+  saveDeckState();
+  saveState();
+}
+
 function applySavedStudyItems() {
   try {
     const raw = localStorage.getItem(CARD_DATA_KEY);
     const parsed = raw ? JSON.parse(raw) : null;
-    if (!Array.isArray(parsed) || parsed.length !== BASE_STUDY_ITEMS.length) return;
+    if (!Array.isArray(parsed)) return;
 
     const byId = new Map(parsed.map((item) => [item.id, item]));
     STUDY_ITEMS.forEach((item) => {
@@ -890,22 +1645,28 @@ function setMode(mode, options = {}) {
 }
 
 function startTeachSession(force = false) {
-  if (!teachState.itemId || force) {
+  if (!getActiveDeckItems().length) {
+    clearTeachSession();
+    renderTeachCard();
+    return;
+  }
+  if (!teachState.itemId || !isItemInActiveDeck(teachState.itemId) || force) {
     selectNextTeachItem();
   }
   renderTeachCard();
 }
 
 function selectNextTeachItem(options = {}) {
+  const deckItems = getActiveDeckItems();
   const avoidItemId = Number.isFinite(options.avoidItemId) ? options.avoidItemId : null;
-  const seen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts > 0);
-  const unseen = STUDY_ITEMS.filter((item) => state.cards[item.id].attempts === 0);
+  const seen = deckItems.filter((item) => state.cards[item.id].attempts > 0);
+  const unseen = deckItems.filter((item) => state.cards[item.id].attempts === 0);
   const learningPool = seen.filter((item) => state.cards[item.id].box < MASTERY_BOX_THRESHOLD);
   const checkNow = learningPool.filter((item) => state.cards[item.id].taught && state.cards[item.id].checkDue <= state.turn);
   const dueLearning = learningPool.filter((item) => state.cards[item.id].nextDue <= state.turn);
   const canIntroduceNew = learningPool.length < MAX_ACTIVE_LEARNING_CARDS;
 
-  let candidates = STUDY_ITEMS;
+  let candidates = deckItems;
   let selectionMode = "due";
   if (canIntroduceNew && unseen.length) {
     candidates = unseen;
@@ -966,10 +1727,10 @@ function selectNextTeachItem(options = {}) {
       picked = poolPick;
     }
   }
-  if (!nextItem && STUDY_ITEMS.length) {
+  if (!nextItem && deckItems.length) {
     const fallback = avoidItemId === null
-      ? STUDY_ITEMS[0]
-      : (STUDY_ITEMS.find((item) => item.id !== avoidItemId) || STUDY_ITEMS[0]);
+      ? deckItems[0]
+      : (deckItems.find((item) => item.id !== avoidItemId) || deckItems[0]);
     nextItem = fallback;
   }
 
@@ -984,7 +1745,21 @@ function selectNextTeachItem(options = {}) {
 }
 
 function renderTeachCard() {
-  const item = STUDY_ITEMS.find((x) => x.id === teachState.itemId);
+  const deckItems = getActiveDeckItems();
+  if (!deckItems.length) {
+    teachTitle.textContent = "No cards in this deck";
+    teachHint.textContent = "Switch decks or add cards to the current deck in the database tab.";
+    teachFacts.innerHTML = "";
+    teachFacts.classList.remove("hidden");
+    teachImage.src = "";
+    teachImage.alt = "No cards in the selected deck";
+    teachCheck.classList.add("hidden");
+    if (teachControls) teachControls.classList.add("hidden");
+    teachRating.classList.add("hidden");
+    sessionInfo.textContent = "This deck is empty.";
+    return;
+  }
+  const item = deckItems.find((x) => x.id === teachState.itemId);
   if (!item) {
     selectNextTeachItem();
     renderTeachCard();
@@ -1055,7 +1830,7 @@ function renderTeachCard() {
     teachHint.textContent = "Rate this item to schedule your next review.";
   }
 
-  sessionInfo.textContent = `Current mastery: box ${cardState.box} / 5`;
+  sessionInfo.textContent = `${getActiveDeck().name}: current mastery box ${cardState.box} / 5`;
   teachState.checking = false;
   teachState.checkField = null;
   teachState.checkFields = [];
@@ -1335,8 +2110,16 @@ function rateItem(itemId, grade, options = {}) {
 }
 
 function startFlashSession() {
-  if (!isValidItemId(flashState.itemId) && STUDY_ITEMS.length) {
-    flashState.itemId = STUDY_ITEMS[0].id;
+  const deckItems = getActiveDeckItems();
+  if (!deckItems.length) {
+    flashState.itemId = null;
+    flashState.revealed = false;
+    renderFlashGallery();
+    renderFlashViewer();
+    return;
+  }
+  if (!isItemInActiveDeck(flashState.itemId)) {
+    flashState.itemId = deckItems[0].id;
   }
   renderFlashGallery();
   setFlashActiveThumbnail(flashState.itemId, { scroll: true });
@@ -1439,6 +2222,7 @@ function setFlashActiveThumbnail(itemId, options = {}) {
 }
 
 function renderFlashGallery() {
+  const deckItems = getActiveDeckItems();
   if (!flashBrowse) return;
   ensureFlashThumbObserver();
   if (flashThumbObserver) {
@@ -1446,10 +2230,12 @@ function renderFlashGallery() {
   }
   flashBrowse.innerHTML = "";
   if (flashSub) {
-    flashSub.textContent = `Browse all ${STUDY_ITEMS.length} cards below, or use ←/→ in the viewer.`;
+    flashSub.textContent = deckItems.length
+      ? `Browsing ${deckItems.length} cards from ${getActiveDeck().name}. Use the arrows in the viewer to move through this deck.`
+      : `This deck is empty. Add cards to ${getActiveDeck().name} in the database tab.`;
   }
 
-  STUDY_ITEMS.forEach((item) => {
+  deckItems.forEach((item) => {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "flash-browse-card";
@@ -1474,20 +2260,23 @@ function renderFlashGallery() {
 }
 
 function renderFlashViewer() {
+  const deckItems = getActiveDeckItems();
   if (!flashViewerImage || !flashViewerInner || !flashViewerTitle || !flashViewerFacts || !flashIndex) return;
-  if (!isValidItemId(flashState.itemId)) {
+  if (!deckItems.length || !isItemInActiveDeck(flashState.itemId)) {
     flashViewerImage.src = "";
-    flashViewerTitle.textContent = "No card selected";
+    flashViewerTitle.textContent = deckItems.length ? "No card selected" : "No cards in this deck";
     flashViewerFacts.innerHTML = "";
-    flashIndex.textContent = `0 / ${STUDY_ITEMS.length}`;
+    flashIndex.textContent = `0 / ${deckItems.length}`;
+    if (flashPrev) flashPrev.disabled = true;
+    if (flashNext) flashNext.disabled = true;
     return;
   }
 
-  const item = STUDY_ITEMS.find((entry) => entry.id === flashState.itemId);
+  const item = deckItems.find((entry) => entry.id === flashState.itemId);
   if (!item) return;
 
-  const currentIndex = STUDY_ITEMS.findIndex((entry) => entry.id === item.id);
-  flashIndex.textContent = `${currentIndex + 1} / ${STUDY_ITEMS.length}`;
+  const currentIndex = deckItems.findIndex((entry) => entry.id === item.id);
+  flashIndex.textContent = `${currentIndex + 1} / ${deckItems.length}`;
   flashViewerImage.src = getItemImage(item.id);
   flashViewerImage.alt = `Selected artwork image for ${item.title}`;
   flashViewerTitle.textContent = item.title;
@@ -1501,11 +2290,11 @@ function renderFlashViewer() {
   flashViewerInner.classList.toggle("is-flipped", Boolean(flashState.revealed));
 
   if (flashPrev) flashPrev.disabled = currentIndex <= 0;
-  if (flashNext) flashNext.disabled = currentIndex >= STUDY_ITEMS.length - 1;
+  if (flashNext) flashNext.disabled = currentIndex >= deckItems.length - 1;
 }
 
 function selectFlashItem(itemId) {
-  if (!isValidItemId(itemId)) return;
+  if (!isItemInActiveDeck(itemId)) return;
   flashState.itemId = itemId;
   flashState.revealed = false;
   saveState();
@@ -1514,16 +2303,17 @@ function selectFlashItem(itemId) {
 }
 
 function stepFlashItem(direction) {
-  if (!isValidItemId(flashState.itemId)) return;
-  const currentIndex = STUDY_ITEMS.findIndex((entry) => entry.id === flashState.itemId);
+  const deckItems = getActiveDeckItems();
+  if (!isItemInActiveDeck(flashState.itemId)) return;
+  const currentIndex = deckItems.findIndex((entry) => entry.id === flashState.itemId);
   if (currentIndex < 0) return;
   const nextIndex = currentIndex + direction;
-  if (nextIndex < 0 || nextIndex >= STUDY_ITEMS.length) return;
-  selectFlashItem(STUDY_ITEMS[nextIndex].id);
+  if (nextIndex < 0 || nextIndex >= deckItems.length) return;
+  selectFlashItem(deckItems[nextIndex].id);
 }
 
 function toggleFlashReveal() {
-  if (!isValidItemId(flashState.itemId)) return;
+  if (!isItemInActiveDeck(flashState.itemId)) return;
   flashState.revealed = !flashState.revealed;
   saveState();
   renderFlashViewer();
@@ -1545,7 +2335,7 @@ function sanitizeTestFieldKeys(keys) {
 }
 
 function isValidTestItemId(itemId) {
-  return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
+  return isItemInActiveDeck(itemId);
 }
 
 function sanitizeTestItemIds(itemIds) {
@@ -1559,7 +2349,7 @@ function sanitizeTestItemIds(itemIds) {
 }
 
 function defaultTestItemIds() {
-  return STUDY_ITEMS.map((item) => item.id);
+  return getActiveDeckItemIds();
 }
 
 function parseTestImageSelection(rawSelection) {
@@ -1791,6 +2581,8 @@ function submitCustomTestResult(passed, triggerElement = null) {
 function renderCustomTestMode() {
   renderTestFieldOptions();
   if (!testRun || !testProgress || !testPrompt || !testStatus || !testAnswer || !testReveal) return;
+  const activeDeck = getActiveDeck();
+  const deckItems = getActiveDeckItems();
   if (testStart) {
     testStart.textContent = testState.running ? "Restart selected test" : "Start selected test";
   }
@@ -1801,7 +2593,7 @@ function renderCustomTestMode() {
     testImageNumbers.disabled = testState.running;
   }
 
-  const total = testState.itemIds.length || STUDY_ITEMS.length;
+  const total = testState.itemIds.length || deckItems.length;
   if (!testState.running) {
     testRun.classList.remove("hidden");
     if (testWrongReview) testWrongReview.classList.add("hidden");
@@ -1838,8 +2630,26 @@ function renderCustomTestMode() {
       return;
     }
 
+    if (!deckItems.length) {
+      testProgress.textContent = "No cards available";
+      testPrompt.textContent = "This deck is empty.";
+      testStatus.textContent = "Add cards to this deck in the database tab before starting a test.";
+      testInputs.innerHTML = "";
+      testAnswer.classList.add("hidden");
+      testAnswer.textContent = "";
+      if (testImage) {
+        testImage.src = "";
+        testImage.alt = "No cards in the selected deck";
+      }
+      testReveal.textContent = "Reveal key";
+      testReveal.disabled = true;
+      if (testFail) testFail.disabled = true;
+      if (testPass) testPass.disabled = true;
+      return;
+    }
+
     testProgress.textContent = "Ready to start";
-    testPrompt.textContent = "Choose fields, choose image numbers, and start your custom test.";
+    testPrompt.textContent = `Choose fields, choose image numbers, and start your custom test for ${activeDeck.name}.`;
     testStatus.textContent = "";
     testInputs.innerHTML = "";
     testAnswer.classList.add("hidden");
@@ -1914,6 +2724,7 @@ function buildDefaultSessionState() {
     testWrongItemIds: [],
     dbItemId: null,
     dbEditing: false,
+    dbFilterDeckId: DB_FILTER_ALL_ID,
   };
 }
 
@@ -1929,7 +2740,7 @@ function collectTeachCheckDrafts() {
 }
 
 function isValidItemId(itemId) {
-  return Number.isFinite(itemId) && STUDY_ITEMS.some((item) => item.id === itemId);
+  return isValidAnyItemId(itemId);
 }
 
 function syncSessionToState() {
@@ -1962,6 +2773,7 @@ function syncSessionToState() {
     testWrongItemIds: sanitizeTestItemIds(testState.wrongItemIds),
     dbItemId: isValidItemId(dbState.itemId) ? dbState.itemId : null,
     dbEditing: Boolean(dbState.editing),
+    dbFilterDeckId: isValidDbFilterDeckId(dbState.filterDeckId) ? dbState.filterDeckId : DB_FILTER_ALL_ID,
   };
 }
 
@@ -2017,6 +2829,7 @@ function restoreSessionFromState() {
   testState.revealed = Boolean(session.testRevealed) && testState.running;
   testState.correctCount = Math.max(0, Math.min(Number.isFinite(session.testCorrectCount) ? session.testCorrectCount : 0, testState.index));
   testState.wrongItemIds = sanitizeTestItemIds(session.testWrongItemIds);
+  dbState.filterDeckId = isValidDbFilterDeckId(session.dbFilterDeckId) ? session.dbFilterDeckId : DB_FILTER_ALL_ID;
   dbState.itemId = isValidItemId(session.dbItemId) ? session.dbItemId : (STUDY_ITEMS[0] ? STUDY_ITEMS[0].id : null);
   dbState.editing = Boolean(session.dbEditing) && isValidItemId(dbState.itemId);
 }
@@ -2047,9 +2860,35 @@ function shortText(value, max = 160) {
 }
 
 function renderDbBrowseList() {
+  const activeDeck = getActiveDeck();
+  const filterDeck = getDbFilterDeck();
+  const browseItems = getDbBrowseItems();
   if (!dbBrowse) return;
   dbBrowse.innerHTML = "";
-  STUDY_ITEMS.forEach((item) => {
+  if (!browseItems.length) {
+    const empty = document.createElement("article");
+    empty.className = "db-browse-card";
+
+    const text = document.createElement("div");
+    text.className = "db-browse-text";
+
+    const title = document.createElement("p");
+    title.className = "db-browse-title";
+    title.textContent = filterDeck ? `No cards found in ${filterDeck.name}.` : "No cards available.";
+
+    const detail = document.createElement("p");
+    detail.textContent = filterDeck
+      ? "Pick a different deck filter or add cards to that deck."
+      : "Add cards or change the current database filter.";
+
+    text.appendChild(title);
+    text.appendChild(detail);
+    empty.appendChild(text);
+    dbBrowse.appendChild(empty);
+    return;
+  }
+
+  browseItems.forEach((item) => {
     const card = document.createElement("article");
     card.className = "db-browse-card";
 
@@ -2082,11 +2921,31 @@ function renderDbBrowseList() {
     editButton.textContent = "Edit card";
     editButton.dataset.dbEdit = String(item.id);
 
+    const membershipRow = document.createElement("div");
+    membershipRow.className = "db-deck-membership";
+
+    const membershipChip = document.createElement("span");
+    membershipChip.className = `db-deck-chip${isItemInActiveDeck(item.id) ? " active" : ""}`;
+    membershipChip.textContent = activeDeck.locked
+      ? "Included in All cards"
+      : (isItemInActiveDeck(item.id) ? `In ${activeDeck.name}` : `Not in ${activeDeck.name}`);
+
+    membershipRow.appendChild(membershipChip);
+
+    if (!activeDeck.locked) {
+      const membershipButton = document.createElement("button");
+      membershipButton.className = isItemInActiveDeck(item.id) ? "grade bad" : "grade easy";
+      membershipButton.textContent = isItemInActiveDeck(item.id) ? "Remove from current deck" : "Add to current deck";
+      membershipButton.dataset.dbToggleDeck = String(item.id);
+      membershipRow.appendChild(membershipButton);
+    }
+
     text.appendChild(title);
     text.appendChild(date);
     text.appendChild(maker);
     text.appendChild(medium);
     text.appendChild(importance);
+    text.appendChild(membershipRow);
     text.appendChild(editButton);
 
     card.appendChild(image);
@@ -2187,7 +3046,13 @@ async function saveDbImageFromFile(file) {
 }
 
 function renderDbEditor() {
+  renderDeckPicker();
   renderDbBrowseList();
+  if (dbDeckStatus) {
+    dbDeckStatus.textContent = getActiveDeck().locked
+      ? 'All cards is active. Create a new deck to manage deck membership.'
+      : dbDeckStatus.textContent;
+  }
   if (!dbEditor) return;
   if (dbState.editing && isValidItemId(dbState.itemId)) {
     openDbEditor(dbState.itemId);
@@ -2252,12 +3117,15 @@ function resetQuizView() {
 }
 
 function buildQuiz() {
+  const deckItems = getActiveDeckItems();
   const fields = ["title", "periodDate", "maker", "medium"];
-  const sortedByNeed = STUDY_ITEMS.slice().sort((a, b) => {
+  const sortedByNeed = deckItems.slice().sort((a, b) => {
     const pa = state.cards[a.id];
     const pb = state.cards[b.id];
     return pa.box - pb.box || a.id - b.id;
   });
+
+  if (!sortedByNeed.length) return [];
 
   const questions = [];
   while (questions.length < 10) {
@@ -2299,7 +3167,7 @@ function getFieldValue(item, field) {
 }
 
 function pickOptions(field, correct) {
-  const allValues = [...new Set(STUDY_ITEMS.map((item) => getFieldValue(item, field)).filter(Boolean))];
+  const allValues = [...new Set(getActiveDeckItems().map((item) => getFieldValue(item, field)).filter(Boolean))];
   const pool = allValues.filter((x) => x !== correct);
   shuffle(pool);
   const picks = pool.slice(0, 3);
@@ -2398,33 +3266,47 @@ function shuffle(list) {
 }
 
 function refreshProgress() {
-  const total = STUDY_ITEMS.length;
-  const mastered = STUDY_ITEMS.reduce(
+  const deckItems = getActiveDeckItems();
+  const total = deckItems.length;
+  const mastered = deckItems.reduce(
     (sum, item) => (state.cards[item.id].box >= MASTERY_BOX_THRESHOLD ? sum + 1 : sum),
     0,
   );
 
-  const percent = Math.round((mastered / total) * 100);
+  const percent = total ? Math.round((mastered / total) * 100) : 0;
   masteryBar.style.width = `${percent}%`;
-  masteryText.textContent = `${mastered} of ${total} items mostly mastered`;
+  masteryText.textContent = total
+    ? `${mastered} of ${total} items mostly mastered in ${getActiveDeck().name}`
+    : `No cards in ${getActiveDeck().name} yet`;
 
   const circumference = 2 * Math.PI * 52;
   ringText.textContent = `${percent}%`;
   ringProgress.style.strokeDasharray = `${circumference}`;
   ringProgress.style.strokeDashoffset = `${circumference - (percent / 100) * circumference}`;
 
-  dueText.textContent = "Adaptive study rhythm updates automatically.";
-  dueSoonText.textContent = "No visible due numbers, only pacing for better recall.";
+  dueText.textContent = `Tracking progress for ${getActiveDeck().name}.`;
+  dueSoonText.textContent = total
+    ? "No visible due numbers, only pacing for better recall."
+    : "Add cards to this deck in the database tab to start studying.";
 
-  sessionInfo.textContent = "Mastery rating updates in the background.";
+  sessionInfo.textContent = total
+    ? `Mastery rating updates in the background for ${getActiveDeck().name}.`
+    : "This deck is empty.";
 }
 
 function init() {
   applyStateCorrections();
+  ensureDeckStateValidity();
 
   modeButtons.forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
   });
+
+  if (deckSelect) {
+    deckSelect.addEventListener("change", (event) => {
+      switchDeck(event.currentTarget.value);
+    });
+  }
 
   if (flashBrowse) {
     flashBrowse.addEventListener("click", (event) => {
@@ -2530,6 +3412,14 @@ function init() {
   startQuiz.addEventListener("click", () => {
     quizState.running = true;
     quizState.questions = buildQuiz();
+    if (!quizState.questions.length) {
+      quizState.running = false;
+      quizIntro.classList.remove("hidden");
+      quizContent.classList.add("hidden");
+      quizResult.classList.remove("hidden");
+      quizResult.textContent = "This deck has no cards to quiz yet.";
+      return;
+    }
     quizState.index = 0;
     quizState.score = 0;
 
@@ -2543,10 +3433,36 @@ function init() {
 
   if (dbBrowse) {
     dbBrowse.addEventListener("click", (event) => {
+      const toggleTarget = event.target.closest("[data-db-toggle-deck]");
+      if (toggleTarget) {
+        toggleItemInActiveDeck(Number(toggleTarget.dataset.dbToggleDeck));
+        return;
+      }
       const target = event.target.closest("[data-db-edit]");
       if (!target) return;
       openDbEditor(Number(target.dataset.dbEdit));
     });
+  }
+
+  if (dbCreateDeck) {
+    dbCreateDeck.addEventListener("click", createDeckFromInput);
+  }
+
+  if (dbFilterDeck) {
+    dbFilterDeck.addEventListener("change", (event) => {
+      const nextFilterId = event.currentTarget.value;
+      dbState.filterDeckId = isValidDbFilterDeckId(nextFilterId) ? nextFilterId : DB_FILTER_ALL_ID;
+      saveState();
+      renderDbBrowseList();
+    });
+  }
+
+  if (dbRenameDeck) {
+    dbRenameDeck.addEventListener("click", renameActiveDeck);
+  }
+
+  if (dbDeleteDeck) {
+    dbDeleteDeck.addEventListener("click", deleteActiveDeck);
   }
 
   if (dbSave) {
@@ -2600,6 +3516,8 @@ function init() {
   }
 
   restoreSessionFromState();
+  syncStateToActiveDeck();
+  renderDeckPicker();
   refreshProgress();
   setMode(currentMode, { preserveTeachState: true });
 }

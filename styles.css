@@ -83,6 +83,37 @@ h1 {
   color: #fff7e6;
 }
 
+.deck-toolbar {
+  animation: riseIn 550ms ease backwards;
+}
+
+.deck-picker-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(220px, 1fr);
+  gap: 14px;
+  align-items: end;
+  padding: 16px 18px;
+  border: 1px solid #eadbc4;
+  border-radius: 18px;
+  background: rgba(255, 250, 236, 0.82);
+  box-shadow: var(--shadow);
+}
+
+.deck-picker-copy h2,
+.deck-picker-copy p {
+  margin-top: 0;
+}
+
+.deck-picker-copy h2 {
+  margin-bottom: 6px;
+  font-size: 1.15rem;
+}
+
+.deck-picker-control {
+  display: grid;
+  gap: 6px;
+}
+
 .metrics-wrap {
   display: grid;
   grid-template-columns: repeat(3, minmax(180px, 1fr));
@@ -420,6 +451,14 @@ h1 {
   grid-template-columns: minmax(220px, 320px) 1fr;
 }
 
+.db-deck-tools {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e7d8bf;
+}
+
 .db-editor {
   margin-top: 14px;
   padding-top: 14px;
@@ -467,6 +506,29 @@ h1 {
 .db-browse-title {
   font-weight: 700;
   color: #2d2419;
+}
+
+.db-deck-membership {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.db-deck-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #efe4cf;
+  color: #4f4030;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.db-deck-chip.active {
+  background: rgba(47, 95, 138, 0.14);
+  color: #244d70;
 }
 
 .db-dropzone {
@@ -582,6 +644,10 @@ button:hover {
   }
 
   .metrics-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-picker-card {
     grid-template-columns: 1fr;
   }
 

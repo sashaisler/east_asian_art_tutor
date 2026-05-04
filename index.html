@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>East Asian Art Test Tutor</title>
+  <title>East Asian Art Tutor</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app-shell">
     <header class="hero">
       <p class="eyebrow">Study tool</p>
-      <h1>East Asian Midterm Tutor</h1>
-      <p class="subtitle">Builds progressively through your full list and tracks how much you have left.</p>
+      <h1>East Asian Art Tutor</h1>
+      <p class="subtitle">Study across multiple decks and keep progress separate by the set you choose.</p>
     </header>
 
     <nav class="mode-nav" id="modeNav">
@@ -20,6 +20,20 @@
       <button class="mode-tab" data-mode="test">Custom test</button>
       <button class="mode-tab" data-mode="db">Database</button>
     </nav>
+
+    <section class="deck-toolbar" aria-label="Deck selection">
+      <div class="deck-picker-card">
+        <div class="deck-picker-copy">
+          <p class="eyebrow">Active deck</p>
+          <h2>Choose which deck to study</h2>
+          <p id="deckSummary" class="subtitle">Loading deck options...</p>
+        </div>
+        <div class="deck-picker-control">
+          <label class="check-field-label" for="deckSelect">Study deck</label>
+          <select id="deckSelect" class="text-input"></select>
+        </div>
+      </div>
+    </section>
 
     <section class="metrics-wrap" aria-label="Progress metrics">
       <article class="metric-card">
@@ -205,10 +219,28 @@
         <article class="study-card">
           <header>
             <h2>Card database</h2>
-            <p>Scroll all cards below. Click Edit card to modify one card, then save.</p>
+            <p>Manage decks here too. The selected deck is the one used by teaching, flashcards, and tests.</p>
           </header>
 
           <div class="content-card">
+            <div class="db-deck-tools">
+              <div class="check-field">
+                <label class="check-field-label" for="dbDeckName">Deck name</label>
+                <input id="dbDeckName" class="text-input" placeholder="New deck name or rename current deck" />
+              </div>
+              <div class="check-field">
+                <label class="check-field-label" for="dbFilterDeck">Browse cards from deck</label>
+                <select id="dbFilterDeck" class="text-input"></select>
+              </div>
+              <div class="button-row">
+                <button id="dbCreateDeck" class="primary">Create deck</button>
+                <button id="dbRenameDeck" class="grade easy">Rename selected deck</button>
+                <button id="dbDeleteDeck" class="grade bad">Delete selected deck</button>
+              </div>
+              <p class="fact-line">Use the add/remove button on any card below to control whether it belongs to the currently selected deck.</p>
+              <p id="dbDeckStatus" class="feedback"></p>
+            </div>
+
             <div id="dbBrowse" class="db-browse-list"></div>
 
             <div id="dbEditor" class="db-editor hidden">
