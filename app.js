@@ -365,8 +365,8 @@ const STUDY_ITEMS = [
     date: 'Southern Song dynasty, 12th-13th century',
     period: '',
     medium: 'Ink on paper',
-    maker: 'Mi Yoren',
-    importance: 'Ni style. Uses cloudy/hazy dots to create his paintings.',
+    maker: 'Mi Youren',
+    importance: 'Mi style. Uses cloudy/hazy dots to create his paintings.',
   },
   {
     id: 42,
@@ -438,7 +438,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Hanging scroll, ink on paper',
     maker: 'Liang Kai',
-    importance: 'Shows the spontaneous “splashed ink” style associated with Chan/Zen painting. The figure is created with loose, quick brushwork rather than careful detail, which makes the immortal feel strange, humorous, and spiritually free. It is important because it shows how ink painting could express personality, enlightenment, and unconventional behavior. ///Bridging cultures and creating zen painting/munk painting/munk painting.',
+    importance: 'Shows the spontaneous “splashed ink” style associated with Chan/Zen painting. The figure is created with loose, quick brushwork rather than careful detail, which makes the immortal feel strange, humorous, and spiritually free. It is important because it shows how ink painting could express personality, enlightenment, and unconventional behavior. Bridging cultures and creating zen painting/munk painting.',
   },
   {
     id: 50,
@@ -456,7 +456,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Handscroll, ink and color on paper',
     maker: 'Zhao Mengfu',
-    importance: 'Important literati landscape painting made for a friend who had never seen his ancestral home near the Qiao and Hua mountains. It is not meant to be fully realistic; instead, Zhao uses intentionally old-fashioned forms, soft colors, and calligraphic brushwork to connect painting with memory, history, and personal meaning. /// paper is very important in any literati work',
+    importance: 'Important literati landscape painting made for a friend who had never seen his ancestral home near the Qiao and Hua mountains. It is not meant to be fully realistic; instead, Zhao uses intentionally old-fashioned forms, soft colors, and calligraphic brushwork to connect painting with memory, history, and personal meaning. paper is very important in any literati work',
   },
   {
     id: 52,
@@ -465,7 +465,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Hanging scroll, ink and color on silk',
     maker: 'Attributed to Takanobu',
-    importance: 'Important example of Kamakura-period portraiture and the growing power of the warrior class in Japan. The portrait presents Yoritomo as a serious, controlled military leader, using realistic facial features, formal clothing, and a reserved pose to emphasize authority and status.// portrait of a warlord, formal court portrait. texture of the robes fabric is very well depicted, shows incredible skill.',
+    importance: 'Important example of Kamakura-period portraiture and the growing power of the warrior class in Japan. The portrait presents Yoritomo as a serious, controlled military leader, using realistic facial features, formal clothing, and a reserved pose to emphasize authority and status.Texture of the robes fabric is very well depicted, shows incredible skill.',
   },
   {
     id: 53,
@@ -474,7 +474,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Hanging scroll, ink, color, and gold on silk',
     maker: 'Unknown Korean Buddhist artist',
-    importance: 'Important example of Goryeo Buddhist painting. Avalokiteshvara is shown as an elegant, compassionate bodhisattva, often seated near water and the moon, with delicate robes, jewelry, and gold details. It shows the luxury and refinement of Goryeo Buddhist art and the importance of devotional images for worship.// famous for depicting bright red',
+    importance: 'Important example of Goryeo Buddhist painting. Avalokiteshvara is shown as an elegant, compassionate bodhisattva, often seated near water and the moon, with delicate robes, jewelry, and gold details. It shows the luxury and refinement of Goryeo Buddhist art and the importance of devotional images for worship. Famous for depicting bright red',
   },
   {
     id: 54,
@@ -483,7 +483,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Ink on Paper',
     maker: 'Zhao Mengfu',
-    importance: 'redefine what painting looks like in relation to caligraphy. saw themselves as scholars first, not painters. boring but calming to look at.',
+    importance: 'redefine what painting looks like in relation to caligraphy. saw themselves as scholars first, not painters. literati painting. boring but calming to look at.',
   },
   {
     id: 55,
@@ -528,7 +528,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Wood architecture, royal ancestral shrine hall',
     maker: 'Joseon royal court, Korea',
-    importance: 'Important Confucian ritual building used to house spirit tablets of Joseon kings and queens. Its long, simple, horizontal design reflects Joseon values of order, restraint, ancestry, and state ritual. It is part of Jongmyo Shrine, one of the most important royal ancestral shrines in Korea.// humble aesthetics, purely confuscion, humility and humbleness over imperial granduer',
+    importance: 'Important Confucian ritual building used to house spirit tablets of Joseon kings and queens. Humble aesthetics, purely confuscion, humility and humbleness over imperial granduer',
   },
   {
     id: 61,
@@ -536,7 +536,7 @@ const STUDY_ITEMS = [
     date: 'Muromachi period, c. 1470s',
     period: '',
     medium: 'Pair of hanging scrolls, ink on paper',
-    maker: 'Sesshū Tōyō',
+    maker: 'Sesshu Toyo',
     importance: 'Important example of Japanese Zen ink landscape painting. Sesshū adapts Chinese Song and Yuan landscape styles but makes them more abstract and dramatic through strong brushwork, sharp forms, and empty space. The pair shows his ability to create seasonal mood with limited ink tones, especially the quiet, cold atmosphere of winter and the crisp structure of autumn.',
   },
   {
@@ -581,7 +581,7 @@ const STUDY_ITEMS = [
     date: 'Muromachi period, 1496',
     period: '',
     medium: 'Hanging scroll, ink on paper',
-    maker: 'Sesshū Tōyō',
+    maker: 'Sesshu Toyo',
     importance: 'Important Zen painting showing the dramatic story of Huike proving his dedication to Bodhidharma by cutting off his arm. Sesshū uses rough, expressive ink brushwork and a stark composition to emphasize spiritual intensity, discipline, and the direct transmission of Zen teaching.// outlining vs detail',
   },
   {
@@ -618,7 +618,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Ink on paper',
     maker: 'Sesshu Toyo',
-    importance: '',
+    importance: 'Important Japanese Zen ink painting. Uses loose “splashed ink” brushwork to suggest a landscape rather than describe it realistically, showing the importance of mood, spontaneity, and Japanese adaptation of Chinese ink painting.',
   },
   {
     id: 71,
@@ -715,7 +715,6 @@ const IMAGE_MAP = {
   55: "assets/images/item_55.png",
   56: "assets/images/item_56.png",
   57: "assets/images/item_57.png",
-  58: "assets/images/item_58.png",
   59: "assets/images/item_59.png",
   60: "assets/images/item_60.png",
   61: "assets/images/item_61.png",
@@ -1726,13 +1725,7 @@ function selectNextTeachItem(options = {}) {
   }
 
   teachState.itemId = nextItem ? nextItem.id : null;
-  const nextCardState = teachState.itemId ? state.cards[teachState.itemId] : null;
-  const isAlreadyTaught = Boolean(nextCardState && (nextCardState.taught || nextCardState.attempts > 0));
-  if (isAlreadyTaught) {
-    teachState.step = revealSequence.length;
-  } else {
-    teachState.step = 0;
-  }
+  teachState.step = 0;
 }
 
 function renderTeachCard() {
@@ -1762,15 +1755,11 @@ function renderTeachCard() {
     cardState.taught = true;
     saveState();
   }
-  if (cardState && cardState.taught && teachState.step < revealSequence.length) {
-    teachState.step = revealSequence.length;
-  }
   if (teachState.checking) {
     renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
     return;
   }
-  const shouldAutoCheck = teachState.step === 0 && isCheckDue(cardState);
-  if (shouldAutoCheck) {
+  if (cardState && cardState.taught) {
     renderTeachCheck(item, cardState);
     return;
   }
