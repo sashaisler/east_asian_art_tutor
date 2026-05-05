@@ -400,7 +400,7 @@ const STUDY_ITEMS = [
     title: '10,000 Ugly Ink-dots',
     date: '17th century, Qing dynasty',
     period: '',
-    medium: '',
+    medium: 'handscroll, ink on paper',
     maker: 'Shi Tao',
     importance: 'Mixture of wet and dry brushwork to give the impression the artist is in progress. Irregular spacing between characters which matches the chaos of the painting.',
   },
