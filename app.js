@@ -912,6 +912,8 @@ function buildDefaultCardState() {
     lastSeenTurn: -1,
     checkDue: Number.MAX_SAFE_INTEGER,
     checkStreak: 0,
+    nextCheckFieldIndex: 0,
+    singleCheckSeenKeys: [],
     revealedOnce: false,
     teachMastered: false,
     taught: false,
@@ -1562,12 +1564,18 @@ function loadState() {
         const stored = parsed.cards[item.id] || {};
         const revealedOnce = typeof stored.revealedOnce === "boolean" ? stored.revealedOnce : false;
         const teachMastered = typeof stored.teachMastered === "boolean" ? stored.teachMastered : false;
+        const nextCheckFieldIndex = Number.isFinite(stored.nextCheckFieldIndex) ? stored.nextCheckFieldIndex : 0;
+        const singleCheckSeenKeys = Array.isArray(stored.singleCheckSeenKeys)
+          ? stored.singleCheckSeenKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key))
+          : [];
         cards[item.id] = {
           ...buildDefaultCardState(),
           ...stored,
           checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
           checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
           lastSeenTurn: Number.isFinite(stored.lastSeenTurn) ? stored.lastSeenTurn : -1,
+          nextCheckFieldIndex,
+          singleCheckSeenKeys,
           revealedOnce,
           teachMastered,
           taught: revealedOnce,
@@ -1620,6 +1628,13 @@ function applyStateCorrections() {
     if (typeof card.teachMastered !== "boolean") {
       card.teachMastered = false;
     }
+    if (!Number.isFinite(card.nextCheckFieldIndex)) {
+      card.nextCheckFieldIndex = 0;
+    }
+    if (!Array.isArray(card.singleCheckSeenKeys)) {
+      card.singleCheckSeenKeys = [];
+    }
+    card.singleCheckSeenKeys = card.singleCheckSeenKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key));
     if (!card.revealedOnce) {
       card.teachMastered = false;
     }
@@ -1627,6 +1642,8 @@ function applyStateCorrections() {
     if (!card.revealedOnce) {
       card.checkDue = Number.MAX_SAFE_INTEGER;
       card.checkStreak = 0;
+      card.nextCheckFieldIndex = 0;
+      card.singleCheckSeenKeys = [];
     }
   });
 }
@@ -1858,13 +1875,16 @@ function shouldUseFullCheck(cardState) {
     cardState &&
     cardState.attempts >= FULL_CHECK_MIN_ATTEMPTS &&
     cardState.box >= 3 &&
+    Array.isArray(cardState.singleCheckSeenKeys) &&
+    cardState.singleCheckSeenKeys.length >= CHECK_FIELDS.length &&
     Number.isFinite(cardState.checkStreak) &&
     cardState.checkStreak >= FULL_CHECK_STREAK_THRESHOLD
   );
 }
 
-function pickTeachCheckField(itemId) {
-  return CHECK_FIELDS[(state.turn + itemId) % CHECK_FIELDS.length];
+function pickTeachCheckField(cardState) {
+  const index = Number.isFinite(cardState?.nextCheckFieldIndex) ? cardState.nextCheckFieldIndex : 0;
+  return CHECK_FIELDS[((index % CHECK_FIELDS.length) + CHECK_FIELDS.length) % CHECK_FIELDS.length];
 }
 
 function checkIntervalForItem(cardState, passed) {
@@ -1880,7 +1900,7 @@ function checkIntervalForItem(cardState, passed) {
 function renderTeachCheck(item, cardState, options = {}) {
   const forcedFields = Array.isArray(options.forceFields) && options.forceFields.length ? options.forceFields : null;
   const useFullCheck = forcedFields ? forcedFields.length > 1 : shouldUseFullCheck(cardState);
-  const fields = forcedFields || (useFullCheck ? CHECK_FIELDS : [pickTeachCheckField(item.id)]);
+  const fields = forcedFields || (useFullCheck ? CHECK_FIELDS : [pickTeachCheckField(cardState)]);
   const restoring = Boolean(options.restoreDrafts);
   teachState.checking = true;
   teachState.checkField = fields[0];
@@ -2038,6 +2058,18 @@ function submitTeachCheck(passed, triggerElement = null) {
 
   const card = state.cards[itemId];
   if (card) {
+    if (!isFullFieldCheck && teachState.checkFields[0]) {
+      const currentFieldKey = teachState.checkFields[0].key;
+      if (!Array.isArray(card.singleCheckSeenKeys)) {
+        card.singleCheckSeenKeys = [];
+      }
+      if (!card.singleCheckSeenKeys.includes(currentFieldKey)) {
+        card.singleCheckSeenKeys.push(currentFieldKey);
+      }
+      card.nextCheckFieldIndex = (
+        (Number.isFinite(card.nextCheckFieldIndex) ? card.nextCheckFieldIndex : 0) + 1
+      ) % CHECK_FIELDS.length;
+    }
     if (passed && isFullFieldCheck) {
       card.teachMastered = true;
     }
