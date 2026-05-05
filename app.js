@@ -912,6 +912,7 @@ function buildDefaultCardState() {
     lastSeenTurn: -1,
     checkDue: Number.MAX_SAFE_INTEGER,
     checkStreak: 0,
+    revealedOnce: false,
     taught: false,
   };
 }
@@ -1535,6 +1536,17 @@ const revealSequence = [
   { key: "importance", label: "Importance" },
 ];
 
+function hasCompletedTeachReveal(cardState) {
+  return Boolean(cardState && cardState.revealedOnce);
+}
+
+function markTeachRevealComplete(cardState) {
+  if (!cardState || cardState.revealedOnce) return false;
+  cardState.revealedOnce = true;
+  cardState.taught = true;
+  return true;
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1543,15 +1555,15 @@ function loadState() {
       const cards = {};
       STUDY_ITEMS.forEach((item) => {
         const stored = parsed.cards[item.id] || {};
+        const revealedOnce = typeof stored.revealedOnce === "boolean" ? stored.revealedOnce : false;
         cards[item.id] = {
           ...buildDefaultCardState(),
           ...stored,
           checkDue: Number.isFinite(stored.checkDue) ? stored.checkDue : Number.MAX_SAFE_INTEGER,
           checkStreak: Number.isFinite(stored.checkStreak) ? stored.checkStreak : 0,
           lastSeenTurn: Number.isFinite(stored.lastSeenTurn) ? stored.lastSeenTurn : -1,
-          taught: typeof stored.taught === "boolean"
-            ? stored.taught
-            : Boolean(Number.isFinite(stored.attempts) && stored.attempts > 0),
+          revealedOnce,
+          taught: revealedOnce,
         };
       });
       return {
@@ -1595,8 +1607,13 @@ function applyStateCorrections() {
     if (!Number.isFinite(card.lastSeenTurn)) {
       card.lastSeenTurn = -1;
     }
-    if (!card.taught && card.attempts > 0) {
-      card.taught = true;
+    if (typeof card.revealedOnce !== "boolean") {
+      card.revealedOnce = false;
+    }
+    card.taught = card.revealedOnce;
+    if (!card.revealedOnce) {
+      card.checkDue = Number.MAX_SAFE_INTEGER;
+      card.checkStreak = 0;
     }
   });
 }
@@ -1652,7 +1669,7 @@ function selectNextTeachItem(options = {}) {
   const seen = deckItems.filter((item) => state.cards[item.id].attempts > 0);
   const unseen = deckItems.filter((item) => state.cards[item.id].attempts === 0);
   const learningPool = seen.filter((item) => state.cards[item.id].box < MASTERY_BOX_THRESHOLD);
-  const checkNow = learningPool.filter((item) => state.cards[item.id].taught && state.cards[item.id].checkDue <= state.turn);
+  const checkNow = learningPool.filter((item) => hasCompletedTeachReveal(state.cards[item.id]) && state.cards[item.id].checkDue <= state.turn);
   const dueLearning = learningPool.filter((item) => state.cards[item.id].nextDue <= state.turn);
   const canIntroduceNew = learningPool.length < MAX_ACTIVE_LEARNING_CARDS;
 
@@ -1751,22 +1768,17 @@ function renderTeachCard() {
   }
 
   const cardState = state.cards[item.id];
-  if (cardState && cardState.attempts > 0 && !cardState.taught) {
-    cardState.taught = true;
-    saveState();
-  }
   if (teachState.checking) {
     renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
     return;
   }
-  if (cardState && cardState.taught) {
+  if (hasCompletedTeachReveal(cardState)) {
     renderTeachCheck(item, cardState);
     return;
   }
 
   const isComplete = teachState.step >= revealSequence.length;
-  if (isComplete && !cardState.taught) {
-    cardState.taught = true;
+  if (isComplete && markTeachRevealComplete(cardState)) {
     if (cardState.attempts > 0 && cardState.checkDue === Number.MAX_SAFE_INTEGER) {
       cardState.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, cardState.box))];
     }
@@ -1819,7 +1831,7 @@ function renderTeachCard() {
 }
 
 function isCheckDue(cardState) {
-  return cardState && cardState.taught && cardState.attempts > 0 && cardState.checkDue <= state.turn;
+  return cardState && hasCompletedTeachReveal(cardState) && cardState.attempts > 0 && cardState.checkDue <= state.turn;
 }
 
 function shouldUseFullCheck(cardState) {
@@ -2043,8 +2055,7 @@ function revealTeachStep() {
   teachState.step = Math.min(revealSequence.length, teachState.step + 1);
   if (teachState.itemId && previousStep < revealSequence.length && teachState.step >= revealSequence.length) {
     const card = state.cards[teachState.itemId];
-    if (card && !card.taught) {
-      card.taught = true;
+    if (markTeachRevealComplete(card)) {
       if (card.attempts > 0 && card.checkDue === Number.MAX_SAFE_INTEGER) {
         card.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, card.box))];
       }
@@ -2076,7 +2087,7 @@ function rateItem(itemId, grade, options = {}) {
   const interval = INTERVALS[Math.max(0, Math.min(INTERVALS.length - 1, card.box))];
   card.nextDue = state.turn + interval;
   card.score = Math.max(card.score, card.box);
-  if (card.taught && card.checkDue === Number.MAX_SAFE_INTEGER) {
+  if (hasCompletedTeachReveal(card) && card.checkDue === Number.MAX_SAFE_INTEGER) {
     card.checkDue = state.turn + CHECK_INTERVALS[Math.max(1, Math.min(CHECK_INTERVALS.length - 1, card.box))];
   }
   state.turn += 1;
