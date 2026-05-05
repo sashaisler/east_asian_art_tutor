@@ -1791,7 +1791,7 @@ function renderTeachCard() {
     renderTeachCheck(item, cardState, { forceFields: teachState.checkFields, restoreDrafts: true });
     return;
   }
-  if (hasCompletedTeachReveal(cardState)) {
+  if (hasCompletedTeachReveal(cardState) && teachState.step === 0) {
     renderTeachCheck(item, cardState);
     return;
   }
