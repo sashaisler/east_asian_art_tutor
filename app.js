@@ -914,6 +914,7 @@ function buildDefaultCardState() {
     checkStreak: 0,
     nextCheckFieldIndex: 0,
     singleCheckSeenKeys: [],
+    singleCheckPassedKeys: [],
     revealedOnce: false,
     teachMastered: false,
     taught: false,
@@ -1568,6 +1569,9 @@ function loadState() {
         const singleCheckSeenKeys = Array.isArray(stored.singleCheckSeenKeys)
           ? stored.singleCheckSeenKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key))
           : [];
+        const singleCheckPassedKeys = Array.isArray(stored.singleCheckPassedKeys)
+          ? stored.singleCheckPassedKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key))
+          : [];
         cards[item.id] = {
           ...buildDefaultCardState(),
           ...stored,
@@ -1576,6 +1580,7 @@ function loadState() {
           lastSeenTurn: Number.isFinite(stored.lastSeenTurn) ? stored.lastSeenTurn : -1,
           nextCheckFieldIndex,
           singleCheckSeenKeys,
+          singleCheckPassedKeys,
           revealedOnce,
           teachMastered,
           taught: revealedOnce,
@@ -1634,7 +1639,11 @@ function applyStateCorrections() {
     if (!Array.isArray(card.singleCheckSeenKeys)) {
       card.singleCheckSeenKeys = [];
     }
+    if (!Array.isArray(card.singleCheckPassedKeys)) {
+      card.singleCheckPassedKeys = [];
+    }
     card.singleCheckSeenKeys = card.singleCheckSeenKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key));
+    card.singleCheckPassedKeys = card.singleCheckPassedKeys.filter((key) => CHECK_FIELDS.some((entry) => entry.key === key));
     if (!card.revealedOnce) {
       card.teachMastered = false;
     }
@@ -1644,6 +1653,7 @@ function applyStateCorrections() {
       card.checkStreak = 0;
       card.nextCheckFieldIndex = 0;
       card.singleCheckSeenKeys = [];
+      card.singleCheckPassedKeys = [];
     }
   });
 }
@@ -1873,12 +1883,8 @@ function isCheckDue(cardState) {
 function shouldUseFullCheck(cardState) {
   return (
     cardState &&
-    cardState.attempts >= FULL_CHECK_MIN_ATTEMPTS &&
-    cardState.box >= 3 &&
-    Array.isArray(cardState.singleCheckSeenKeys) &&
-    cardState.singleCheckSeenKeys.length >= CHECK_FIELDS.length &&
-    Number.isFinite(cardState.checkStreak) &&
-    cardState.checkStreak >= FULL_CHECK_STREAK_THRESHOLD
+    Array.isArray(cardState.singleCheckPassedKeys) &&
+    cardState.singleCheckPassedKeys.length >= CHECK_FIELDS.length
   );
 }
 
@@ -2063,15 +2069,28 @@ function submitTeachCheck(passed, triggerElement = null) {
       if (!Array.isArray(card.singleCheckSeenKeys)) {
         card.singleCheckSeenKeys = [];
       }
+      if (!Array.isArray(card.singleCheckPassedKeys)) {
+        card.singleCheckPassedKeys = [];
+      }
       if (!card.singleCheckSeenKeys.includes(currentFieldKey)) {
         card.singleCheckSeenKeys.push(currentFieldKey);
       }
-      card.nextCheckFieldIndex = (
-        (Number.isFinite(card.nextCheckFieldIndex) ? card.nextCheckFieldIndex : 0) + 1
-      ) % CHECK_FIELDS.length;
+      if (passed) {
+        if (!card.singleCheckPassedKeys.includes(currentFieldKey)) {
+          card.singleCheckPassedKeys.push(currentFieldKey);
+        }
+        card.nextCheckFieldIndex = (
+          (Number.isFinite(card.nextCheckFieldIndex) ? card.nextCheckFieldIndex : 0) + 1
+        ) % CHECK_FIELDS.length;
+      }
     }
     if (passed && isFullFieldCheck) {
       card.teachMastered = true;
+    }
+    if (!passed && isFullFieldCheck) {
+      card.teachMastered = false;
+      card.nextCheckFieldIndex = 0;
+      card.singleCheckPassedKeys = [];
     }
     if (passed) {
       const priorStreak = Number.isFinite(card.checkStreak) ? card.checkStreak : 0;
