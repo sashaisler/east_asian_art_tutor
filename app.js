@@ -2416,6 +2416,16 @@ function defaultTestItemIds() {
   return getActiveDeckItemIds();
 }
 
+function mapTestSelectionNumber(value) {
+  if (!Number.isFinite(value) || value < 1) return null;
+  const activeDeck = getActiveDeck();
+  const activeItemIds = getActiveDeckItemIds();
+  if (activeDeck && activeDeck.id !== DEFAULT_DECK_ID) {
+    return activeItemIds[value - 1] || (isValidTestItemId(value) ? value : null);
+  }
+  return isValidTestItemId(value) ? value : null;
+}
+
 function parseTestImageSelection(rawSelection) {
   const raw = typeof rawSelection === "string" ? rawSelection.trim() : "";
   if (!raw) {
@@ -2446,7 +2456,7 @@ function parseTestImageSelection(rawSelection) {
     });
 
   return {
-    itemIds: sanitizeTestItemIds(valid),
+    itemIds: sanitizeTestItemIds(valid.map((value) => mapTestSelectionNumber(value)).filter((value) => value !== null)),
     invalidTokens,
   };
 }
@@ -2511,7 +2521,8 @@ function beginCustomTest() {
   }
   if (!parsedSelection.itemIds.length) {
     if (testSetupStatus) {
-      testSetupStatus.textContent = "No valid image numbers selected. Use numbers like 1, 3, 8-12.";
+      const maxLabel = Math.max(1, getActiveDeckItems().length);
+      testSetupStatus.textContent = `No valid image numbers selected. Use deck numbers like 1, 3, 8-12 within 1-${maxLabel}.`;
     }
     return;
   }
@@ -2714,7 +2725,9 @@ function renderCustomTestMode() {
 
     testProgress.textContent = "Ready to start";
     testPrompt.textContent = `Choose fields, choose image numbers, and start your custom test for ${activeDeck.name}.`;
-    testStatus.textContent = "";
+    testStatus.textContent = deckItems.length
+      ? `Use deck image numbers 1-${deckItems.length} for ${activeDeck.name}.`
+      : "";
     testInputs.innerHTML = "";
     testAnswer.classList.add("hidden");
     testAnswer.textContent = "";
