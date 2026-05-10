@@ -1916,7 +1916,7 @@ function renderTeachCheck(item, cardState, options = {}) {
     teachState.checkRevealed = false;
   }
   teachTitle.textContent = "Identify this artwork";
-  teachHint.textContent = `Quick check: type ${useFullCheck ? "all fields" : "one field"} you recall, then confirm if you were correct.`;
+  teachHint.textContent = "";
   teachFacts.classList.add("hidden");
   teachFacts.innerHTML = "";
   if (teachControls) teachControls.classList.add("hidden");
@@ -2075,13 +2075,13 @@ function submitTeachCheck(passed, triggerElement = null) {
       if (!card.singleCheckSeenKeys.includes(currentFieldKey)) {
         card.singleCheckSeenKeys.push(currentFieldKey);
       }
+      card.nextCheckFieldIndex = (
+        (Number.isFinite(card.nextCheckFieldIndex) ? card.nextCheckFieldIndex : 0) + 1
+      ) % CHECK_FIELDS.length;
       if (passed) {
         if (!card.singleCheckPassedKeys.includes(currentFieldKey)) {
           card.singleCheckPassedKeys.push(currentFieldKey);
         }
-        card.nextCheckFieldIndex = (
-          (Number.isFinite(card.nextCheckFieldIndex) ? card.nextCheckFieldIndex : 0) + 1
-        ) % CHECK_FIELDS.length;
       }
     }
     if (passed && isFullFieldCheck) {
