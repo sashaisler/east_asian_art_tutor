@@ -506,7 +506,7 @@ const STUDY_ITEMS = [
   {
     id: 57,
     title: 'Dwelling in the Qingbian Mountains',
-    date: 'Yuan dynasty, 1366',
+    date: 'Yuan dynasty, 14th century',
     period: '',
     medium: 'Hanging scroll, ink on paper',
     maker: 'Wang Meng',
@@ -515,7 +515,7 @@ const STUDY_ITEMS = [
   {
     id: 59,
     title: 'Dwelling in the Fuchun Mountains',
-    date: '1269-1354 Yuan dynasty',
+    date: '13th-14th century, Yuan dynasty',
     period: '',
     medium: 'Handscroll, ink on paper',
     maker: 'Huang Gongwang',
