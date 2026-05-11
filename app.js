@@ -578,7 +578,7 @@ const STUDY_ITEMS = [
   {
     id: 66,
     title: 'Huike Offering His Arm to Bodhidharma',
-    date: 'Muromachi period, 1496',
+    date: 'Muromachi period, 15th century',
     period: '',
     medium: 'Hanging scroll, ink on paper',
     maker: 'Sesshu Toyo',
@@ -591,7 +591,7 @@ const STUDY_ITEMS = [
     period: '',
     medium: 'Silk embroidery',
     maker: 'Han Ximeng',
-    importance: 'Shows the refined flower-and-insect painting tradition associated with women artists in late imperial China. The careful details of the grasshopper, flowers, grasses, and rocks show close observation of nature, while the delicate brushwork and soft color create an elegant, intimate scene. Han Ximeng was known for album paintings of flowers and insects, and this type of work reflects both technical skill and literati taste.',
+    importance: 'Embroidery of Flowers and Insects is important because it shows elite Ming embroidery being treated like fine art, not just “craft.” Han Ximeng’s work imitates the effects of brush painting and ink washes with thread, while the flowers and insects reflect literati taste, women’s artistic production, and close observation of nature.',
   },
   {
     id: 68,
@@ -614,7 +614,7 @@ const STUDY_ITEMS = [
   {
     id: 70,
     title: 'Splashed Ink Landscape',
-    date: 'Maromachi period, 1420-1506',
+    date: 'Muromachi period, 15th century',
     period: '',
     medium: 'Hanging scoll, ink on paper',
     maker: 'Sesshu Toyo',
@@ -2428,7 +2428,7 @@ function mapTestSelectionNumber(value) {
 
 function parseTestImageSelection(rawSelection) {
   const raw = typeof rawSelection === "string" ? rawSelection.trim() : "";
-  if (!raw) {
+  if (!raw || raw.toLowerCase() === "all") {
     return { itemIds: defaultTestItemIds(), invalidTokens: [] };
   }
 
